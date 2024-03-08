@@ -1,0 +1,16 @@
+{
+  "name": "all-in-one",
+  "version": "1.0.0",
+  "description": "My all in one library",
+  "main": "index.js",
+  "scripts": {
+    "test": "DEBUG_MODE=ON npx tsc && node --test **/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
