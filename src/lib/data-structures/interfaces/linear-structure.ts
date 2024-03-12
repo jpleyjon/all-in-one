@@ -1,3 +1,5 @@
+// c8 ignore file
+
 /**
  * @interface
  * Interface for a linear data structure.
