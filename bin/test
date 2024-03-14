@@ -1,0 +1,31 @@
+#!/bin/bash
+C8_EXCLUSIONS=$(grep -alr -e "/\*[ ]*c8 ignore file[ ]*\*/\|//[ ]*c8 ignore file.*" src | sed -e 's/^/--exclude /g' || true)
+
+C8_OPTIONS="
+  ${C8_EXCLUSIONS} \
+  --exclude=**/*.test.ts \
+  --exclude=**/*.d.ts \
+  --exclude=dist/**/*.ts \
+  --exclude-after-remap true \
+  --exclude=coverage
+  --all true
+  --check-coverage \
+  --reporter=lcov \
+  --reporter=text \
+  --reporter=text-summary \
+  --temp-dir coverage/c8 \
+  --report-dir coverage
+"
+
+if [[ -d coverage ]]; then
+  rm -rf coverage/*
+fi
+
+# echo $C8_OPTIONS
+(
+  set -x
+  NODE_V8_COVERAGE=./coverage/v8 \
+  NODE_ENV=test \
+  npx c8 $C8_OPTIONS \
+  node --test --enable-source-maps --test-reporter spec 'dist/**/*.{test,spec}.js'
+)

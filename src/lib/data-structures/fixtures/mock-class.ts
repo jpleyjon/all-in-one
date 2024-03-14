@@ -1,3 +1,4 @@
+// c8 ignore file
 import IComparable from '../interfaces/comparable';
 
 export default class MockClass implements IComparable {

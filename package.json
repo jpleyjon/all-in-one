@@ -4,12 +4,13 @@
   "description": "My all in one library",
   "main": "index.js",
   "scripts": {
-    "test": "DEBUG_MODE=ON npx tsc && node --test **/*.test.js"
+    "test": "./bin/test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "c8": "^9.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
