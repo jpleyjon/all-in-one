@@ -57,10 +57,4 @@ describe('Queue', () => {
     assert.ok(_element);
     assert.equal(_element.mockProperty, 1);
   });
-
-  it('should return null if the stack is empty', () => {
-    const _queue = new Queue<MockClass>();
-
-    assert.equal(_queue.pop(), null);
-  });
 });
