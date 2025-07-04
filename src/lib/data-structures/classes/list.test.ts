@@ -130,6 +130,26 @@ describe('List', () => {
       assert.deepEqual(list.toArray(), [1, 2, 3, 4]);
     });
 
+    it('should insert in the middle of a larger list', () => {
+      const list = new List<number>();
+      // Create a list [0, 1, 2, 3, 4]
+      for (let i = 0; i < 5; i++) {
+        list.push(i);
+      }
+      
+      // Insert 99 at index 2 -> [0, 1, 99, 2, 3, 4]
+      list.insert(2, 99);
+      
+      assert.equal(list.size, 6);
+      assert.deepEqual(list.toArray(), [0, 1, 99, 2, 3, 4]);
+      
+      // Insert 88 at index 4 -> [0, 1, 99, 2, 88, 3, 4]
+      list.insert(4, 88);
+      
+      assert.equal(list.size, 7);
+      assert.deepEqual(list.toArray(), [0, 1, 99, 2, 88, 3, 4]);
+    });
+
     it('should throw error for negative index', () => {
       const list = new List<number>(1);
       assert.throws(() => list.insert(-1, 0), /Index out of bounds/);
