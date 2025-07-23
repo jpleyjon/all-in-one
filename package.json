@@ -4,7 +4,8 @@
   "description": "My all in one library",
   "main": "index.js",
   "scripts": {
-    "test": "./bin/test"
+    "test": "./bin/test",
+    "docs": "typedoc --entryPointStrategy expand --out docs src"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +13,7 @@
   "devDependencies": {
     "c8": "^9.1.0",
     "ts-node": "^10.9.2",
+    "typedoc": "^0.28.7",
     "typescript": "^5.3.3"
   }
 }

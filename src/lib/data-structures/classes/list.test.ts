@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import List from './list';
+import { List } from './list';
 import MockClass from '../fixtures/mock-class';
 
 describe('List', () => {
@@ -9,34 +9,39 @@ describe('List', () => {
       const list = new List<number>();
 
       assert.ok(list);
-      assert.equal(list.size, 0);
-      assert.equal(list.isEmpty(), true);
-      assert.equal(list.head, null);
-      assert.equal(list.tail, null);
+      assert.strictEqual(list.size, 0);
+      assert.strictEqual(list.isEmpty(), true);
+      assert.strictEqual(list.head, null);
+      assert.strictEqual(list.tail, null);
     });
 
     it('should create a list with initial data', () => {
       const mockObject = new MockClass(1);
-      const list = new List<MockClass>(mockObject);
+      const list = new List<MockClass>();
+      list.push(mockObject);
 
       assert.ok(list);
-      assert.equal(list.size, 1);
-      assert.equal(list.isEmpty(), false);
+      assert.strictEqual(list.size, 1);
+      assert.strictEqual(list.isEmpty(), false);
       assert.ok(list.head);
-      assert.equal(list.head, list.tail);
-      assert.equal(list.head!.data, mockObject);
+      assert.strictEqual(list.head, list.tail);
+      assert.strictEqual(list.head!.data, mockObject);
     });
 
     it('should handle various data types', () => {
-      const numberList = new List<number>(42);
-      const stringList = new List<string>('hello');
-      const booleanList = new List<boolean>(true);
-      const objectList = new List<{ value: number; }>({ value: 1 });
+      const numberList = new List<number>();
+      numberList.push(42);
+      const stringList = new List<string>();
+      stringList.push('hello');
+      const booleanList = new List<boolean>();
+      booleanList.push(true);
+      const objectList = new List<{ value: number }>();
+      objectList.push({ value: 1 });
 
-      assert.equal(numberList.size, 1);
-      assert.equal(stringList.size, 1);
-      assert.equal(booleanList.size, 1);
-      assert.equal(objectList.size, 1);
+      assert.strictEqual(numberList.size, 1);
+      assert.strictEqual(stringList.size, 1);
+      assert.strictEqual(booleanList.size, 1);
+      assert.strictEqual(objectList.size, 1);
     });
   });
 
@@ -45,10 +50,10 @@ describe('List', () => {
       const list = new List<number>();
       list.push(1);
 
-      assert.equal(list.size, 1);
-      assert.equal(list.head!.data, 1);
-      assert.equal(list.tail!.data, 1);
-      assert.equal(list.head, list.tail);
+      assert.strictEqual(list.size, 1);
+      assert.strictEqual(list.head!.data, 1);
+      assert.strictEqual(list.tail!.data, 1);
+      assert.strictEqual(list.head, list.tail);
     });
 
     it('should push multiple items and maintain order', () => {
@@ -57,66 +62,71 @@ describe('List', () => {
       list.push(2);
       list.push(3);
 
-      assert.equal(list.size, 3);
-      assert.equal(list.head!.data, 1);
-      assert.equal(list.tail!.data, 3);
-      assert.deepEqual(list.toArray(), [1, 2, 3]);
+      assert.strictEqual(list.size, 3);
+      assert.strictEqual(list.head!.data, 1);
+      assert.strictEqual(list.tail!.data, 3);
+      assert.deepStrictEqual(list.toArray(), [1, 2, 3]);
     });
 
     it('should update tail correctly when pushing', () => {
-      const list = new List<string>('first');
+      const list = new List<string>();
+      list.push('first');
       list.push('second');
       list.push('third');
 
-      assert.equal(list.tail!.data, 'third');
-      assert.equal(list.tail!.next, null);
+      assert.strictEqual(list.tail!.data, 'third');
+      assert.strictEqual(list.tail!.next, null);
     });
   });
 
-  describe('Prepend method', () => {
-    it('should prepend to an empty list', () => {
+  describe('Unshift method', () => {
+    it('should unshift to an empty list', () => {
       const list = new List<number>();
-      list.prepend(1);
+      list.unshift(1);
 
-      assert.equal(list.size, 1);
-      assert.equal(list.head!.data, 1);
-      assert.equal(list.tail!.data, 1);
+      assert.strictEqual(list.size, 1);
+      assert.strictEqual(list.head!.data, 1);
+      assert.strictEqual(list.tail!.data, 1);
     });
 
-    it('should prepend to a non-empty list', () => {
-      const list = new List<number>(2);
-      list.prepend(1);
+    it('should unshift to a non-empty list', () => {
+      const list = new List<number>();
+      list.push(2);
+      list.unshift(1);
 
-      assert.equal(list.size, 2);
-      assert.equal(list.head!.data, 1);
-      assert.equal(list.tail!.data, 2);
-      assert.deepEqual(list.toArray(), [1, 2]);
+      assert.strictEqual(list.size, 2);
+      assert.strictEqual(list.head!.data, 1);
+      assert.strictEqual(list.tail!.data, 2);
+      assert.deepStrictEqual(list.toArray(), [1, 2]);
     });
 
-    it('should maintain correct links when prepending', () => {
-      const list = new List<string>('middle');
-      list.prepend('first');
+    it('should maintain correct links when unshifting', () => {
+      const list = new List<string>();
+      list.push('middle');
+      list.unshift('first');
       list.push('last');
 
-      assert.deepEqual(list.toArray(), ['first', 'middle', 'last']);
+      assert.deepStrictEqual(list.toArray(), ['first', 'middle', 'last']);
     });
   });
 
-  describe('Insert method', () => {
-    it('should insert at index 0 (equivalent to prepend)', () => {
-      const list = new List<number>(2);
-      list.insert(0, 1);
+  describe('InsertAt method', () => {
+    it('should insert at index 0 (equivalent to unshift)', () => {
+      const list = new List<number>();
+      list.push(2);
+      list.insertAt(0, 1);
 
-      assert.equal(list.size, 2);
-      assert.deepEqual(list.toArray(), [1, 2]);
+      assert.strictEqual(list.size, 2);
+      assert.deepStrictEqual(list.toArray(), [1, 2]);
     });
 
     it('should insert at the end (equivalent to push)', () => {
-      const list = new List<number>(1);
-      list.insert(1, 2);
+      const list = new List<number>();
+      list.push(1);
+      list.insertAt(1, 2);
 
-      assert.equal(list.size, 2);
-      assert.deepEqual(list.toArray(), [1, 2]);
+      assert.strictEqual(list.size, 2);
+      assert.deepStrictEqual(list.toArray(), [1, 2]);
     });
 
     it('should insert in the middle', () => {
@@ -124,10 +134,10 @@ describe('List', () => {
       list.push(1);
       list.push(3);
       list.push(4);
-      list.insert(1, 2);
+      list.insertAt(1, 2);
 
-      assert.equal(list.size, 4);
-      assert.deepEqual(list.toArray(), [1, 2, 3, 4]);
+      assert.strictEqual(list.size, 4);
+      assert.deepStrictEqual(list.toArray(), [1, 2, 3, 4]);
     });
 
     it('should insert in the middle of a larger list', () => {
@@ -136,273 +146,160 @@ describe('List', () => {
       for (let i = 0; i < 5; i++) {
         list.push(i);
       }
-      
+
       // Insert 99 at index 2 -> [0, 1, 99, 2, 3, 4]
-      list.insert(2, 99);
-      
-      assert.equal(list.size, 6);
-      assert.deepEqual(list.toArray(), [0, 1, 99, 2, 3, 4]);
-      
+      list.insertAt(2, 99);
+
+      assert.strictEqual(list.size, 6);
+      assert.deepStrictEqual(list.toArray(), [0, 1, 99, 2, 3, 4]);
+
       // Insert 88 at index 4 -> [0, 1, 99, 2, 88, 3, 4]
-      list.insert(4, 88);
-      
-      assert.equal(list.size, 7);
-      assert.deepEqual(list.toArray(), [0, 1, 99, 2, 88, 3, 4]);
+      list.insertAt(4, 88);
+
+      assert.strictEqual(list.size, 7);
+      assert.deepStrictEqual(list.toArray(), [0, 1, 99, 2, 88, 3, 4]);
     });
 
-    it('should throw error for negative index', () => {
-      const list = new List<number>(1);
-      assert.throws(() => list.insert(-1, 0), /Index out of bounds/);
+    it('should return null for negative index', () => {
+      const list = new List<number>();
+      list.push(1);
+      assert.strictEqual(list.insertAt(-1, 0), null);
     });
 
-    it('should throw error for index greater than size', () => {
-      const list = new List<number>(1);
-      assert.throws(() => list.insert(2, 0), /Index out of bounds/);
+    it('should return null for index greater than size', () => {
+      const list = new List<number>();
+      list.push(1);
+      assert.strictEqual(list.insertAt(2, 0), null);
     });
 
     it('should handle inserting into empty list at index 0', () => {
       const list = new List<number>();
-      list.insert(0, 42);
+      list.insertAt(0, 42);
 
-      assert.equal(list.size, 1);
-      assert.equal(list.head!.data, 42);
-      assert.equal(list.tail!.data, 42);
+      assert.strictEqual(list.size, 1);
+      assert.strictEqual(list.head!.data, 42);
+      assert.strictEqual(list.tail!.data, 42);
     });
 
     it('should insert at index 1 in a single-element list', () => {
-      const list = new List<number>(1);
-      list.insert(1, 2);
+      const list = new List<number>();
+      list.push(1);
+      list.insertAt(1, 2);
 
-      assert.equal(list.size, 2);
-      assert.deepEqual(list.toArray(), [1, 2]);
+      assert.strictEqual(list.size, 2);
+      assert.deepStrictEqual(list.toArray(), [1, 2]);
     });
   });
 
   describe('Find method', () => {
-    it('should find items by index', () => {
-      const list = new List<number>(1);
+    it('should find items by callback', () => {
+      const list = new List<number>();
+      list.push(1);
       list.push(2);
       list.push(3);
       list.push(4);
 
-      assert.equal(list.find(0), 1);
-      assert.equal(list.find(1), 2);
-      assert.equal(list.find(2), 3);
-      assert.equal(list.find(3), 4);
+      assert.strictEqual(list.find(data => data === 1)!.data, 1);
+      assert.strictEqual(list.find(data => data === 2)!.data, 2);
+      assert.strictEqual(list.find(data => data === 3)!.data, 3);
+      assert.strictEqual(list.find(data => data === 4)!.data, 4);
     });
 
-    it('should throw error for negative index', () => {
-      const list = new List<number>(1);
-      assert.throws(() => list.find(-1), /Index out of bounds/);
-    });
-
-    it('should throw error for index >= size', () => {
-      const list = new List<number>(1);
-      assert.throws(() => list.find(1), /Index out of bounds/);
-      assert.throws(() => list.find(2), /Index out of bounds/);
-    });
-
-    it('should throw error on empty list', () => {
+    it('should return null if item not found', () => {
       const list = new List<number>();
-      assert.throws(() => list.find(0), /Index out of bounds/);
-    });
-  });
-
-  describe('IndexOf method', () => {
-    it('should find index of existing elements', () => {
-      const list = new List<string>('first');
-      list.push('second');
-      list.push('third');
-
-      assert.equal(list.indexOf('first'), 0);
-      assert.equal(list.indexOf('second'), 1);
-      assert.equal(list.indexOf('third'), 2);
-    });
-
-    it('should return -1 for non-existing elements', () => {
-      const list = new List<string>('first');
-      list.push('second');
-
-      assert.equal(list.indexOf('third'), -1);
-      assert.equal(list.indexOf(''), -1);
-    });
-
-    it('should work with empty list', () => {
-      const list = new List<number>();
-      assert.equal(list.indexOf(1), -1);
-    });
-
-    it('should find first occurrence of duplicate elements', () => {
-      const list = new List<number>(1);
-      list.push(2);
       list.push(1);
-      list.push(3);
-
-      assert.equal(list.indexOf(1), 0); // First occurrence
+      assert.strictEqual(list.find(data => data === 2), null);
     });
 
-    it('should work with MockClass objects', () => {
-      const obj1 = new MockClass(1);
-      const obj2 = new MockClass(2);
-      const obj3 = new MockClass(3);
-
-      const list = new List<MockClass>(obj1);
-      list.push(obj2);
-      list.push(obj3);
-
-      assert.equal(list.indexOf(obj1), 0);
-      assert.equal(list.indexOf(obj2), 1);
-      assert.equal(list.indexOf(obj3), 2);
-
-      // Test with equivalent but different object instances
-      const obj1Equivalent = new MockClass(1);
-      assert.equal(list.indexOf(obj1Equivalent), 0); // Should find first occurrence with same value
-    });
-  });
-
-  describe('Contains method', () => {
-    it('should return true for existing elements', () => {
-      const list = new List<string>('hello');
-      list.push('world');
-
-      assert.equal(list.contains('hello'), true);
-      assert.equal(list.contains('world'), true);
-    });
-
-    it('should return false for non-existing elements', () => {
-      const list = new List<string>('hello');
-
-      assert.equal(list.contains('world'), false);
-      assert.equal(list.contains(''), false);
-    });
-
-    it('should work with empty list', () => {
+    it('should work on empty list', () => {
       const list = new List<number>();
-      assert.equal(list.contains(1), false);
+      assert.strictEqual(list.find(data => data === 1), null);
     });
   });
 
-  describe('Remove method', () => {
+  describe('RemoveAt method', () => {
     it('should remove the only item from the list', () => {
-      const list = new List<number>(1);
-      list.remove(0);
+      const list = new List<number>();
+      list.push(1);
+      list.removeAt(0);
 
-      assert.equal(list.size, 0);
-      assert.equal(list.isEmpty(), true);
-      assert.equal(list.head, null);
-      assert.equal(list.tail, null);
+      assert.strictEqual(list.size, 0);
+      assert.strictEqual(list.isEmpty(), true);
+      assert.strictEqual(list.head, null);
+      assert.strictEqual(list.tail, null);
     });
 
     it('should remove item from the beginning', () => {
-      const list = new List<number>(1);
+      const list = new List<number>();
+      list.push(1);
       list.push(2);
       list.push(3);
 
-      list.remove(0);
+      list.removeAt(0);
 
-      assert.equal(list.size, 2);
-      assert.deepEqual(list.toArray(), [2, 3]);
-      assert.equal(list.head!.data, 2);
+      assert.strictEqual(list.size, 2);
+      assert.deepStrictEqual(list.toArray(), [2, 3]);
+      assert.strictEqual(list.head!.data, 2);
     });
 
     it('should remove item from the end', () => {
-      const list = new List<number>(1);
+      const list = new List<number>();
+      list.push(1);
       list.push(2);
       list.push(3);
       list.push(4);
 
-      list.remove(3);
+      list.removeAt(3);
 
-      assert.equal(list.size, 3);
-      assert.deepEqual(list.toArray(), [1, 2, 3]);
-      assert.equal(list.tail!.data, 3);
+      assert.strictEqual(list.size, 3);
+      assert.deepStrictEqual(list.toArray(), [1, 2, 3]);
+      assert.strictEqual(list.tail!.data, 3);
     });
 
     it('should remove item from the middle', () => {
-      const list = new List<number>(1);
+      const list = new List<number>();
+      list.push(1);
       list.push(2);
       list.push(3);
       list.push(4);
 
-      list.remove(2);
+      list.removeAt(2);
 
-      assert.equal(list.size, 3);
-      assert.deepEqual(list.toArray(), [1, 2, 4]);
+      assert.strictEqual(list.size, 3);
+      assert.deepStrictEqual(list.toArray(), [1, 2, 4]);
     });
 
-    it('should throw error for negative index', () => {
-      const list = new List<number>(1);
-      assert.throws(() => list.remove(-1), /Index out of bounds/);
-    });
-
-    it('should throw error for index >= size', () => {
-      const list = new List<number>(1);
-      assert.throws(() => list.remove(1), /Index out of bounds/);
-    });
-
-    it('should throw error on empty list', () => {
+    it('should return null for negative index', () => {
       const list = new List<number>();
-      assert.throws(() => list.remove(0), /Index out of bounds/);
-    });
-  });
-
-  describe('RemoveData method', () => {
-    it('should remove existing data and return true', () => {
-      const list = new List<string>('first');
-      list.push('second');
-      list.push('third');
-
-      const result = list.removeData('second');
-
-      assert.equal(result, true);
-      assert.equal(list.size, 2);
-      assert.deepEqual(list.toArray(), ['first', 'third']);
-    });
-
-    it('should return false for non-existing data', () => {
-      const list = new List<string>('first');
-      list.push('second');
-
-      const result = list.removeData('third');
-
-      assert.equal(result, false);
-      assert.equal(list.size, 2);
-    });
-
-    it('should remove first occurrence of duplicate data', () => {
-      const list = new List<number>(1);
-      list.push(2);
       list.push(1);
-      list.push(3);
-
-      const result = list.removeData(1);
-
-      assert.equal(result, true);
-      assert.equal(list.size, 3);
-      assert.deepEqual(list.toArray(), [2, 1, 3]); // First occurrence removed
+      assert.strictEqual(list.removeAt(-1), null);
     });
 
-    it('should work with empty list', () => {
+    it('should return null for index >= size', () => {
       const list = new List<number>();
-      const result = list.removeData(1);
+      list.push(1);
+      assert.strictEqual(list.removeAt(1), null);
+    });
 
-      assert.equal(result, false);
-      assert.equal(list.size, 0);
+    it('should return null on empty list', () => {
+      const list = new List<number>();
+      assert.strictEqual(list.removeAt(0), null);
     });
   });
 
   describe('Clear method', () => {
     it('should clear all elements from the list', () => {
-      const list = new List<number>(1);
+      const list = new List<number>();
+      list.push(1);
       list.push(2);
       list.push(3);
 
       list.clear();
 
-      assert.equal(list.size, 0);
-      assert.equal(list.isEmpty(), true);
-      assert.equal(list.head, null);
-      assert.equal(list.tail, null);
+      assert.strictEqual(list.size, 0);
+      assert.strictEqual(list.isEmpty(), true);
+      assert.strictEqual(list.head, null);
+      assert.strictEqual(list.tail, null);
     });
 
     it('should work on empty list', () => {
@@ -410,8 +307,8 @@ describe('List', () => {
 
       list.clear();
 
-      assert.equal(list.size, 0);
-      assert.equal(list.isEmpty(), true);
+      assert.strictEqual(list.size, 0);
+      assert.strictEqual(list.isEmpty(), true);
     });
   });
 
@@ -420,77 +317,28 @@ describe('List', () => {
       const list = new List<number>();
       const array = list.toArray();
 
-      assert.deepEqual(array, []);
+      assert.deepStrictEqual(array, []);
     });
 
     it('should return array with all elements in correct order', () => {
-      const list = new List<number>(1);
+      const list = new List<number>();
+      list.push(1);
       list.push(2);
       list.push(3);
       list.push(4);
 
       const array = list.toArray();
-      assert.deepEqual(array, [1, 2, 3, 4]);
+      assert.deepStrictEqual(array, [1, 2, 3, 4]);
     });
 
     it('should return new array (not reference to internal structure)', () => {
-      const list = new List<number>(1);
+      const list = new List<number>();
+      list.push(1);
       const array1 = list.toArray();
       const array2 = list.toArray();
 
-      assert.notEqual(array1, array2); // Different array instances
-      assert.deepEqual(array1, array2); // Same content
-    });
-  });
-
-  describe('ToString method', () => {
-    it('should return string representation for empty list', () => {
-      const list = new List<number>();
-      assert.equal(list.toString(), 'List(0)[]');
-    });
-
-    it('should return string representation with elements', () => {
-      const list = new List<number>(1);
-      list.push(2);
-      list.push(3);
-
-      assert.equal(list.toString(), 'List(3)[1, 2, 3]');
-    });
-
-    it('should handle string elements', () => {
-      const list = new List<string>('hello');
-      list.push('world');
-
-      assert.equal(list.toString(), 'List(2)[hello, world]');
-    });
-  });
-
-  describe('ToJSON method', () => {
-    it('should return JSON representation for empty list', () => {
-      const list = new List<number>();
-      const json = list.toJSON();
-
-      assert.deepEqual(json, { size: 0, data: [] });
-    });
-
-    it('should return JSON representation with elements', () => {
-      const list = new List<number>(1);
-      list.push(2);
-      list.push(3);
-
-      const json = list.toJSON();
-      assert.deepEqual(json, { size: 3, data: [1, 2, 3] });
-    });
-
-    it('should handle complex objects', () => {
-      const list = new List<{ name: string, value: number; }>();
-      list.push({ name: 'test', value: 42 });
-
-      const json = list.toJSON();
-      assert.deepEqual(json, {
-        size: 1,
-        data: [{ name: 'test', value: 42 }]
-      });
+      assert.notStrictEqual(array1, array2); // Different array instances
+      assert.deepStrictEqual(array1, array2); // Same content
     });
   });
 
@@ -506,7 +354,7 @@ describe('List', () => {
         result.push(item);
       }
 
-      assert.deepEqual(result, [1, 2, 3]);
+      assert.deepStrictEqual(result, [1, 2, 3]);
     });
 
     it('should work with empty list iterator', () => {
@@ -517,7 +365,7 @@ describe('List', () => {
         result.push(item);
       }
 
-      assert.deepEqual(result, []);
+      assert.deepStrictEqual(result, []);
     });
 
     it('should work with spread operator', () => {
@@ -527,7 +375,7 @@ describe('List', () => {
       list.push('c');
 
       const array = [...list];
-      assert.deepEqual(array, ['a', 'b', 'c']);
+      assert.deepStrictEqual(array, ['a', 'b', 'c']);
     });
 
     it('should work with Array.from', () => {
@@ -536,73 +384,72 @@ describe('List', () => {
       list.push(20);
 
       const array = Array.from(list);
-      assert.deepEqual(array, [10, 20]);
+      assert.deepStrictEqual(array, [10, 20]);
     });
   });
 
   describe('IsEmpty method', () => {
     it('should return true for empty list', () => {
       const list = new List<number>();
-      assert.equal(list.isEmpty(), true);
+      assert.strictEqual(list.isEmpty(), true);
     });
 
     it('should return false for non-empty list', () => {
-      const list = new List<number>(1);
-      assert.equal(list.isEmpty(), false);
+      const list = new List<number>();
+      list.push(1);
+      assert.strictEqual(list.isEmpty(), false);
     });
 
     it('should return true after clearing list', () => {
-      const list = new List<number>(1);
+      const list = new List<number>();
+      list.push(1);
       list.push(2);
       list.clear();
-      assert.equal(list.isEmpty(), true);
+      assert.strictEqual(list.isEmpty(), true);
     });
   });
 
   describe('Size property', () => {
     it('should track size correctly through various operations', () => {
       const list = new List<number>();
-      assert.equal(list.size, 0);
+      assert.strictEqual(list.size, 0);
 
       list.push(1);
-      assert.equal(list.size, 1);
+      assert.strictEqual(list.size, 1);
 
-      list.prepend(0);
-      assert.equal(list.size, 2);
+      list.unshift(0);
+      assert.strictEqual(list.size, 2);
 
-      list.insert(1, 0.5);
-      assert.equal(list.size, 3);
+      list.insertAt(1, 0.5);
+      assert.strictEqual(list.size, 3);
 
-      list.remove(1);
-      assert.equal(list.size, 2);
-
-      list.removeData(1);
-      assert.equal(list.size, 1);
+      list.removeAt(1);
+      assert.strictEqual(list.size, 2);
 
       list.clear();
-      assert.equal(list.size, 0);
+      assert.strictEqual(list.size, 0);
     });
   });
 
   describe('Tail property', () => {
     it('should track tail correctly', () => {
       const list = new List<number>();
-      assert.equal(list.tail, null);
+      assert.strictEqual(list.tail, null);
 
       list.push(1);
-      assert.equal(list.tail!.data, 1);
+      assert.strictEqual(list.tail!.data, 1);
 
       list.push(2);
-      assert.equal(list.tail!.data, 2);
+      assert.strictEqual(list.tail!.data, 2);
 
-      list.prepend(0);
-      assert.equal(list.tail!.data, 2); // Tail should not change
+      list.unshift(0);
+      assert.strictEqual(list.tail!.data, 2); // Tail should not change
 
-      list.remove(2); // Remove tail
-      assert.equal(list.tail!.data, 1);
+      list.removeAt(2); // Remove tail
+      assert.strictEqual(list.tail!.data, 1);
 
       list.clear();
-      assert.equal(list.tail, null);
+      assert.strictEqual(list.tail, null);
     });
   });
 
@@ -614,8 +461,8 @@ describe('List', () => {
       list.push(true);
       list.push({ key: 'value' });
 
-      assert.equal(list.size, 4);
-      assert.deepEqual(list.toArray(), [1, 'string', true, { key: 'value' }]);
+      assert.strictEqual(list.size, 4);
+      assert.deepStrictEqual(list.toArray(), [1, 'string', true, { key: 'value' }]);
     });
 
     it('should maintain integrity after multiple operations', () => {
@@ -623,103 +470,99 @@ describe('List', () => {
 
       // Complex sequence of operations
       list.push(1);              // [1]
-      list.prepend(0);           // [0, 1]
-      list.insert(1, 0.5);       // [0, 0.5, 1]
+      list.unshift(0);           // [0, 1]
+      list.insertAt(1, 0.5);       // [0, 0.5, 1]
       list.push(2);              // [0, 0.5, 1, 2]
-      list.remove(0);            // [0.5, 1, 2]
-      list.removeData(0.5);      // [1, 2]
-      list.insert(0, -1);        // [-1, 1, 2]
+      list.removeAt(0);            // [0.5, 1, 2]
+      list.insertAt(0, -1);        // [-1, 0.5, 1, 2]
 
-      assert.equal(list.size, 3);
-      assert.deepEqual(list.toArray(), [-1, 1, 2]);
-      assert.equal(list.head!.data, -1);
-      assert.equal(list.tail!.data, 2);
+      assert.strictEqual(list.size, 4);
+      assert.deepStrictEqual(list.toArray(), [-1, 0.5, 1, 2]);
+      assert.strictEqual(list.head!.data, -1);
+      assert.strictEqual(list.tail!.data, 2);
     });
   });
 
   // Legacy tests (keep for compatibility)
   it('should create a list', () => {
+    const _list = new List<MockClass>();
     const _mockObject = new MockClass(1);
-    const _list = new List<MockClass>(_mockObject);
+    _list.push(_mockObject);
 
     assert.ok(_list);
   });
 
   it('should false if the list is not empty', () => {
+    const _list = new List<MockClass>();
     const _mockObject = new MockClass(1);
-    const _list = new List<MockClass>(_mockObject);
+    _list.push(_mockObject);
 
-    assert.equal(_list.isEmpty(), false);
+    assert.strictEqual(_list.isEmpty(), false);
   });
 
   it('should push an item to the list', () => {
-    const _mockObject = new MockClass(1);
     const _list = new List<MockClass>();
+    const _mockObject = new MockClass(1);
 
     _list.push(_mockObject);
 
-    assert.equal(_list.size, 1);
+    assert.strictEqual(_list.size, 1);
   });
 
   it('should remove the only item from the list, given its index', () => {
-    const _list = new List<number>(1);
+    const _list = new List<number>();
+    _list.push(1);
 
-    _list.remove(0);
+    _list.removeAt(0);
 
-    assert.equal(_list.size, 0);
+    assert.strictEqual(_list.size, 0);
   });
 
   it('should find an item in the list, given its index', () => {
-    const _list = new List<number>(1);
-
+    const _list = new List<number>();
+    _list.push(1);
     _list.push(2);
     _list.push(3);
     _list.push(4);
 
-    const _item = _list.find(2);
-    assert.equal(_item, 3);
+    const _item = _list.find(data => data === 3);
+    assert.strictEqual(_item!.data, 3);
   });
 
   it('should remove an item from the list, given its index', () => {
-    const _list = new List<number>(1);
-
+    const _list = new List<number>();
+    _list.push(1);
     _list.push(2);
     _list.push(3);
     _list.push(4);
 
-    _list.remove(3);
-    assert.equal(_list.size, 3);
+    _list.removeAt(3);
+    assert.strictEqual(_list.size, 3);
   });
 
   it('should return an array with the items in the list', () => {
-    const _list = new List<number>(1);
-
+    const _list = new List<number>();
+    _list.push(1);
     _list.push(2);
     _list.push(3);
     _list.push(4);
 
     const _array = _list.toArray();
 
-    assert.deepEqual(_array, [1, 2, 3, 4]);
+    assert.deepStrictEqual(_array, [1, 2, 3, 4]);
   });
 
-  it('should throw an error if the index is out of bounds finding', () => {
-    const _list = new List<number>(1);
+  it('should return null if the index is out of bounds when finding', () => {
+    const _list = new List<number>();
+    _list.push(1);
 
-    assert.throws(() => {
-      _list.find(1);
-    });
-
-    assert.throws(() => {
-      _list.find(2);
-    });
+    assert.strictEqual(_list.find(data => data === 2), null);
   });
 
-  it('should throw an error if the index is out of bounds when removing', () => {
-    const _list = new List<number>(1);
+  it('should return null if the index is out of bounds when removing', () => {
+    const _list = new List<number>();
+    _list.push(1);
 
-    assert.throws(() => {
-      _list.remove(1);
-    });
+    assert.strictEqual(_list.removeAt(1), null);
   });
 });

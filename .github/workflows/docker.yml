@@ -1,0 +1,122 @@
+name: Docker Tests
+
+on:
+  push:
+    branches: [ main, develop, master ]
+  pull_request:
+    branches: [ main, develop, master ]
+
+jobs:
+  docker-build:
+    name: Docker Build & Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Build Docker image
+      run: |
+        docker build -t all-in-one:latest .
+        docker images
+    
+    - name: Run tests in Docker container
+      run: |
+        docker run --rm \
+          --name all-in-one-test \
+          all-in-one:latest
+    
+    - name: Verify TypeScript compilation in Docker
+      run: |
+        docker run --rm \
+          --name all-in-one-compile \
+          all-in-one:latest \
+          npx tsc --noEmit
+    
+    - name: Run coverage check in Docker
+      run: |
+        docker run --rm \
+          --name all-in-one-coverage \
+          all-in-one:latest \
+          sh -c "npm test && echo '✅ 100% coverage achieved in Docker'"
+
+  docker-compose-test:
+    name: Docker Compose Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Test with Docker Compose
+      run: |
+        docker-compose up --build --abort-on-container-exit test
+        echo "✅ Docker Compose test completed"
+    
+    - name: Test TypeScript compilation with Docker Compose
+      run: |
+        docker-compose up --build --abort-on-container-exit build
+        echo "✅ Docker Compose build completed"
+    
+    - name: Cleanup
+      run: docker-compose down --volumes --remove-orphans
+
+  docker-multi-node:
+    name: Multi-Node Docker Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+        include:
+          - node-version: 18
+            image: node:18-alpine
+          - node-version: 20
+            image: node:20-alpine
+          - node-version: 22
+            image: node:22-alpine
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Test with Node.js ${{ matrix.node-version }}
+      run: |
+        docker run --rm \
+          -v ${{ github.workspace }}:/app \
+          -w /app \
+          ${{ matrix.image }} \
+          sh -c "
+            echo '🐳 Running tests with Node.js ${{ matrix.node-version }} in Docker'
+            npm ci
+            npx tsc
+            npm test
+            echo '✅ Tests completed successfully with Node.js ${{ matrix.node-version }}'
+          "
+
+  docker-security-scan:
+    name: Docker Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Build Docker image for scanning
+      run: docker build -t all-in-one:scan .
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'all-in-one:scan'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'

@@ -1,437 +1,330 @@
-import ALinearStructure from './linear-structure';
-import SingleNode from './single-node';
+import ILinearStructure from '../interfaces/linear-structure';
+import { IDoubleNode } from '../interfaces/double-node';
+import DoubleNode from './double-node';
 
 /**
- * Represents a singly linked list data structure.
- * Provides efficient operations for managing a sequence of elements.
- * 
+ * @class List
+ * @extends ALinearStructure<T>
+ * @implements {Iterable<T>}
+ *
+ * @description
+ * A doubly-linked list implementation.
+ *
  * @template T The type of data stored in the list.
- * 
- * @example
- * ```typescript
- * const list = new List<number>();
- * list.push(1);
- * list.push(2);
- * list.insert(1, 1.5); // [1, 1.5, 2]
- * 
- * for (const item of list) {
- *   console.log(item); // 1, 1.5, 2
- * }
- * ```
  */
-export default class List<T> extends ALinearStructure<T> implements Iterable<T> {
-  private _size: number = 0;
-  private _tail: SingleNode<T> | null = null;
+export class List<T> implements ILinearStructure, Iterable<T> {
+  /**
+   * @description
+   * The head of the list.
+   * @protected
+   * @type {(IDoubleNode<T> | null)}
+   */
+  protected _head: IDoubleNode<T> | null = null;
 
   /**
-   * Creates a new List instance.
-   * 
-   * @param {T} [data] Optional initial data for the list.
-   * 
-   * @example
-   * ```typescript
-   * const emptyList = new List<string>();
-   * const listWithData = new List<string>("first");
-   * ```
+   * @description
+   * The tail of the list.
+   * @protected
+   * @type {(IDoubleNode<T> | null)}
    */
-  constructor(data?: T) {
-    super(data);
-    if (data !== undefined) {
-      this._size = 1;
-      this._tail = this._head;
-    }
+  protected _tail: IDoubleNode<T> | null = null;
+
+  /**
+   * @description
+   * The number of elements in the list.
+   * @protected
+   * @type {number}
+   */
+  protected _size = 0;
+
+  /**
+   * @description
+   * The head of the list.
+   *
+   * @returns {(IDoubleNode<T> | null)}
+   */
+  public get head(): IDoubleNode<T> | null {
+    return this._head;
   }
 
   /**
-   * Gets the size of the list in O(1) time.
-   * 
-   * @returns {number} The number of elements in the list.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<number>();
-   * console.log(list.size); // 0
-   * list.push(1);
-   * console.log(list.size); // 1
-   * ```
+   * @description
+   * The tail of the list.
+   *
+   * @returns {(IDoubleNode<T> | null)}
    */
-  get size(): number {
-    return this._size;
-  }
-
-  /**
-   * Gets the tail node of the list.
-   * 
-   * @returns {SingleNode<T> | null} The tail node or null if empty.
-   */
-  get tail(): SingleNode<T> | null {
+  public get tail(): IDoubleNode<T> | null {
     return this._tail;
   }
 
   /**
-   * Adds an element to the end of the list in O(1) time.
-   * 
-   * @param {T} data The data to add to the list.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<string>();
-   * list.push("first");
-   * list.push("second");
-   * console.log(list.toArray()); // ["first", "second"]
-   * ```
+   * @description
+   * The number of elements in the list.
+   *
+   * @returns {number}
    */
-  push(data: T): void {
-    const newNode = new SingleNode(data);
+  public get size(): number {
+    return this._size;
+  }
 
-    if (this._head === null) {
+  /**
+   * @description
+   * Adds a new element to the end of the list.
+   *
+   * @param {T} data The data to add.
+   * @returns {IDoubleNode<T>} The newly created node.
+   */
+  public push(data: T): IDoubleNode<T> {
+    const newNode = new DoubleNode(data);
+
+    if (!this._head) {
       this._head = newNode;
       this._tail = newNode;
     } else {
+      newNode.prev = this._tail;
       this._tail!.next = newNode;
       this._tail = newNode;
     }
 
     this._size++;
+    return newNode;
   }
 
   /**
-   * Adds an element to the beginning of the list in O(1) time.
-   * 
-   * @param {T} data The data to add to the beginning of the list.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<string>();
-   * list.push("second");
-   * list.prepend("first");
-   * console.log(list.toArray()); // ["first", "second"]
-   * ```
+   * @description
+   * Adds a new element to the beginning of the list.
+   *
+   * @param {T} data The data to add.
+   * @returns {IDoubleNode<T>} The newly created node.
    */
-  prepend(data: T): void {
-    const newNode = new SingleNode(data);
+  public unshift(data: T): IDoubleNode<T> {
+    const newNode = new DoubleNode(data);
 
-    if (this._head === null) {
+    if (!this._head) {
       this._head = newNode;
       this._tail = newNode;
     } else {
       newNode.next = this._head;
+      this._head.prev = newNode;
       this._head = newNode;
     }
 
     this._size++;
+    return newNode;
   }
 
   /**
-   * Inserts an element at the specified index.
-   * 
-   * @param {number} index The index at which to insert the element.
+   * @description
+   * Inserts a new element at a specific index.
+   *
+   * @param {number} index The index to insert at.
    * @param {T} data The data to insert.
-   * @throws {Error} If the index is out of bounds.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<number>();
-   * list.push(1);
-   * list.push(3);
-   * list.insert(1, 2); // [1, 2, 3]
-   * ```
+   * @returns {(IDoubleNode<T> | null)} The newly created node, or null if the index is out of bounds.
    */
-  insert(index: number, data: T): void {
+  public insertAt(index: number, data: T): IDoubleNode<T> | null {
     if (index < 0 || index > this._size) {
-      throw new Error('Index out of bounds.');
+      return null; // Index out of bounds
     }
 
     if (index === 0) {
-      this.prepend(data);
-      return;
+      return this.unshift(data);
     }
 
     if (index === this._size) {
-      this.push(data);
-      return;
+      return this.push(data);
     }
 
-    const newNode = new SingleNode(data);
-    let current = this._head!;
-
-    // Navigate to the node before the insertion point
-    for (let i = 0; i < index - 1; i++) {
-      current = current.next!;
-    }
-
-    newNode.next = current.next;
-    current.next = newNode;
-    this._size++;
-  }
-
-  /**
-   * Returns the data of the node at the specified index.
-   * 
-   * @param {number} index The index of the element to retrieve.
-   * @returns {T} The data at the specified index.
-   * @throws {Error} If the index is out of bounds.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<string>();
-   * list.push("first");
-   * list.push("second");
-   * console.log(list.find(1)); // "second"
-   * ```
-   */
-  find(index: number): T {
-    if (index < 0 || index >= this._size) {
-      throw new Error('Index out of bounds.');
-    }
-
-    let current = this._head!;
-    for (let i = 0; i < index; i++) {
-      current = current.next!;
-    }
-
-    return current.data;
-  }
-
-  /**
-   * Finds the index of the first occurrence of the specified data.
-   * 
-   * @param {T} data The data to search for.
-   * @returns {number} The index of the data, or -1 if not found.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<string>();
-   * list.push("first");
-   * list.push("second");
-   * console.log(list.indexOf("second")); // 1
-   * console.log(list.indexOf("third")); // -1
-   * ```
-   */
-  indexOf(data: T): number {
+    const newNode = new DoubleNode(data);
     let current = this._head;
-    let index = 0;
-
-    while (current !== null) {
-      if (current.hasData(data)) {
-        return index;
-      }
-      current = current.next;
-      index++;
+    for (let i = 0; i < index; i++) {
+      current = current!.next;
     }
 
-    return -1;
+    const prevNode = current!.prev;
+    prevNode!.next = newNode;
+    newNode.prev = prevNode;
+    newNode.next = current;
+    current!.prev = newNode;
+
+    this._size++;
+    return newNode;
   }
 
   /**
-   * Checks if the list contains the specified data.
-   * 
-   * @param {T} data The data to search for.
-   * @returns {boolean} True if the data is found, false otherwise.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<string>();
-   * list.push("first");
-   * console.log(list.contains("first")); // true
-   * console.log(list.contains("second")); // false
-   * ```
+   * @description
+   * Removes and returns the last element of the list.
+   *
+   * @returns {(T | null)} The data of the removed element, or null if the list is empty.
    */
-  contains(data: T): boolean {
-    return this.indexOf(data) !== -1;
-  }
-
-  /**
-   * Removes the element at the specified index.
-   * 
-   * @param {number} index The index of the element to remove.
-   * @throws {Error} If the index is out of bounds.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<number>();
-   * list.push(1);
-   * list.push(2);
-   * list.push(3);
-   * list.remove(1); // Removes 2, list is now [1, 3]
-   * ```
-   */
-  remove(index: number): void {
-    if (index < 0 || index >= this._size) {
-      throw new Error('Index out of bounds.');
+  public pop(): T | null {
+    if (!this._tail) {
+      return null;
     }
 
-    // Remove head
-    if (index === 0) {
-      this._head = this._head!.next;
-      if (this._size === 1) {
-        this._tail = null;
-      }
-      this._size--;
-      return;
-    }
-
-    // Find the node before the one to remove
-    let current = this._head!;
-    for (let i = 0; i < index - 1; i++) {
-      current = current.next!;
-    }
-
-    const nodeToRemove = current.next!;
-    current.next = nodeToRemove.next;
-
-    // Update tail if removing the last element
-    if (index === this._size - 1) {
-      this._tail = current;
+    const removedNode = this._tail;
+    if (this._head === this._tail) {
+      this._head = null;
+      this._tail = null;
+    } else {
+      this._tail = removedNode.prev;
+      this._tail!.next = null;
     }
 
     this._size--;
+    return removedNode.data;
   }
 
   /**
-   * Removes the first occurrence of the specified data.
-   * 
-   * @param {T} data The data to remove.
-   * @returns {boolean} True if the data was found and removed, false otherwise.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<string>();
-   * list.push("first");
-   * list.push("second");
-   * console.log(list.removeData("first")); // true
-   * console.log(list.removeData("third")); // false
-   * ```
+   * @description
+   * Removes and returns the first element of the list.
+   *
+   * @returns {(T | null)} The data of the removed element, or null if the list is empty.
    */
-  removeData(data: T): boolean {
-    const index = this.indexOf(data);
-    if (index === -1) {
-      return false;
+  public shift(): T | null {
+    if (!this._head) {
+      return null;
     }
-    this.remove(index);
-    return true;
+
+    const removedNode = this._head;
+    if (this._head === this._tail) {
+      this._head = null;
+      this._tail = null;
+    } else {
+      this._head = removedNode.next as IDoubleNode<T>;
+      this._head.prev = null;
+    }
+
+    this._size--;
+    return removedNode.data;
   }
 
   /**
-   * Removes all elements from the list.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<number>();
-   * list.push(1);
-   * list.push(2);
-   * list.clear();
-   * console.log(list.isEmpty()); // true
-   * ```
+   * @description
+   * Removes an element at a specific index.
+   *
+   * @param {number} index The index of the element to remove.
+   * @returns {(T | null)} The data of the removed element, or null if the index is out of bounds.
    */
-  clear(): void {
+  public removeAt(index: number): T | null {
+    if (index < 0 || index >= this._size) {
+      return null; // Index out of bounds
+    }
+
+    if (index === 0) {
+      return this.shift();
+    }
+
+    if (index === this._size - 1) {
+      return this.pop();
+    }
+
+    let current = this._head;
+    for (let i = 0; i < index; i++) {
+      current = current!.next;
+    }
+
+    const removedNode = current!;
+    const prevNode = removedNode.prev;
+    const nextNode = removedNode.next;
+
+    prevNode!.next = nextNode;
+    nextNode!.prev = prevNode;
+
+    this._size--;
+    return removedNode.data;
+  }
+
+  /**
+   * @description
+   * Finds the first node that satisfies the provided testing function.
+   *
+   * @param {(data: T) => boolean} callback The function to execute on each element.
+   * @returns {(IDoubleNode<T> | null)} The first node that satisfies the callback, or null if not found.
+   */
+  public find(callback: (data: T) => boolean): IDoubleNode<T> | null {
+    let current = this._head;
+    while (current) {
+      if (callback(current.data)) {
+        return current;
+      }
+      current = current.next;
+    }
+    return null;
+  }
+
+  /**
+   * @description
+   * Reverses the list in-place.
+   */
+  public reverse(): void {
+    let current = this._head;
+    let temp: IDoubleNode<T> | null = null;
+
+    this._tail = this._head;
+
+    while (current) {
+      temp = current.prev;
+      current.prev = current.next;
+      current.next = temp;
+      this._head = current;
+      current = current.prev as IDoubleNode<T>;
+    }
+  }
+
+  /**
+   * @description
+   * Checks if the list is empty.
+   *
+   * @returns {boolean}
+   */
+  public isEmpty(): boolean {
+    return this._size === 0;
+  }
+
+  /**
+   * @description
+   * Clears the list.
+   */
+  public clear(): void {
     this._head = null;
     this._tail = null;
     this._size = 0;
   }
 
   /**
-   * Checks if the list is empty.
-   * 
-   * @returns {boolean} True if the list is empty, false otherwise.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<number>();
-   * console.log(list.isEmpty()); // true
-   * list.push(1);
-   * console.log(list.isEmpty()); // false
-   * ```
+   * @description
+   * Converts the list to an array.
+   *
+   * @returns {T[]}
    */
-  isEmpty(): boolean {
-    return this._size === 0;
-  }
-
-  /**
-   * Returns an array containing all elements in the list.
-   * 
-   * @returns {Array<T>} An array containing all elements in the list.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<number>();
-   * list.push(1);
-   * list.push(2);
-   * list.push(3);
-   * console.log(list.toArray()); // [1, 2, 3]
-   * ```
-   */
-  toArray(): Array<T> {
-    const array: Array<T> = [];
+  public toArray(): T[] {
+    const array: T[] = [];
     let current = this._head;
-
-    while (current !== null) {
+    while (current) {
       array.push(current.data);
       current = current.next;
     }
-
     return array;
   }
 
   /**
-   * Returns a string representation of the list.
-   * 
-   * @returns {string} String representation of the list.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<number>();
-   * list.push(1);
-   * list.push(2);
-   * console.log(list.toString()); // "List(2)[1, 2]"
-   * ```
+   * @description
+   * Creates an iterator for the list.
+   *
+   * @returns {Iterator<T>}
    */
-  toString(): string {
-    return `List(${this._size})[${this.toArray().join(', ')}]`;
-  }
-
-  /**
-   * Returns a JSON representation of the list.
-   * 
-   * @returns {object} JSON object with size and data array.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<number>();
-   * list.push(1);
-   * list.push(2);
-   * console.log(list.toJSON()); // { size: 2, data: [1, 2] }
-   * ```
-   */
-  toJSON(): { size: number; data: T[]; } {
-    return {
-      size: this._size,
-      data: this.toArray()
-    };
-  }
-
-  /**
-   * Makes the list iterable with for...of loops.
-   * 
-   * @returns {Iterator<T>} An iterator for the list elements.
-   * 
-   * @example
-   * ```typescript
-   * const list = new List<number>();
-   * list.push(1);
-   * list.push(2);
-   * list.push(3);
-   * 
-   * for (const item of list) {
-   *   console.log(item); // 1, 2, 3
-   * }
-   * ```
-   */
-  *[Symbol.iterator](): Iterator<T> {
+  public [Symbol.iterator](): Iterator<T> {
     let current = this._head;
-    while (current !== null) {
-      yield current.data;
-      current = current.next;
-    }
+    return {
+      next: (): IteratorResult<T> => {
+        if (current) {
+          const value = current.data;
+          current = current.next;
+          return { value, done: false };
+        } else {
+          return { value: undefined, done: true };
+        }
+      },
+    };
   }
 }

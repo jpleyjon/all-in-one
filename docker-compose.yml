@@ -1,0 +1,71 @@
+version: '3.8'
+
+x-volumes: &volumes
+  - .:/app
+  - /app/node_modules
+  - /app/dist
+
+x-test-command: &test-command
+  sh -c "npm ci && npx tsc && npm test"
+
+services:
+  # Main test service
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: all-in-one-tests
+    volumes: *volumes
+    environment:
+      - NODE_ENV=test
+    command: npm test
+
+  # Development service with file watching
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: all-in-one-dev
+    volumes: *volumes
+    environment:
+      - NODE_ENV=development
+    # Runs the TypeScript compiler in watch mode.
+    # You can run tests in a separate terminal with:
+    # docker-compose exec dev npm test
+    command: npx tsc --watch
+    stdin_open: true
+    tty: true
+
+  # TypeScript compilation only
+  build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: all-in-one-build
+    volumes: *volumes
+    command: npx tsc
+
+  # Multi-node testing
+  test-node18:
+    image: node:18-alpine
+    working_dir: /app
+    volumes: *volumes
+    command: *test-command
+    environment:
+      - NODE_ENV=test
+
+  test-node20:
+    image: node:20-alpine
+    working_dir: /app
+    volumes: *volumes
+    command: *test-command
+    environment:
+      - NODE_ENV=test
+
+  test-node22:
+    image: node:22-alpine
+    working_dir: /app
+    volumes: *volumes
+    command: *test-command
+    environment:
+      - NODE_ENV=test
