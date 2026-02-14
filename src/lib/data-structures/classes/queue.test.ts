@@ -571,4 +571,24 @@ describe('Queue', () => {
       assert.equal(_element.mockProperty, 1); // First in, first out
     });
   });
+
+  it('should throw QueueUnderflowError if trying to pop from an empty queue', () => {
+    const queue = new Queue<MockClass>();
+
+    assert.throws(() => queue.pop(), (error: unknown) => {
+      assert.ok(error instanceof QueueUnderflowError);
+      assert.equal(
+        error.message,
+        "Can't dequeue from an empty queue.",
+      );
+      return true;
+    });
+  });
+
+  it('should create QueueUnderflowError with the correct name', () => {
+    const error = new QueueUnderflowError('underflow');
+
+    assert.equal(error.name, 'QueueUnderflowError');
+    assert.equal(error.message, 'underflow');
+  });
 });
