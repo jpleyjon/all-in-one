@@ -21,11 +21,16 @@ if [[ -d coverage ]]; then
   rm -rf coverage/*
 fi
 
+if [[ -d dist ]]; then
+  rm -rf dist/*
+fi
+
 # echo $C8_OPTIONS
 (
   set -x
   NODE_V8_COVERAGE=./coverage/v8 \
   NODE_ENV=test \
+  npx tsc && \
   npx c8 $C8_OPTIONS \
   node --test --enable-source-maps --test-reporter spec 'dist/**/*.{test,spec}.js'
 )
