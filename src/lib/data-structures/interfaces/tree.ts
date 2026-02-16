@@ -4,7 +4,7 @@
  * Interface for a tree data structure.
  * @template T The type of elements in the tree.
  */
-export default interface Tree<T> {
+export default interface ITree<T> {
   /**
    * Performs a pre-order traversal of the tree (visits each node before its children).
    * @returns A list of the elements in the order they were visited.
