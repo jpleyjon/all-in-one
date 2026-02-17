@@ -579,7 +579,7 @@ describe('Queue', () => {
       assert.ok(error instanceof QueueUnderflowError);
       assert.equal(
         error.message,
-        "Can't dequeue from an empty queue.",
+        'Cannot dequeue from an empty queue.',
       );
       return true;
     });
