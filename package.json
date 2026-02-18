@@ -1,14 +1,50 @@
 {
   "name": "all-in-one",
   "version": "1.0.0",
-  "description": "My all in one library",
-  "main": "index.js",
-  "scripts": {
-    "test": "./bin/test"
+  "description": "A comprehensive TypeScript utility library with data structures and algorithms.",
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./data-structures": "./dist/lib/data-structures/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "./bin/test",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "keywords": [
+    "typescript",
+    "data-structures",
+    "algorithms",
+    "stack",
+    "queue",
+    "list",
+    "tree",
+    "binary-search-tree",
+    "graph",
+    "hash-table"
+  ],
+  "author": "Joao Ley",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpleyjon/all-in-one.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jpleyjon/all-in-one/issues"
+  },
+  "homepage": "https://github.com/jpleyjon/all-in-one#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
     "c8": "^9.1.0",
     "ts-node": "^10.9.2",
