@@ -1,11 +1,13 @@
 {
   "name": "all-in-one",
   "version": "1.0.0",
-  "description": "A comprehensive TypeScript utility library with data structures and algorithms.",
+  "description": "A comprehensive TypeScript utility library with data structures, string helpers, and array utilities.",
   "main": "dist/index.js",
   "exports": {
     ".": "./dist/index.js",
-    "./data-structures": "./dist/lib/data-structures/index.js"
+    "./data-structures": "./dist/lib/data-structures/index.js",
+    "./string": "./dist/lib/string/index.js",
+    "./array": "./dist/lib/array/index.js"
   },
   "files": [
     "dist",
@@ -27,7 +29,10 @@
     "tree",
     "binary-search-tree",
     "graph",
-    "hash-table"
+    "hash-table",
+    "string",
+    "array",
+    "utilities"
   ],
   "author": "Joao Ley",
   "license": "MIT",

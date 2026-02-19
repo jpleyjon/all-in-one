@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive TypeScript utility library providing a collection of data structures, string manipulation, object utilities, and more—all built from scratch using only Node.js built-in features, with zero external dependencies.
+A comprehensive TypeScript utility library providing data structures, string helpers, and array utilities built from scratch with zero runtime dependencies.
 
 ## 🎯 Philosophy
 
@@ -33,9 +33,30 @@ Robust, type-safe implementations of fundamental computer science data structure
 - **Graph** - Adjacency-list graph with directed/undirected edges and BFS/DFS
 - **Hash Table** - Key/value storage with separate chaining collision handling
 
-### String Utilities *(Coming Soon)*
+### String Utilities
 
-Powerful string manipulation functions for common operations.
+Production-ready functional string helpers:
+
+- **Case conversion** - `toCamelCase`, `toPascalCase`, `toSnakeCase`, `toKebabCase`, `toTitleCase`
+- **Formatting** - `capitalize`, `capitalizeWords`, `normalizeWhitespace`
+- **Matching** - `equalsIgnoreCase`, `includesIgnoreCase`
+- **Transformations** - `slugify`, `stripAccents`
+- **Text shaping** - `truncate`, `truncateWords`, `initials`, `mask`
+
+### Array Utilities
+
+Functional, immutable array helpers:
+
+- **Selection** - `isEmpty`, `first`, `last`, `sample`
+- **Structure** - `chunk`, `flatten`, `flattenDepth`, `insertAt`, `removeAt`, `move`, `swap`
+- **Set-like operations** - `unique`, `uniqueBy`, `difference`, `intersection`, `union`
+- **Collection shaping** - `groupBy`, `keyBy`, `partition`, `compact`
+- **Sorting and analytics** - `sortBy`, `sum`, `average`, `minBy`, `maxBy`
+- **Randomization** - `shuffle`
+
+### CI Pipeline
+
+GitHub Actions runs unit tests on every `push`, `pull_request`, and manual dispatch via `.github/workflows/unit-tests.yml`.
 
 ### Object Utilities *(Coming Soon)*
 
@@ -136,9 +157,45 @@ list.remove(1);
 console.log(list.size); // 2
 ```
 
+### String Helpers
+
+```typescript
+import {
+  toCamelCase,
+  slugify,
+  normalizeWhitespace,
+  truncateWords,
+  mask,
+} from 'all-in-one';
+
+console.log(toCamelCase('hello-world test')); // helloWorldTest
+console.log(slugify('Crème Brûlée Recipe')); // creme-brulee-recipe
+console.log(normalizeWhitespace('  too   many\nspaces\t')); // too many spaces
+console.log(truncateWords('one two three four', 2)); // one two...
+console.log(mask('4111111111111111', 4, 4)); // 4111********1111
+```
+
+### Array Helpers
+
+```typescript
+import {
+  chunk,
+  unique,
+  sortBy,
+  groupBy,
+  move,
+} from 'all-in-one';
+
+console.log(chunk([1, 2, 3, 4, 5], 2)); // [[1, 2], [3, 4], [5]]
+console.log(unique([1, 2, 1, 3])); // [1, 2, 3]
+console.log(sortBy([{ n: 2 }, { n: 1 }], (item) => item.n)); // [{ n: 1 }, { n: 2 }]
+console.log(groupBy(['one', 'two', 'three'], (word) => word.length)); // { 3: ['one', 'two'], 5: ['three'] }
+console.log(move(['a', 'b', 'c'], 0, 2)); // ['b', 'c', 'a']
+```
+
 ## 🧪 Testing
 
-The library includes comprehensive test coverage using a custom test runner:
+The library uses the Node.js test runner with TypeScript compilation and c8 coverage:
 
 ```bash
 npm test
@@ -146,11 +203,7 @@ npm test
 
 ## 📊 Coverage
 
-Code coverage reports are generated using c8:
-
-```bash
-npm run coverage
-```
+Coverage reports are generated as part of `npm test` via c8.
 
 Coverage reports are available in the `coverage/` directory.
 
@@ -229,6 +282,35 @@ npm run build
 - `entries(): [string, T][]` - Get all entries
 - `size: number` - Get current entry count
 
+### Array Utilities
+
+- `isEmpty<T>(input: T[]): boolean` - Check if an array has no items
+- `first<T>(input: T[]): T | undefined` - Get first item
+- `last<T>(input: T[]): T | undefined` - Get last item
+- `compact<T>(input: T[]): T[]` - Remove falsy values
+- `chunk<T>(input: T[], size: number): T[][]` - Split into fixed-size chunks
+- `flatten<T>(input: (T | T[])[]): T[]` - Flatten one level
+- `flattenDepth<T>(input: unknown[], depth = 1): T[]` - Flatten up to depth
+- `unique<T>(input: T[]): T[]` - Keep unique values
+- `uniqueBy<T, K>(input: T[], selector: (item: T) => K): T[]` - Unique by key
+- `groupBy<T, K>(input: T[], selector: (item: T) => K): Record<K, T[]>` - Group items by key
+- `keyBy<T, K>(input: T[], selector: (item: T) => K): Record<K, T>` - Index items by key
+- `partition<T>(input: T[], predicate: (item: T) => boolean): [T[], T[]]` - Split by predicate
+- `difference<T>(left: T[], right: T[]): T[]` - Values in left not in right
+- `intersection<T>(left: T[], right: T[]): T[]` - Shared unique values
+- `union<T>(...inputs: T[][]): T[]` - Combined unique values
+- `sortBy<T>(input: T[], selector: (item: T) => string | number | bigint | Date, direction?: 'asc' | 'desc'): T[]` - Sort by key
+- `sum(input: number[]): number` - Sum all values
+- `average(input: number[]): number` - Compute arithmetic mean
+- `minBy<T>(input: T[], selector: (item: T) => string | number | bigint | Date): T | undefined` - Item with lowest key
+- `maxBy<T>(input: T[], selector: (item: T) => string | number | bigint | Date): T | undefined` - Item with highest key
+- `shuffle<T>(input: T[]): T[]` - Return shuffled copy
+- `sample<T>(input: T[]): T | undefined` - Pick random item
+- `insertAt<T>(input: T[], index: number, item: T): T[]` - Insert item at index
+- `removeAt<T>(input: T[], index: number): T[]` - Remove item at index
+- `move<T>(input: T[], fromIndex: number, toIndex: number): T[]` - Move item between indexes
+- `swap<T>(input: T[], leftIndex: number, rightIndex: number): T[]` - Swap two indexes
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -242,10 +324,10 @@ Copyright (c) 2024 Joao Ley
 ## 🗺️ Roadmap
 
 - [x] Core data structures (Stack, Queue, List, Tree, Binary Search Tree, Graph, Hash Table)
-- [ ] String manipulation utilities
+- [x] String manipulation utilities
+- [x] Array utilities
 - [ ] Object transformation utilities
 - [ ] JSON helpers
-- [ ] Array utilities
 - [ ] Number utilities
 - [ ] Date/Time helpers
 - [ ] Validation utilities
