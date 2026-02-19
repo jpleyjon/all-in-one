@@ -10,10 +10,13 @@ describe('uniqueBy', () => {
       { id: 1, name: 'c' },
     ];
 
-    assert.deepEqual(uniqueBy(input, (item) => item.id), [
-      { id: 1, name: 'a' },
-      { id: 2, name: 'b' },
-    ]);
+    assert.deepEqual(
+      uniqueBy(input, (item) => item.id),
+      [
+        { id: 1, name: 'a' },
+        { id: 2, name: 'b' },
+      ],
+    );
   });
 
   it('should expose index and source to selector', () => {

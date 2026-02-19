@@ -5,10 +5,7 @@
  * @param random Optional random number generator (0 to <1).
  * @returns Shuffled array.
  */
-export function shuffle<T>(
-  input: readonly T[],
-  random: () => number = Math.random,
-): T[] {
+export function shuffle<T>(input: readonly T[], random: () => number = Math.random): T[] {
   const result = [...input];
 
   for (let index = result.length - 1; index > 0; index -= 1) {

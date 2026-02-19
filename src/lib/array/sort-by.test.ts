@@ -4,11 +4,17 @@ import { sortBy } from './sort-by';
 
 describe('sortBy', () => {
   it('should sort values ascending by default', () => {
-    assert.deepEqual(sortBy([3, 1, 2], (value) => value), [1, 2, 3]);
+    assert.deepEqual(
+      sortBy([3, 1, 2], (value) => value),
+      [1, 2, 3],
+    );
   });
 
   it('should sort values in descending order', () => {
-    assert.deepEqual(sortBy(['b', 'a', 'c'], (value) => value, 'desc'), ['c', 'b', 'a']);
+    assert.deepEqual(
+      sortBy(['b', 'a', 'c'], (value) => value, 'desc'),
+      ['c', 'b', 'a'],
+    );
   });
 
   it('should support date keys', () => {
@@ -17,7 +23,10 @@ describe('sortBy', () => {
       { id: 'a', createdAt: new Date('2024-01-01') },
     ];
 
-    assert.deepEqual(sortBy(input, (item) => item.createdAt), [input[1], input[0]]);
+    assert.deepEqual(
+      sortBy(input, (item) => item.createdAt),
+      [input[1], input[0]],
+    );
   });
 
   it('should preserve input and keep equal keys stable', () => {

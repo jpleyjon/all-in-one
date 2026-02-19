@@ -4,16 +4,16 @@ import SingleNode from './single-node';
 /**
  * Represents a singly linked list data structure.
  * Provides efficient operations for managing a sequence of elements.
- * 
+ *
  * @template T The type of data stored in the list.
- * 
+ *
  * @example
  * ```typescript
  * const list = new List<number>();
  * list.push(1);
  * list.push(2);
  * list.insert(1, 1.5); // [1, 1.5, 2]
- * 
+ *
  * for (const item of list) {
  *   console.log(item); // 1, 1.5, 2
  * }
@@ -25,9 +25,9 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Creates a new List instance.
-   * 
+   *
    * @param {T} [data] Optional initial data for the list.
-   * 
+   *
    * @example
    * ```typescript
    * const emptyList = new List<string>();
@@ -44,9 +44,9 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Gets the size of the list in O(1) time.
-   * 
+   *
    * @returns {number} The number of elements in the list.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<number>();
@@ -61,7 +61,7 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Gets the tail node of the list.
-   * 
+   *
    * @returns {SingleNode<T> | null} The tail node or null if empty.
    */
   get tail(): SingleNode<T> | null {
@@ -70,9 +70,9 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Adds an element to the end of the list in O(1) time.
-   * 
+   *
    * @param {T} data The data to add to the list.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<string>();
@@ -97,9 +97,9 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Adds an element to the beginning of the list in O(1) time.
-   * 
+   *
    * @param {T} data The data to add to the beginning of the list.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<string>();
@@ -124,11 +124,11 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Inserts an element at the specified index.
-   * 
+   *
    * @param {number} index The index at which to insert the element.
    * @param {T} data The data to insert.
    * @throws {Error} If the index is out of bounds.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<number>();
@@ -167,11 +167,11 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Returns the data of the node at the specified index.
-   * 
+   *
    * @param {number} index The index of the element to retrieve.
    * @returns {T} The data at the specified index.
    * @throws {Error} If the index is out of bounds.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<string>();
@@ -195,10 +195,10 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Finds the index of the first occurrence of the specified data.
-   * 
+   *
    * @param {T} data The data to search for.
    * @returns {number} The index of the data, or -1 if not found.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<string>();
@@ -225,10 +225,10 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Checks if the list contains the specified data.
-   * 
+   *
    * @param {T} data The data to search for.
    * @returns {boolean} True if the data is found, false otherwise.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<string>();
@@ -243,10 +243,10 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Removes the element at the specified index.
-   * 
+   *
    * @param {number} index The index of the element to remove.
    * @throws {Error} If the index is out of bounds.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<number>();
@@ -290,10 +290,10 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Removes the first occurrence of the specified data.
-   * 
+   *
    * @param {T} data The data to remove.
    * @returns {boolean} True if the data was found and removed, false otherwise.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<string>();
@@ -314,7 +314,7 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Removes all elements from the list.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<number>();
@@ -332,9 +332,9 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Checks if the list is empty.
-   * 
+   *
    * @returns {boolean} True if the list is empty, false otherwise.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<number>();
@@ -349,9 +349,9 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Returns an array containing all elements in the list.
-   * 
+   *
    * @returns {Array<T>} An array containing all elements in the list.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<number>();
@@ -375,9 +375,9 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Returns a string representation of the list.
-   * 
+   *
    * @returns {string} String representation of the list.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<number>();
@@ -392,9 +392,9 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
 
   /**
    * Returns a JSON representation of the list.
-   * 
+   *
    * @returns {object} JSON object with size and data array.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<number>();
@@ -403,25 +403,25 @@ export default class List<T> extends ALinearStructure<T> implements Iterable<T> 
    * console.log(list.toJSON()); // { size: 2, data: [1, 2] }
    * ```
    */
-  toJSON(): { size: number; data: T[]; } {
+  toJSON(): { size: number; data: T[] } {
     return {
       size: this._size,
-      data: this.toArray()
+      data: this.toArray(),
     };
   }
 
   /**
    * Makes the list iterable with for...of loops.
-   * 
+   *
    * @returns {Iterator<T>} An iterator for the list elements.
-   * 
+   *
    * @example
    * ```typescript
    * const list = new List<number>();
    * list.push(1);
    * list.push(2);
    * list.push(3);
-   * 
+   *
    * for (const item of list) {
    *   console.log(item); // 1, 2, 3
    * }

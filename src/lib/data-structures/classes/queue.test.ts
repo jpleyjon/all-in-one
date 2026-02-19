@@ -7,7 +7,7 @@ describe('Queue', () => {
   describe('Constructor', () => {
     it('should create an empty queue without data', () => {
       const queue = new Queue<number>();
-      
+
       assert.ok(queue);
       assert.equal(queue.size, 0);
       assert.equal(queue.isEmpty(), true);
@@ -99,14 +99,11 @@ describe('Queue', () => {
 
     it('should throw error when popping from empty queue', () => {
       const queue = new Queue<number>();
-      
-      assert.throws(
-        () => queue.pop(),
-        {
-          name: 'QueueUnderflowError',
-          message: 'Cannot dequeue from an empty queue.'
-        }
-      );
+
+      assert.throws(() => queue.pop(), {
+        name: 'QueueUnderflowError',
+        message: 'Cannot dequeue from an empty queue.',
+      });
     });
 
     it('should maintain correct tail reference after multiple operations', () => {
@@ -135,19 +132,16 @@ describe('Queue', () => {
 
     it('should throw error when peeking at empty queue', () => {
       const queue = new Queue<number>();
-      
-      assert.throws(
-        () => queue.peek(),
-        {
-          name: 'QueueUnderflowError',
-          message: 'Cannot peek at an empty queue.'
-        }
-      );
+
+      assert.throws(() => queue.peek(), {
+        name: 'QueueUnderflowError',
+        message: 'Cannot peek at an empty queue.',
+      });
     });
 
     it('should work with single element queue', () => {
       const queue = new Queue<number>(42);
-      
+
       assert.equal(queue.peek(), 42);
       assert.equal(queue.size, 1);
     });
@@ -166,19 +160,16 @@ describe('Queue', () => {
 
     it('should throw error when accessing rear of empty queue', () => {
       const queue = new Queue<number>();
-      
-      assert.throws(
-        () => queue.rear(),
-        {
-          name: 'QueueUnderflowError',
-          message: 'Cannot access rear of an empty queue.'
-        }
-      );
+
+      assert.throws(() => queue.rear(), {
+        name: 'QueueUnderflowError',
+        message: 'Cannot access rear of an empty queue.',
+      });
     });
 
     it('should work with single element queue', () => {
       const queue = new Queue<number>(42);
-      
+
       assert.equal(queue.rear(), 42);
       assert.equal(queue.size, 1);
     });
@@ -201,7 +192,7 @@ describe('Queue', () => {
 
     it('should work on empty queue', () => {
       const queue = new Queue<number>();
-      
+
       queue.clear();
 
       assert.equal(queue.size, 0);
@@ -272,10 +263,10 @@ describe('Queue', () => {
       const queue = new Queue<number>();
       queue.push(1);
       queue.push(2);
-      
+
       queue.pop();
       queue.pop();
-      
+
       assert.equal(queue.isEmpty(), true);
     });
   });
@@ -352,13 +343,13 @@ describe('Queue', () => {
     });
 
     it('should handle complex objects', () => {
-      const queue = new Queue<{ name: string, value: number }>();
+      const queue = new Queue<{ name: string; value: number }>();
       queue.push({ name: 'test', value: 42 });
 
       const json = queue.toJSON();
-      assert.deepEqual(json, { 
-        size: 1, 
-        data: [{ name: 'test', value: 42 }] 
+      assert.deepEqual(json, {
+        size: 1,
+        data: [{ name: 'test', value: 42 }],
       });
     });
   });
@@ -453,7 +444,7 @@ describe('Queue', () => {
       const items = ['first', 'second', 'third', 'fourth'];
 
       // Enqueue all items
-      items.forEach(item => queue.push(item));
+      items.forEach((item) => queue.push(item));
 
       // Dequeue all items and verify order
       const results: string[] = [];
@@ -486,7 +477,7 @@ describe('Queue', () => {
 
   describe('Edge cases and error handling', () => {
     it('should handle mixed data types correctly', () => {
-      const queue = new Queue<any>();
+      const queue = new Queue<number | string | boolean | { key: string } | number[]>();
       queue.push(1);
       queue.push('string');
       queue.push(true);
@@ -499,7 +490,7 @@ describe('Queue', () => {
 
     it('should maintain integrity after complex operations', () => {
       const queue = new Queue<number>();
-      
+
       // Complex sequence of operations
       queue.push(1);
       queue.push(2);
@@ -575,14 +566,14 @@ describe('Queue', () => {
   it('should throw QueueUnderflowError if trying to pop from an empty queue', () => {
     const queue = new Queue<MockClass>();
 
-    assert.throws(() => queue.pop(), (error: unknown) => {
-      assert.ok(error instanceof QueueUnderflowError);
-      assert.equal(
-        error.message,
-        'Cannot dequeue from an empty queue.',
-      );
-      return true;
-    });
+    assert.throws(
+      () => queue.pop(),
+      (error: unknown) => {
+        assert.ok(error instanceof QueueUnderflowError);
+        assert.equal(error.message, 'Cannot dequeue from an empty queue.');
+        return true;
+      },
+    );
   });
 
   it('should create QueueUnderflowError with the correct name', () => {

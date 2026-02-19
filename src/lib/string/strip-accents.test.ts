@@ -4,7 +4,10 @@ import { stripAccents } from './strip-accents';
 
 describe('stripAccents', () => {
   it('should remove common latin accents', () => {
-    assert.equal(stripAccents('àáâãäå çèéêë ìíîï ñ òóôõö ùúûü ýÿ'), 'aaaaaa ceeee iiii n ooooo uuuu yy');
+    assert.equal(
+      stripAccents('àáâãäå çèéêë ìíîï ñ òóôõö ùúûü ýÿ'),
+      'aaaaaa ceeee iiii n ooooo uuuu yy',
+    );
   });
 
   it('should keep non-accented characters unchanged', () => {

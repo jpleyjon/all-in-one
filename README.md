@@ -7,6 +7,7 @@ A comprehensive TypeScript utility library providing data structures, string hel
 ## 🎯 Philosophy
 
 Similar to lodash, but with a twist: **all-in-one** is built entirely without external libraries, relying solely on Node.js features. This ensures:
+
 - Zero dependencies
 - Full control over implementation
 - Educational value for understanding data structures and algorithms
@@ -58,11 +59,11 @@ Functional, immutable array helpers:
 
 GitHub Actions runs unit tests on every `push`, `pull_request`, and manual dispatch via `.github/workflows/unit-tests.yml`.
 
-### Object Utilities *(Coming Soon)*
+### Object Utilities _(Coming Soon)_
 
 Deep cloning, merging, and transformation utilities for JavaScript objects.
 
-### JSON Utilities *(Coming Soon)*
+### JSON Utilities _(Coming Soon)_
 
 Safe parsing, stringification, and validation helpers.
 
@@ -160,13 +161,7 @@ console.log(list.size); // 2
 ### String Helpers
 
 ```typescript
-import {
-  toCamelCase,
-  slugify,
-  normalizeWhitespace,
-  truncateWords,
-  mask,
-} from 'all-in-one';
+import { toCamelCase, slugify, normalizeWhitespace, truncateWords, mask } from 'all-in-one';
 
 console.log(toCamelCase('hello-world test')); // helloWorldTest
 console.log(slugify('Crème Brûlée Recipe')); // creme-brulee-recipe
@@ -178,13 +173,7 @@ console.log(mask('4111111111111111', 4, 4)); // 4111********1111
 ### Array Helpers
 
 ```typescript
-import {
-  chunk,
-  unique,
-  sortBy,
-  groupBy,
-  move,
-} from 'all-in-one';
+import { chunk, unique, sortBy, groupBy, move } from 'all-in-one';
 
 console.log(chunk([1, 2, 3, 4, 5], 2)); // [[1, 2], [3, 4], [5]]
 console.log(unique([1, 2, 1, 3])); // [1, 2, 3]
@@ -215,6 +204,12 @@ Built with TypeScript for type safety and modern JavaScript features:
 # Install dependencies
 npm install
 
+# Run linter
+npm run lint
+
+# Check formatting
+npm run format:check
+
 # Run tests
 npm test
 
@@ -227,6 +222,7 @@ npm run build
 ### Data Structures
 
 #### Stack\<T>
+
 - `push(data: T): void` - Add element to the top
 - `pop(): T` - Remove and return the top element
 - `peek(): T` - View the top element without removing it
@@ -234,12 +230,14 @@ npm run build
 - `size: number` - Get the number of elements
 
 #### Queue\<T>
+
 - `push(data: T): void` - Add element to the end
 - `pop(): T` - Remove and return the first element
 - `isEmpty(): boolean` - Check if queue is empty
 - `size: number` - Get the number of elements
 
 #### List\<T>
+
 - `push(data: T): void` - Add element to the end
 - `find(index: number): T` - Get element at index
 - `remove(index: number): void` - Remove element at index
@@ -247,6 +245,7 @@ npm run build
 - `size: number` - Get the number of elements
 
 #### BinarySearchTree\<T>
+
 - `insert(data: T): void` - Insert a new node
 - `inOrder(): T[]` - In-order traversal
 - `preOrder(): T[]` - Pre-order traversal
@@ -254,6 +253,7 @@ npm run build
 - `levelOrder(): T[]` - Level-order traversal
 
 #### Tree\<T>
+
 - `insert(parent: T, data: T): void` - Insert a child into the first matching parent
 - `preOrder(): T[]` - Pre-order traversal
 - `inOrder(): T[]` - In-order traversal (n-ary variant)
@@ -261,6 +261,7 @@ npm run build
 - `levelOrder(): T[]` - Level-order traversal
 
 #### Graph\<T>
+
 - `addVertex(vertex: T): void` - Add a vertex
 - `removeVertex(vertex: T): void` - Remove a vertex and connected edges
 - `addEdge(source: T, destination: T): void` - Add an edge
@@ -272,6 +273,7 @@ npm run build
 - `depthFirstSearch(start: T): T[]` - Depth-first traversal
 
 #### HashTable\<T>
+
 - `set(key: string, value: T): void` - Insert or update a value
 - `get(key: string): T | undefined` - Get a value by key
 - `has(key: string): boolean` - Check whether a key exists

@@ -9,12 +9,7 @@
  * @throws {RangeError} If visible bounds are invalid.
  * @throws {Error} If `maskChar` is empty.
  */
-export function mask(
-  input: string,
-  visibleStart = 2,
-  visibleEnd = 2,
-  maskChar = '*',
-): string {
+export function mask(input: string, visibleStart = 2, visibleEnd = 2, maskChar = '*'): string {
   if (!Number.isInteger(visibleStart) || visibleStart < 0) {
     throw new RangeError('visibleStart must be a non-negative integer.');
   }

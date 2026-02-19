@@ -13,7 +13,13 @@ describe('shuffle', () => {
   });
 
   it('should handle empty and single-item arrays', () => {
-    assert.deepEqual(shuffle([], () => 0.5), []);
-    assert.deepEqual(shuffle([1], () => 0.5), [1]);
+    assert.deepEqual(
+      shuffle([], () => 0.5),
+      [],
+    );
+    assert.deepEqual(
+      shuffle([1], () => 0.5),
+      [1],
+    );
   });
 });

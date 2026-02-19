@@ -4,24 +4,15 @@ import { truncateWords } from './truncate-words';
 
 describe('truncateWords', () => {
   it('should return normalized text when within limit', () => {
-    assert.equal(
-      truncateWords('hello   world', 2),
-      'hello world',
-    );
+    assert.equal(truncateWords('hello   world', 2), 'hello world');
   });
 
   it('should truncate by word count with default suffix', () => {
-    assert.equal(
-      truncateWords('one two three four', 2),
-      'one two...',
-    );
+    assert.equal(truncateWords('one two three four', 2), 'one two...');
   });
 
   it('should truncate by word count with custom suffix', () => {
-    assert.equal(
-      truncateWords('one two three four', 3, ' [more]'),
-      'one two three [more]',
-    );
+    assert.equal(truncateWords('one two three four', 3, ' [more]'), 'one two three [more]');
   });
 
   it('should return empty string when maxWords is zero', () => {

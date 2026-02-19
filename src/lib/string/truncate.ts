@@ -7,11 +7,7 @@
  * @returns Truncated text.
  * @throws {RangeError} If `maxLength` is not a non-negative integer.
  */
-export function truncate(
-  input: string,
-  maxLength: number,
-  suffix = '...',
-): string {
+export function truncate(input: string, maxLength: number, suffix = '...'): string {
   if (!Number.isInteger(maxLength) || maxLength < 0) {
     throw new RangeError('maxLength must be a non-negative integer.');
   }

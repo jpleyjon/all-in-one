@@ -13,6 +13,9 @@ describe('groupBy', () => {
   });
 
   it('should return an empty object for empty input', () => {
-    assert.deepEqual(groupBy([], (value) => value), {});
+    assert.deepEqual(
+      groupBy([], (value) => value),
+      {},
+    );
   });
 });

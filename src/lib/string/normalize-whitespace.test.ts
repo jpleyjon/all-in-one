@@ -8,10 +8,7 @@ describe('normalizeWhitespace', () => {
   });
 
   it('should collapse tabs and newlines', () => {
-    assert.equal(
-      normalizeWhitespace('hello\t\tworld\n\nnext'),
-      'hello world next',
-    );
+    assert.equal(normalizeWhitespace('hello\t\tworld\n\nnext'), 'hello world next');
   });
 
   it('should trim leading and trailing whitespace', () => {

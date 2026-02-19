@@ -82,14 +82,10 @@ export default class Graph<T extends TComparable> {
       return;
     }
 
-    this._adjacencyList = this._adjacencyList.filter(
-      (node) => !this._isEqual(node.vertex, vertex),
-    );
+    this._adjacencyList = this._adjacencyList.filter((node) => !this._isEqual(node.vertex, vertex));
 
     this._adjacencyList.forEach((node) => {
-      node.neighbors = node.neighbors.filter(
-        (neighbor) => !this._isEqual(neighbor, vertex),
-      );
+      node.neighbors = node.neighbors.filter((neighbor) => !this._isEqual(neighbor, vertex));
     });
   }
 
@@ -122,10 +118,7 @@ export default class Graph<T extends TComparable> {
       sourceNode.neighbors.push(destinationNode.vertex);
     }
 
-    if (
-      !this._directed
-      && !this._contains(destinationNode.neighbors, sourceNode.vertex)
-    ) {
+    if (!this._directed && !this._contains(destinationNode.neighbors, sourceNode.vertex)) {
       destinationNode.neighbors.push(sourceNode.vertex);
     }
   }

@@ -12,16 +12,8 @@ describe('chunk', () => {
   });
 
   it('should throw for invalid size', () => {
-    assert.throws(
-      () => chunk([1, 2], 0),
-      RangeError,
-      'size must be a positive integer.',
-    );
+    assert.throws(() => chunk([1, 2], 0), RangeError, 'size must be a positive integer.');
 
-    assert.throws(
-      () => chunk([1, 2], 1.5),
-      RangeError,
-      'size must be a positive integer.',
-    );
+    assert.throws(() => chunk([1, 2], 1.5), RangeError, 'size must be a positive integer.');
   });
 });

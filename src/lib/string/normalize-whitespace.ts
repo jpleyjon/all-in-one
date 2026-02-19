@@ -5,7 +5,5 @@
  * @returns Text with normalized whitespace.
  */
 export function normalizeWhitespace(input: string): string {
-  return input
-    .replace(/\s+/g, ' ')
-    .trim();
+  return input.replace(/\s+/g, ' ').trim();
 }

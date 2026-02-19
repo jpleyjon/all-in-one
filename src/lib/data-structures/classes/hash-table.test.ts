@@ -93,7 +93,11 @@ describe('HashTable', () => {
     assert.equal(table.size, 3);
     assert.deepStrictEqual(table.keys(), ['a', 'b', 'c']);
     assert.deepStrictEqual(table.values(), [1, 2, 3]);
-    assert.deepStrictEqual(table.entries(), [['a', 1], ['b', 2], ['c', 3]]);
+    assert.deepStrictEqual(table.entries(), [
+      ['a', 1],
+      ['b', 2],
+      ['c', 3],
+    ]);
   });
 
   it('should clear all entries and preserve capacity', () => {

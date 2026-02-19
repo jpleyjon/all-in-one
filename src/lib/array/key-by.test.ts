@@ -9,10 +9,13 @@ describe('keyBy', () => {
       { id: 'u2', name: 'beta' },
     ];
 
-    assert.deepEqual(keyBy(input, (item) => item.id), {
-      u1: { id: 'u1', name: 'alpha' },
-      u2: { id: 'u2', name: 'beta' },
-    });
+    assert.deepEqual(
+      keyBy(input, (item) => item.id),
+      {
+        u1: { id: 'u1', name: 'alpha' },
+        u2: { id: 'u2', name: 'beta' },
+      },
+    );
   });
 
   it('should overwrite previous values for duplicate keys', () => {
@@ -21,8 +24,11 @@ describe('keyBy', () => {
       { id: 'u1', score: 2 },
     ];
 
-    assert.deepEqual(keyBy(input, (item) => item.id), {
-      u1: { id: 'u1', score: 2 },
-    });
+    assert.deepEqual(
+      keyBy(input, (item) => item.id),
+      {
+        u1: { id: 'u1', score: 2 },
+      },
+    );
   });
 });
