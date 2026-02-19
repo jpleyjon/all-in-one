@@ -17,10 +17,7 @@ describe('toSnakeCase', () => {
   });
 
   it('should normalize punctuation and repeated separators', () => {
-    assert.equal(
-      toSnakeCase('  hello,___world---test!!  '),
-      'hello_world_test',
-    );
+    assert.equal(toSnakeCase('  hello,___world---test!!  '), 'hello_world_test');
   });
 
   it('should preserve numeric parts', () => {

@@ -3,6 +3,7 @@ C8_EXCLUSIONS=$(grep -alr -e "/\*[ ]*c8 ignore file[ ]*\*/\|//[ ]*c8 ignore file
 
 C8_OPTIONS="
   ${C8_EXCLUSIONS} \
+  --exclude .eslintrc.cjs \
   --exclude=**/*.test.ts \
   --exclude=**/*.d.ts \
   --exclude=dist/**/*.ts \

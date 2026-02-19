@@ -51,10 +51,6 @@ describe('mask', () => {
   });
 
   it('should throw for empty mask character', () => {
-    assert.throws(
-      () => mask('1234', 1, 1, ''),
-      Error,
-      'maskChar cannot be empty.',
-    );
+    assert.throws(() => mask('1234', 1, 1, ''), Error, 'maskChar cannot be empty.');
   });
 });

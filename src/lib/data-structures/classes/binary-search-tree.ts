@@ -10,9 +10,7 @@ import { TComparable } from '../types';
  *
  * @template T Node value type.
  */
-export default class BinarySearchTree<T extends TComparable>
-  implements ITree<T>
-{
+export default class BinarySearchTree<T extends TComparable> implements ITree<T> {
   private _data: T;
 
   private _left: BinarySearchTree<T> | null = null;

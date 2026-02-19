@@ -33,17 +33,13 @@ describe('Node', () => {
     });
 
     it('should throw error for null data', () => {
-      assert.throws(
-        () => new MockNode(null),
-        { message: 'Node data cannot be null or undefined' }
-      );
+      assert.throws(() => new MockNode(null), { message: 'Node data cannot be null or undefined' });
     });
 
     it('should throw error for undefined data', () => {
-      assert.throws(
-        () => new MockNode(undefined),
-        { message: 'Node data cannot be null or undefined' }
-      );
+      assert.throws(() => new MockNode(undefined), {
+        message: 'Node data cannot be null or undefined',
+      });
     });
 
     it('should freeze object data for immutability', () => {
@@ -88,7 +84,7 @@ describe('Node', () => {
       const comparable1 = new TestComparable(5);
       const comparable2 = new TestComparable(5);
       const comparable3 = new TestComparable(10);
-      
+
       const node = new MockNode(comparable1);
       assert.strictEqual(node.hasData(comparable2), true);
       assert.strictEqual(node.hasData(comparable3), false);
@@ -140,7 +136,7 @@ describe('Node', () => {
     it('should create a new node with same data', () => {
       const node = new MockNode('test');
       const cloned = node.clone();
-      
+
       assert.notStrictEqual(node, cloned); // Different instances
       assert.strictEqual(node.data, cloned.data); // Same data
       assert.strictEqual(node.equals(cloned), true); // Equal nodes
@@ -150,7 +146,7 @@ describe('Node', () => {
       const data = { name: 'test' };
       const node = new MockNode(data);
       const cloned = node.clone();
-      
+
       assert.notStrictEqual(node, cloned);
       assert.strictEqual(node.data, cloned.data); // Same frozen object reference
     });
@@ -161,7 +157,7 @@ describe('Node', () => {
       const node1 = new MockNode(10);
       const node2 = new MockNode(5);
       const node3 = new MockNode(15);
-      
+
       assert.strictEqual(node1.isGreaterThan(node2), true);
       assert.strictEqual(node1.isGreaterThan(node3), false);
     });
@@ -170,7 +166,7 @@ describe('Node', () => {
       const node1 = new MockNode('b');
       const node2 = new MockNode('a');
       const node3 = new MockNode('c');
-      
+
       assert.strictEqual(node1.isGreaterThan(node2), true);
       assert.strictEqual(node1.isGreaterThan(node3), false);
     });
@@ -179,11 +175,11 @@ describe('Node', () => {
       const comparable1 = new TestComparable(10);
       const comparable2 = new TestComparable(5);
       const comparable3 = new TestComparable(15);
-      
+
       const node1 = new MockNode(comparable1);
       const node2 = new MockNode(comparable2);
       const node3 = new MockNode(comparable3);
-      
+
       assert.strictEqual(node1.isGreaterThan(node2), true);
       assert.strictEqual(node1.isGreaterThan(node3), false);
     });
@@ -193,11 +189,10 @@ describe('Node', () => {
       const obj2 = { value: 5 };
       const node1 = new MockNode(obj1);
       const node2 = new MockNode(obj2);
-      
-      assert.throws(
-        () => node1.isGreaterThan(node2),
-        { message: 'Data types do not support comparison' }
-      );
+
+      assert.throws(() => node1.isGreaterThan(node2), {
+        message: 'Data types do not support comparison',
+      });
     });
   });
 
@@ -206,7 +201,7 @@ describe('Node', () => {
       const node1 = new MockNode(5);
       const node2 = new MockNode(10);
       const node3 = new MockNode(3);
-      
+
       assert.strictEqual(node1.isLessThan(node2), true);
       assert.strictEqual(node1.isLessThan(node3), false);
     });
@@ -215,7 +210,7 @@ describe('Node', () => {
       const node1 = new MockNode('a');
       const node2 = new MockNode('b');
       const node3 = new MockNode('A'); // Note: uppercase A comes before lowercase a in ASCII
-      
+
       assert.strictEqual(node1.isLessThan(node2), true);
       assert.strictEqual(node1.isLessThan(node3), false);
     });
@@ -224,11 +219,11 @@ describe('Node', () => {
       const comparable1 = new TestComparable(5);
       const comparable2 = new TestComparable(10);
       const comparable3 = new TestComparable(3);
-      
+
       const node1 = new MockNode(comparable1);
       const node2 = new MockNode(comparable2);
       const node3 = new MockNode(comparable3);
-      
+
       assert.strictEqual(node1.isLessThan(node2), true);
       assert.strictEqual(node1.isLessThan(node3), false);
     });
@@ -238,11 +233,10 @@ describe('Node', () => {
       const obj2 = { value: 10 };
       const node1 = new MockNode(obj1);
       const node2 = new MockNode(obj2);
-      
-      assert.throws(
-        () => node1.isLessThan(node2),
-        { message: 'Data types do not support comparison' }
-      );
+
+      assert.throws(() => node1.isLessThan(node2), {
+        message: 'Data types do not support comparison',
+      });
     });
   });
 
@@ -250,7 +244,7 @@ describe('Node', () => {
     it('should handle equal values in comparison methods', () => {
       const node1 = new MockNode(5);
       const node2 = new MockNode(5);
-      
+
       assert.strictEqual(node1.isGreaterThan(node2), false);
       assert.strictEqual(node1.isLessThan(node2), false);
       assert.strictEqual(node1.equals(node2), true);
@@ -259,7 +253,7 @@ describe('Node', () => {
     it('should handle boolean data type', () => {
       const node1 = new MockNode(true);
       const node2 = new MockNode(false);
-      
+
       assert.strictEqual(node1.hasData(true), true);
       assert.strictEqual(node1.hasData(false), false);
       assert.strictEqual(node1.equals(node2), false);

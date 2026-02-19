@@ -15,7 +15,5 @@ export function toWords(input: string): string[] {
     return [];
   }
 
-  return normalized
-    .split(/\s+/)
-    .map((word) => word.toLowerCase());
+  return normalized.split(/\s+/).map((word) => word.toLowerCase());
 }

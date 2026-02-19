@@ -18,10 +18,7 @@ describe('toPascalCase', () => {
   });
 
   it('should normalize punctuation and repeated separators', () => {
-    assert.equal(
-      toPascalCase('  hello,---world___test!!  '),
-      'HelloWorldTest',
-    );
+    assert.equal(toPascalCase('  hello,---world___test!!  '), 'HelloWorldTest');
   });
 
   it('should preserve numeric parts', () => {

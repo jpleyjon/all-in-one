@@ -13,8 +13,11 @@ export function toCamelCase(input: string): string {
     return '';
   }
 
-  return words[0] + words
-    .slice(1)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join('');
+  return (
+    words[0] +
+    words
+      .slice(1)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('')
+  );
 }

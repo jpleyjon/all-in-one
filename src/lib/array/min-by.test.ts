@@ -10,7 +10,10 @@ describe('minBy', () => {
       { id: 'c', score: 15 },
     ];
 
-    assert.deepEqual(minBy(input, (item) => item.score), input[1]);
+    assert.deepEqual(
+      minBy(input, (item) => item.score),
+      input[1],
+    );
   });
 
   it('should support date selector values', () => {
@@ -19,10 +22,16 @@ describe('minBy', () => {
       { id: 'early', createdAt: new Date('2024-01-01') },
     ];
 
-    assert.deepEqual(minBy(input, (item) => item.createdAt), input[1]);
+    assert.deepEqual(
+      minBy(input, (item) => item.createdAt),
+      input[1],
+    );
   });
 
   it('should return undefined for empty arrays', () => {
-    assert.equal(minBy([], (value) => value as number), undefined);
+    assert.equal(
+      minBy([], (value) => value as number),
+      undefined,
+    );
   });
 });

@@ -10,7 +10,10 @@ describe('maxBy', () => {
       { id: 'c', score: 15 },
     ];
 
-    assert.deepEqual(maxBy(input, (item) => item.score), input[0]);
+    assert.deepEqual(
+      maxBy(input, (item) => item.score),
+      input[0],
+    );
   });
 
   it('should support date selector values', () => {
@@ -19,10 +22,16 @@ describe('maxBy', () => {
       { id: 'late', createdAt: new Date('2024-06-01') },
     ];
 
-    assert.deepEqual(maxBy(input, (item) => item.createdAt), input[1]);
+    assert.deepEqual(
+      maxBy(input, (item) => item.createdAt),
+      input[1],
+    );
   });
 
   it('should return undefined for empty arrays', () => {
-    assert.equal(maxBy([], (value) => value as number), undefined);
+    assert.equal(
+      maxBy([], (value) => value as number),
+      undefined,
+    );
   });
 });

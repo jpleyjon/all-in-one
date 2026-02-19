@@ -7,18 +7,14 @@
  * @returns New array with swapped items.
  * @throws {RangeError} If either index is out of bounds.
  */
-export function swap<T>(
-  input: readonly T[],
-  leftIndex: number,
-  rightIndex: number,
-): T[] {
+export function swap<T>(input: readonly T[], leftIndex: number, rightIndex: number): T[] {
   if (
-    !Number.isInteger(leftIndex)
-    || !Number.isInteger(rightIndex)
-    || leftIndex < 0
-    || rightIndex < 0
-    || leftIndex >= input.length
-    || rightIndex >= input.length
+    !Number.isInteger(leftIndex) ||
+    !Number.isInteger(rightIndex) ||
+    leftIndex < 0 ||
+    rightIndex < 0 ||
+    leftIndex >= input.length ||
+    rightIndex >= input.length
   ) {
     throw new RangeError('leftIndex and rightIndex must be valid array indexes.');
   }

@@ -16,10 +16,7 @@ describe('toCamelCase', () => {
   });
 
   it('should normalize extra spaces and punctuation', () => {
-    assert.equal(
-      toCamelCase('  hello,   world! this   is...fine  '),
-      'helloWorldThisIsFine',
-    );
+    assert.equal(toCamelCase('  hello,   world! this   is...fine  '), 'helloWorldThisIsFine');
   });
 
   it('should handle existing camel and pascal case boundaries', () => {

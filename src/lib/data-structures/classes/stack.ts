@@ -53,11 +53,11 @@ export class StackUnderflowError extends Error {
  * stack.push(1);
  * stack.push(2);
  * stack.push(3);
- * 
+ *
  * console.log(stack.peek()); // 3
  * console.log(stack.pop());  // 3
  * console.log(stack.size);   // 2
- * 
+ *
  * // Iterator support
  * for (const item of stack) {
  *   console.log(item); // 2, 1
@@ -155,9 +155,9 @@ export default class Stack<T> implements IStack<T>, ILinearStructure {
    */
   pop(): T {
     if (this._head === null) {
-      throw new StackUnderflowError("Cannot pop from an empty stack");
+      throw new StackUnderflowError('Cannot pop from an empty stack');
     }
-    
+
     const data = this._head.data;
     this._head = this._head.next;
     this._size--;
@@ -179,7 +179,7 @@ export default class Stack<T> implements IStack<T>, ILinearStructure {
    */
   peek(): T {
     if (this._head === null) {
-      throw new StackUnderflowError("Cannot peek at an empty stack");
+      throw new StackUnderflowError('Cannot peek at an empty stack');
     }
     return this._head.data;
   }
@@ -290,7 +290,7 @@ export default class Stack<T> implements IStack<T>, ILinearStructure {
    * ```typescript
    * stack.push(1);
    * stack.push(2);
-   * console.log(stack.toJSON()); 
+   * console.log(stack.toJSON());
    * // { type: 'Stack', size: 2, elements: [2, 1] }
    * ```
    */
@@ -299,7 +299,7 @@ export default class Stack<T> implements IStack<T>, ILinearStructure {
       type: 'Stack',
       size: this._size,
       isEmpty: this.isEmpty(),
-      elements: this.toArray()
+      elements: this.toArray(),
     };
   }
 
@@ -313,11 +313,11 @@ export default class Stack<T> implements IStack<T>, ILinearStructure {
    * stack.push(1);
    * stack.push(2);
    * stack.push(3);
-   * 
+   *
    * for (const item of stack) {
    *   console.log(item); // 3, 2, 1
    * }
-   * 
+   *
    * const array = [...stack]; // [3, 2, 1]
    * ```
    */

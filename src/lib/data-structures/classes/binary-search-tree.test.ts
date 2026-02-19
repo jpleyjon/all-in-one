@@ -81,10 +81,7 @@ describe('BinarySearchTree', () => {
       () => tree.insert(new MockClass(2)),
       (error: unknown) => {
         assert.ok(error instanceof TypeError);
-        assert.equal(
-          error.message,
-          'Cannot compare primitive and object comparable values.',
-        );
+        assert.equal(error.message, 'Cannot compare primitive and object comparable values.');
         return true;
       },
     );

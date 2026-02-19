@@ -139,11 +139,7 @@ describe('Graph', () => {
   it('should throw when requesting neighbors from unknown vertex', () => {
     const graph = new Graph<number>();
 
-    assert.throws(
-      () => graph.getNeighbors(1),
-      Error,
-      'Vertex does not exist.',
-    );
+    assert.throws(() => graph.getNeighbors(1), Error, 'Vertex does not exist.');
   });
 
   it('should traverse the graph with breadth-first search', () => {
@@ -177,9 +173,7 @@ describe('Graph', () => {
     graph.addEdge(new MockClass(2), new MockClass(3));
 
     const vertices = graph.getVertices().map((item) => item.mockProperty);
-    const bfs = graph
-      .breadthFirstSearch(new MockClass(1))
-      .map((item) => item.mockProperty);
+    const bfs = graph.breadthFirstSearch(new MockClass(1)).map((item) => item.mockProperty);
 
     assert.deepStrictEqual(vertices, [1, 2, 3]);
     assert.deepStrictEqual(bfs, [1, 2, 3]);
@@ -193,10 +187,7 @@ describe('Graph', () => {
       () => graph.addVertex(new MockClass(1)),
       (error: unknown) => {
         assert.ok(error instanceof TypeError);
-        assert.equal(
-          error.message,
-          'Cannot compare primitive and object comparable values.',
-        );
+        assert.equal(error.message, 'Cannot compare primitive and object comparable values.');
         return true;
       },
     );

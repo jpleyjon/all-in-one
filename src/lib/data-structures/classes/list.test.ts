@@ -31,7 +31,7 @@ describe('List', () => {
       const numberList = new List<number>(42);
       const stringList = new List<string>('hello');
       const booleanList = new List<boolean>(true);
-      const objectList = new List<{ value: number; }>({ value: 1 });
+      const objectList = new List<{ value: number }>({ value: 1 });
 
       assert.equal(numberList.size, 1);
       assert.equal(stringList.size, 1);
@@ -136,16 +136,16 @@ describe('List', () => {
       for (let i = 0; i < 5; i++) {
         list.push(i);
       }
-      
+
       // Insert 99 at index 2 -> [0, 1, 99, 2, 3, 4]
       list.insert(2, 99);
-      
+
       assert.equal(list.size, 6);
       assert.deepEqual(list.toArray(), [0, 1, 99, 2, 3, 4]);
-      
+
       // Insert 88 at index 4 -> [0, 1, 99, 2, 88, 3, 4]
       list.insert(4, 88);
-      
+
       assert.equal(list.size, 7);
       assert.deepEqual(list.toArray(), [0, 1, 99, 2, 88, 3, 4]);
     });
@@ -483,13 +483,13 @@ describe('List', () => {
     });
 
     it('should handle complex objects', () => {
-      const list = new List<{ name: string, value: number; }>();
+      const list = new List<{ name: string; value: number }>();
       list.push({ name: 'test', value: 42 });
 
       const json = list.toJSON();
       assert.deepEqual(json, {
         size: 1,
-        data: [{ name: 'test', value: 42 }]
+        data: [{ name: 'test', value: 42 }],
       });
     });
   });
@@ -608,7 +608,7 @@ describe('List', () => {
 
   describe('Edge cases and error handling', () => {
     it('should handle mixed data types correctly', () => {
-      const list = new List<any>();
+      const list = new List<number | string | boolean | { key: string }>();
       list.push(1);
       list.push('string');
       list.push(true);
@@ -622,13 +622,13 @@ describe('List', () => {
       const list = new List<number>();
 
       // Complex sequence of operations
-      list.push(1);              // [1]
-      list.prepend(0);           // [0, 1]
-      list.insert(1, 0.5);       // [0, 0.5, 1]
-      list.push(2);              // [0, 0.5, 1, 2]
-      list.remove(0);            // [0.5, 1, 2]
-      list.removeData(0.5);      // [1, 2]
-      list.insert(0, -1);        // [-1, 1, 2]
+      list.push(1); // [1]
+      list.prepend(0); // [0, 1]
+      list.insert(1, 0.5); // [0, 0.5, 1]
+      list.push(2); // [0, 0.5, 1, 2]
+      list.remove(0); // [0.5, 1, 2]
+      list.removeData(0.5); // [1, 2]
+      list.insert(0, -1); // [-1, 1, 2]
 
       assert.equal(list.size, 3);
       assert.deepEqual(list.toArray(), [-1, 1, 2]);

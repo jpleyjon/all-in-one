@@ -9,11 +9,7 @@ import { normalizeWhitespace } from './normalize-whitespace';
  * @returns Truncated text.
  * @throws {RangeError} If `maxWords` is not a non-negative integer.
  */
-export function truncateWords(
-  input: string,
-  maxWords: number,
-  suffix = '...',
-): string {
+export function truncateWords(input: string, maxWords: number, suffix = '...'): string {
   if (!Number.isInteger(maxWords) || maxWords < 0) {
     throw new RangeError('maxWords must be a non-negative integer.');
   }

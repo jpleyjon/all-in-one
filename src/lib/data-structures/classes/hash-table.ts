@@ -197,10 +197,7 @@ export default class HashTable<T> {
    * @param key Key to match.
    * @returns Matched entry or `undefined`.
    */
-  private _findEntry(
-    bucket: THashEntry<T>[],
-    key: string,
-  ): THashEntry<T> | undefined {
+  private _findEntry(bucket: THashEntry<T>[], key: string): THashEntry<T> | undefined {
     return bucket.find(([entryKey]) => entryKey === key);
   }
 }

@@ -6,7 +6,5 @@
  * @returns `true` if `search` exists in `input` ignoring case.
  */
 export function includesIgnoreCase(input: string, search: string): boolean {
-  return input
-    .toLocaleLowerCase()
-    .includes(search.toLocaleLowerCase());
+  return input.toLocaleLowerCase().includes(search.toLocaleLowerCase());
 }

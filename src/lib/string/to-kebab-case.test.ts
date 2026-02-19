@@ -17,10 +17,7 @@ describe('toKebabCase', () => {
   });
 
   it('should normalize punctuation and repeated separators', () => {
-    assert.equal(
-      toKebabCase('  hello,---world___test!!  '),
-      'hello-world-test',
-    );
+    assert.equal(toKebabCase('  hello,---world___test!!  '), 'hello-world-test');
   });
 
   it('should preserve numeric parts', () => {

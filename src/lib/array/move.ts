@@ -7,18 +7,14 @@
  * @returns New array with moved item.
  * @throws {RangeError} If either index is out of bounds.
  */
-export function move<T>(
-  input: readonly T[],
-  fromIndex: number,
-  toIndex: number,
-): T[] {
+export function move<T>(input: readonly T[], fromIndex: number, toIndex: number): T[] {
   if (
-    !Number.isInteger(fromIndex)
-    || !Number.isInteger(toIndex)
-    || fromIndex < 0
-    || toIndex < 0
-    || fromIndex >= input.length
-    || toIndex >= input.length
+    !Number.isInteger(fromIndex) ||
+    !Number.isInteger(toIndex) ||
+    fromIndex < 0 ||
+    toIndex < 0 ||
+    fromIndex >= input.length ||
+    toIndex >= input.length
   ) {
     throw new RangeError('fromIndex and toIndex must be valid array indexes.');
   }

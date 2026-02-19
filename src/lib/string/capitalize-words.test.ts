@@ -8,10 +8,7 @@ describe('capitalizeWords', () => {
   });
 
   it('should preserve separators', () => {
-    assert.equal(
-      capitalizeWords('hello-world_and test'),
-      'Hello-World_And Test',
-    );
+    assert.equal(capitalizeWords('hello-world_and test'), 'Hello-World_And Test');
   });
 
   it('should keep existing uppercase letters', () => {
