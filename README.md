@@ -184,38 +184,41 @@ console.log(move(['a', 'b', 'c'], 0, 2)); // ['b', 'c', 'a']
 
 ## 🧪 Testing
 
-The library uses the Node.js test runner with TypeScript compilation and c8 coverage:
+The library uses the Node.js test runner with TypeScript compilation and c8 coverage, and runs inside Docker:
 
 ```bash
-npm test
+./bin/test
 ```
 
 ## 📊 Coverage
 
-Coverage reports are generated as part of `npm test` via c8.
+Coverage reports are generated as part of `./bin/test` (or `npm test`) via c8.
 
 Coverage reports are available in the `coverage/` directory.
 
 ## 🛠️ Development
 
-Built with TypeScript for type safety and modern JavaScript features:
+For contributors, Docker is the only required local dependency.
 
 ```bash
-# Install dependencies
-npm install
-
 # Run linter
-npm run lint
+./bin/lint
+
+# Auto-fix lint issues
+./bin/lint-fix
 
 # Check formatting
-npm run format:check
+./bin/format-check
 
 # Run tests
-npm test
+./bin/test
 
 # Build
-npm run build
+./bin/build
 ```
+
+The first run will build `Dockerfile.dev` and install dependencies in Docker volumes.
+If needed, you can still run local Node-based commands via `npm run <task>:local`.
 
 ## 📋 API Documentation
 

@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+IMAGE_NAME="${AIO_DOCKER_IMAGE:-all-in-one-dev:local}"
+CONTAINER_WORKDIR="/workspace"
+NODE_MODULES_VOLUME="${AIO_NODE_MODULES_VOLUME:-all-in-one-node-modules}"
+NPM_CACHE_VOLUME="${AIO_NPM_CACHE_VOLUME:-all-in-one-npm-cache}"
+NPM_CACHE_DIR="/tmp/.npm"
+
+if ! command -v docker >/dev/null 2>&1; then
+  echo "Docker is required but was not found in PATH." >&2
+  exit 1
+fi
+
+if ! docker image inspect "${IMAGE_NAME}" >/dev/null 2>&1; then
+  docker build --file "${PROJECT_ROOT}/Dockerfile.dev" --tag "${IMAGE_NAME}" "${PROJECT_ROOT}"
+fi
+
+if [[ $# -eq 0 ]]; then
+  set -- ./bin/test-local
+fi
+
+docker_args=(
+  run
+  --rm
+  --workdir "${CONTAINER_WORKDIR}"
+  --volume "${PROJECT_ROOT}:${CONTAINER_WORKDIR}"
+  --volume "${NODE_MODULES_VOLUME}:${CONTAINER_WORKDIR}/node_modules"
+  --volume "${NPM_CACHE_VOLUME}:${NPM_CACHE_DIR}"
+  --env "NPM_CONFIG_CACHE=${NPM_CACHE_DIR}"
+)
+
+if [[ -t 0 && -t 1 ]]; then
+  docker_args+=(--interactive --tty)
+fi
+
+if command -v id >/dev/null 2>&1; then
+  HOST_UID="$(id -u)"
+  HOST_GID="$(id -g)"
+
+  docker run --rm \
+    --volume "${NODE_MODULES_VOLUME}:${CONTAINER_WORKDIR}/node_modules" \
+    --volume "${NPM_CACHE_VOLUME}:${NPM_CACHE_DIR}" \
+    "${IMAGE_NAME}" \
+    /bin/bash -lc "mkdir -p '${CONTAINER_WORKDIR}/node_modules' '${NPM_CACHE_DIR}' && chown -R ${HOST_UID}:${HOST_GID} '${CONTAINER_WORKDIR}/node_modules' '${NPM_CACHE_DIR}'" \
+    >/dev/null
+
+  docker_args+=(--user "${HOST_UID}:${HOST_GID}")
+fi
+
+docker "${docker_args[@]}" "${IMAGE_NAME}" /bin/bash -lc '
+set -euo pipefail
+
+if [[ ! -f package-lock.json ]]; then
+  echo "package-lock.json is required for deterministic installs." >&2
+  exit 1
+fi
+
+if [[ ! -d node_modules ]] || [[ ! -f node_modules/.package-lock.snapshot ]] || ! cmp -s package-lock.json node_modules/.package-lock.snapshot; then
+  npm ci
+  cp package-lock.json node_modules/.package-lock.snapshot
+fi
+
+"$@"
+' bash "$@"

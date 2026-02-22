@@ -15,13 +15,19 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
-    "lint": "eslint \"src/**/*.ts\"",
-    "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "build": "./bin/build",
+    "build:local": "./bin/build-local",
+    "lint": "./bin/lint",
+    "lint:local": "./bin/lint-local",
+    "lint:fix": "./bin/lint-fix",
+    "lint:fix:local": "./bin/lint-fix-local",
+    "format": "./bin/format",
+    "format:local": "./bin/format-local",
+    "format:check": "./bin/format-check",
+    "format:check:local": "./bin/format-check-local",
     "test": "./bin/test",
-    "prepublishOnly": "npm run build && npm test"
+    "test:local": "./bin/test-local",
+    "prepublishOnly": "npm run build:local && npm run test:local"
   },
   "keywords": [
     "typescript",
