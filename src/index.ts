@@ -2,3 +2,4 @@
 export * from './lib/data-structures';
 export * from './lib/string';
 export * from './lib/array';
+export * from './lib/datetime';
