@@ -55,6 +55,20 @@ Functional, immutable array helpers:
 - **Sorting and analytics** - `sortBy`, `sum`, `average`, `minBy`, `maxBy`
 - **Randomization** - `shuffle`
 
+### Date/Time Utilities
+
+Date parsing, formatting, comparison, and calendar boundary helpers:
+
+- **Validation and parsing** - `isValidDate`, `parseDate`
+- **Formatting and ISO conversion** - `formatDate`, `toISODate`, `toISODateTime`
+- **Date arithmetic** - `addDays`, `addMonths`, `addYears`, `subtractDays`, `subtractMonths`, `subtractYears`
+- **Calendar boundaries** - `startOfDay`, `endOfDay`, `startOfWeek`, `endOfWeek`, `startOfMonth`, `endOfMonth`, `startOfYear`, `endOfYear`
+- **Differences and comparison** - `differenceInDays`, `differenceInHours`, `differenceInMinutes`, `differenceInSeconds`, `isBefore`, `isAfter`, `isSameDay`, `isSameMonth`
+- **Relative-day checks** - `isToday`, `isYesterday`, `isTomorrow`
+- **Range and selection** - `minDate`, `maxDate`, `clampDate`
+- **Calendar and timestamp helpers** - `getDaysInMonth`, `getWeekday`, `fromUnixTimestamp`, `toUnixTimestamp`
+- **Timezone conversion and duration display** - `toUTC`, `toLocalTime`, `humanizeDuration`
+
 ### CI Pipeline
 
 GitHub Actions runs unit tests on every `push`, `pull_request`, and manual dispatch via `.github/workflows/unit-tests.yml`.
@@ -316,6 +330,50 @@ If needed, you can still run local Node-based commands via `npm run <task>:local
 - `move<T>(input: T[], fromIndex: number, toIndex: number): T[]` - Move item between indexes
 - `swap<T>(input: T[], leftIndex: number, rightIndex: number): T[]` - Swap two indexes
 
+### Date/Time Utilities
+
+- `DateInput = Date | string | number` - Accepted date input type
+- `isValidDate(value: DateInput): boolean` - Check whether input is a valid date
+- `parseDate(value: DateInput): Date | null` - Parse date input safely
+- `formatDate(date: DateInput, pattern: string): string` - Format using `YYYY`, `MM`, `DD`, `HH`, `mm`, `ss`, `SSS`
+- `toISODate(date: DateInput): string` - ISO date (`YYYY-MM-DD`)
+- `toISODateTime(date: DateInput): string` - ISO date-time string
+- `addDays(date: DateInput, amount: number): Date` - Add days
+- `addMonths(date: DateInput, amount: number): Date` - Add months
+- `addYears(date: DateInput, amount: number): Date` - Add years
+- `subtractDays(date: DateInput, amount: number): Date` - Subtract days
+- `subtractMonths(date: DateInput, amount: number): Date` - Subtract months
+- `subtractYears(date: DateInput, amount: number): Date` - Subtract years
+- `startOfDay(date: DateInput): Date` - Start of local day
+- `endOfDay(date: DateInput): Date` - End of local day
+- `startOfWeek(date: DateInput, weekStartsOn?: number): Date` - Start of local week
+- `endOfWeek(date: DateInput, weekStartsOn?: number): Date` - End of local week
+- `startOfMonth(date: DateInput): Date` - Start of local month
+- `endOfMonth(date: DateInput): Date` - End of local month
+- `startOfYear(date: DateInput): Date` - Start of local year
+- `endOfYear(date: DateInput): Date` - End of local year
+- `differenceInDays(a: DateInput, b: DateInput): number` - Signed whole-day difference
+- `differenceInHours(a: DateInput, b: DateInput): number` - Signed whole-hour difference
+- `differenceInMinutes(a: DateInput, b: DateInput): number` - Signed whole-minute difference
+- `differenceInSeconds(a: DateInput, b: DateInput): number` - Signed whole-second difference
+- `isBefore(a: DateInput, b: DateInput): boolean` - Check if `a` is before `b`
+- `isAfter(a: DateInput, b: DateInput): boolean` - Check if `a` is after `b`
+- `isSameDay(a: DateInput, b: DateInput): boolean` - Check if both dates are on the same day
+- `isSameMonth(a: DateInput, b: DateInput): boolean` - Check if both dates are in the same month
+- `isToday(date: DateInput): boolean` - Check if date is today
+- `isYesterday(date: DateInput): boolean` - Check if date is yesterday
+- `isTomorrow(date: DateInput): boolean` - Check if date is tomorrow
+- `minDate(dates: DateInput[]): Date | undefined` - Earliest date in a list
+- `maxDate(dates: DateInput[]): Date | undefined` - Latest date in a list
+- `clampDate(date: DateInput, min: DateInput, max: DateInput): Date` - Clamp date between bounds
+- `getDaysInMonth(date: DateInput): number` - Number of days in month
+- `getWeekday(date: DateInput): number` - Weekday index (`0`-`6`)
+- `fromUnixTimestamp(seconds: number): Date` - Date from UNIX seconds
+- `toUnixTimestamp(date: DateInput): number` - UNIX seconds from date
+- `toUTC(date: DateInput): Date` - Convert local components to UTC-based date
+- `toLocalTime(date: DateInput): Date` - Convert UTC components to local-time date
+- `humanizeDuration(milliseconds: number): string` - Human-readable duration
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -334,7 +392,7 @@ Copyright (c) 2024 Joao Ley
 - [ ] Object transformation utilities
 - [ ] JSON helpers
 - [ ] Number utilities
-- [ ] Date/Time helpers
+- [x] Date/Time helpers
 - [ ] Validation utilities
 - [ ] Currency helpers
 
