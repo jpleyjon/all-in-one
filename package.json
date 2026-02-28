@@ -1,13 +1,14 @@
 {
   "name": "all-in-one",
   "version": "1.0.0",
-  "description": "A comprehensive TypeScript utility library with data structures, string helpers, and array utilities.",
+  "description": "A comprehensive TypeScript utility library with data structures, string helpers, array utilities, and currency helpers.",
   "main": "dist/index.js",
   "exports": {
     ".": "./dist/index.js",
     "./data-structures": "./dist/lib/data-structures/index.js",
     "./string": "./dist/lib/string/index.js",
     "./array": "./dist/lib/array/index.js",
+    "./currency": "./dist/lib/currency/index.js",
     "./datetime": "./dist/lib/datetime/index.js"
   },
   "files": [
@@ -43,6 +44,7 @@
     "hash-table",
     "string",
     "array",
+    "currency",
     "utilities"
   ],
   "author": "Joao Ley",

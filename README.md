@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive TypeScript utility library providing data structures, string helpers, and array utilities built from scratch with zero runtime dependencies.
+A comprehensive TypeScript utility library providing data structures, string helpers, array utilities, and currency helpers built from scratch with zero runtime dependencies.
 
 ## 🎯 Philosophy
 
@@ -68,6 +68,17 @@ Date parsing, formatting, comparison, and calendar boundary helpers:
 - **Range and selection** - `minDate`, `maxDate`, `clampDate`
 - **Calendar and timestamp helpers** - `getDaysInMonth`, `getWeekday`, `fromUnixTimestamp`, `toUnixTimestamp`
 - **Timezone conversion and duration display** - `toUTC`, `toLocalTime`, `humanizeDuration`
+
+### Currency Utilities
+
+Exact money conversion and allocation helpers (no exchange-rate features):
+
+- **Unit conversion** - `dollarsToCents`, `centsToDollars`, `centsToDollarsString`
+- **Formatting** - `formatCents`, `toAccountingCurrencyString`
+- **Allocation** - `allocateCents`, `splitEvenCents`, `weightedAllocateCents`
+- **Math and comparison** - `sumCents`, `subtractCents`, `multiplyCents`, `averageCents`, `applyRateToCents`, `applyBpsToCents`, `taxAmountCents`, `discountAmountCents`, `totalWithTaxCents`, `percentageOfTotal`, `compareCents`, `absCents`, `negateCents`, `clampCents`, `minCents`, `maxCents`
+- **Flags** - `isZeroCents`, `isPositiveCents`, `isNegativeCents`
+- **Codes and parsing** - `isValidCurrencyCode`, `normalizeCurrencyCode`, `parseCurrencyStringToCents`
 
 ### CI Pipeline
 
@@ -194,6 +205,48 @@ console.log(unique([1, 2, 1, 3])); // [1, 2, 3]
 console.log(sortBy([{ n: 2 }, { n: 1 }], (item) => item.n)); // [{ n: 1 }, { n: 2 }]
 console.log(groupBy(['one', 'two', 'three'], (word) => word.length)); // { 3: ['one', 'two'], 5: ['three'] }
 console.log(move(['a', 'b', 'c'], 0, 2)); // ['b', 'c', 'a']
+```
+
+### Currency Helpers
+
+```typescript
+import {
+  dollarsToCents,
+  centsToDollars,
+  centsToDollarsString,
+  formatCents,
+  toAccountingCurrencyString,
+  allocateCents,
+  splitEvenCents,
+  weightedAllocateCents,
+  sumCents,
+  subtractCents,
+  multiplyCents,
+  averageCents,
+  applyRateToCents,
+  applyBpsToCents,
+  totalWithTaxCents,
+  percentageOfTotal,
+  parseCurrencyStringToCents,
+} from 'all-in-one';
+
+console.log(dollarsToCents('12.34')); // 1234
+console.log(centsToDollars(1234)); // 12.34
+console.log(centsToDollarsString(1234)); // 12.34
+console.log(formatCents(1234)); // $12.34 (en-US default)
+console.log(toAccountingCurrencyString(-1234)); // ($12.34)
+console.log(allocateCents(10, 3)); // [4, 3, 3]
+console.log(splitEvenCents(10, 3)); // [4, 3, 3]
+console.log(weightedAllocateCents(100, [1, 2, 3])); // [17, 33, 50]
+console.log(sumCents([100, 250, -50])); // 300
+console.log(subtractCents(500, 125)); // 375
+console.log(multiplyCents(105, 1.1)); // 116
+console.log(averageCents([1, 2])); // 2
+console.log(applyRateToCents(1000, 0.0825)); // 1083
+console.log(applyBpsToCents(1000, 250)); // 1025
+console.log(totalWithTaxCents(1000, 0.0825)); // 1083
+console.log(percentageOfTotal(250, 1000)); // 25
+console.log(parseCurrencyStringToCents('1,234.56')); // 123456
 ```
 
 ## 🧪 Testing
@@ -374,6 +427,40 @@ If needed, you can still run local Node-based commands via `npm run <task>:local
 - `toLocalTime(date: DateInput): Date` - Convert UTC components to local-time date
 - `humanizeDuration(milliseconds: number): string` - Human-readable duration
 
+### Currency Utilities
+
+- `MoneyInput = number | string` - Accepted money input for exact dollar-to-cent conversion
+- `dollarsToCents(amount: MoneyInput): number` - Convert decimal dollars to integer cents
+- `centsToDollars(cents: number): number` - Convert integer cents to decimal dollars
+- `centsToDollarsString(cents: number): string` - Convert integer cents to exact fixed-point dollar string
+- `formatCents(cents: number, options?: FormatCentsOptions): string` - Localized currency formatting from cents
+- `toAccountingCurrencyString(cents: number, options?: AccountingFormatCentsOptions): string` - Localized currency formatting with parentheses for negatives
+- `allocateCents(cents: number, parts: number): number[]` - Split cents into near-equal integer parts
+- `splitEvenCents(totalCents: number, parts: number): number[]` - Convenience even split wrapper
+- `weightedAllocateCents(cents: number, weights: number[]): number[]` - Split cents using weighted allocation
+- `sumCents(values: number[]): number` - Sum cent amounts
+- `subtractCents(a: number, b: number): number` - Subtract one cent value from another
+- `multiplyCents(cents: number, factor: number, mode?: RoundingMode): number` - Multiply and round cents
+- `averageCents(values: number[], mode?: RoundingMode): number` - Average cent values with rounding
+- `applyRateToCents(cents: number, rate: number, mode?: RoundingMode): number` - Apply a percentage-like rate to cents
+- `applyBpsToCents(cents: number, bps: number, mode?: RoundingMode): number` - Apply basis points to cents
+- `taxAmountCents(subtotalCents: number, taxRate: number, mode?: RoundingMode): number` - Compute tax amount from subtotal
+- `discountAmountCents(subtotalCents: number, discountRate: number, mode?: RoundingMode): number` - Compute discount amount from subtotal
+- `totalWithTaxCents(subtotalCents: number, taxRate: number, mode?: RoundingMode): number` - Compute subtotal plus tax
+- `percentageOfTotal(partCents: number, totalCents: number, precision?: number): number` - Compute percentage represented by a part
+- `isZeroCents(cents: number): boolean` - Check if cents is exactly zero
+- `isPositiveCents(cents: number): boolean` - Check if cents is positive
+- `isNegativeCents(cents: number): boolean` - Check if cents is negative
+- `compareCents(a: number, b: number): -1 | 0 | 1` - Compare two cent values
+- `absCents(cents: number): number` - Absolute cents value
+- `negateCents(cents: number): number` - Negate a cent value
+- `clampCents(cents: number, min: number, max: number): number` - Clamp cents between bounds
+- `minCents(values: number[]): number | undefined` - Smallest cent value in a list
+- `maxCents(values: number[]): number | undefined` - Largest cent value in a list
+- `isValidCurrencyCode(code: string): boolean` - Validate 3-letter ISO currency code
+- `normalizeCurrencyCode(code: string): string` - Normalize and validate currency code
+- `parseCurrencyStringToCents(input: string): number` - Parse currency-like strings into cents
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -394,7 +481,7 @@ Copyright (c) 2024 Joao Ley
 - [ ] Number utilities
 - [x] Date/Time helpers
 - [ ] Validation utilities
-- [ ] Currency helpers
+- [x] Currency helpers
 
 ## 💡 Why all-in-one?
 
