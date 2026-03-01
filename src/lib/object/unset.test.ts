@@ -1,0 +1,34 @@
+import assert from 'node:assert';
+import { describe, it } from 'node:test';
+import { unset } from './unset';
+
+describe('unset', () => {
+  it('removes nested object keys immutably', () => {
+    const input = { user: { profile: { name: 'Ada', age: 36 } } };
+    const output = unset(input, 'user.profile.age');
+
+    assert.deepEqual(output, { user: { profile: { name: 'Ada' } } });
+    assert.deepEqual(input, { user: { profile: { name: 'Ada', age: 36 } } });
+  });
+
+  it('removes array indexes', () => {
+    const input = { tags: ['math', 'logic', 'poetry'] };
+    const output = unset(input, ['tags', 1]);
+
+    assert.deepEqual(output, { tags: ['math', 'poetry'] });
+  });
+
+  it('returns original object when path is missing or empty', () => {
+    const input = { a: 1 };
+    assert.equal(unset(input, 'b.c'), input);
+    assert.equal(unset(input, ''), input);
+  });
+
+  it('throws for invalid input', () => {
+    assert.throws(
+      () => unset(undefined as never, 'a.b'),
+      TypeError,
+      'input must be a non-null object.',
+    );
+  });
+});

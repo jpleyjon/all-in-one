@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive TypeScript utility library providing data structures, string helpers, array utilities, and currency helpers built from scratch with zero runtime dependencies.
+A comprehensive TypeScript utility library providing data structures, and string, array, object, date/time, and currency helpers built from scratch with zero runtime dependencies.
 
 ## 🎯 Philosophy
 
@@ -55,6 +55,17 @@ Functional, immutable array helpers:
 - **Sorting and analytics** - `sortBy`, `sum`, `average`, `minBy`, `maxBy`
 - **Randomization** - `shuffle`
 
+### Object Utilities
+
+Functional, immutable object transformation helpers:
+
+- **Selection and projection** - `pick`, `omit`, `pickBy`, `omitBy`
+- **Entry transformation** - `mapValues`, `mapKeys`, `mapEntries`, `entries`, `fromEntries`, `toPairs`, `fromPairs`, `filterObject`, `reduceObject`, `renameKeys`, `invert`, `transformKeysDeep`, `transformValuesDeep`
+- **Nested path operations** - `get`, `set`, `hasPath`, `unset`, `update`, `deepPick`, `deepOmit`
+- **Composition and cloning** - `merge`, `mergeWith`, `deepMerge`, `defaults`, `cloneDeep`, `safeJsonClone`, `deepFreeze`
+- **Diagnostics and cleanup** - `isEmptyObject`, `diffObjects`, `cleanObject`
+- **Shape conversion** - `flattenObject`, `unflattenObject`
+
 ### Date/Time Utilities
 
 Date parsing, formatting, comparison, and calendar boundary helpers:
@@ -83,10 +94,6 @@ Exact money conversion and allocation helpers (no exchange-rate features):
 ### CI Pipeline
 
 GitHub Actions runs unit tests on every `push`, `pull_request`, and manual dispatch via `.github/workflows/unit-tests.yml`.
-
-### Object Utilities _(Coming Soon)_
-
-Deep cloning, merging, and transformation utilities for JavaScript objects.
 
 ### JSON Utilities _(Coming Soon)_
 
@@ -205,6 +212,53 @@ console.log(unique([1, 2, 1, 3])); // [1, 2, 3]
 console.log(sortBy([{ n: 2 }, { n: 1 }], (item) => item.n)); // [{ n: 1 }, { n: 2 }]
 console.log(groupBy(['one', 'two', 'three'], (word) => word.length)); // { 3: ['one', 'two'], 5: ['three'] }
 console.log(move(['a', 'b', 'c'], 0, 2)); // ['b', 'c', 'a']
+```
+
+### Object Helpers
+
+```typescript
+import {
+  pick,
+  omit,
+  mapValues,
+  entries,
+  fromEntries,
+  get,
+  set,
+  deepPick,
+  deepMerge,
+  mergeWith,
+  cleanObject,
+  diffObjects,
+  safeJsonClone,
+  transformKeysDeep,
+  flattenObject,
+  unflattenObject,
+} from 'all-in-one';
+
+const user = { id: 1, profile: { name: 'Ada', role: 'admin' } };
+
+console.log(pick(user, ['id'])); // { id: 1 }
+console.log(omit(user, ['id'])); // { profile: { name: 'Ada', role: 'admin' } }
+console.log(mapValues({ a: 1, b: 2 }, (value) => value * 10)); // { a: 10, b: 20 }
+console.log(entries({ a: 1, b: 2 })); // [['a', 1], ['b', 2]]
+console.log(
+  fromEntries([
+    ['a', 1],
+    ['b', 2],
+  ]),
+); // { a: 1, b: 2 }
+console.log(get(user, 'profile.name')); // Ada
+console.log(set(user, 'profile.role', 'editor')); // { id: 1, profile: { name: 'Ada', role: 'editor' } }
+console.log(deepPick(user, ['profile.name'])); // { profile: { name: 'Ada' } }
+console.log(deepMerge({ a: { b: 1 } }, { a: { c: 2 } })); // { a: { b: 1, c: 2 } }
+console.log(mergeWith((current, incoming) => current ?? incoming, { a: 1 }, { a: 2, b: 3 })); // { a: 1, b: 3 }
+console.log(cleanObject({ a: 1, b: null, c: '' })); // { a: 1 }
+console.log(diffObjects({ a: 1 }, { a: 2, b: 3 })); // { added: { b: 3 }, removed: {}, changed: { a: { before: 1, after: 2 } } }
+console.log(safeJsonClone({ a: 1, list: [1, 2] })); // { a: 1, list: [1, 2] }
+console.log(transformKeysDeep({ userProfile: { firstName: 'Ada' } }, (key) => key.toUpperCase())); // { USERPROFILE: { FIRSTNAME: 'Ada' } }
+console.log(flattenObject({ user: { profile: { name: 'Ada' } } })); // { 'user.profile.name': 'Ada' }
+console.log(unflattenObject({ 'user.profile.name': 'Ada' })); // { user: { profile: { name: 'Ada' } } }
 ```
 
 ### Currency Helpers
@@ -383,6 +437,52 @@ If needed, you can still run local Node-based commands via `npm run <task>:local
 - `move<T>(input: T[], fromIndex: number, toIndex: number): T[]` - Move item between indexes
 - `swap<T>(input: T[], leftIndex: number, rightIndex: number): T[]` - Swap two indexes
 
+### Object Utilities
+
+- `ObjectRecord = Record<string, unknown>` - Generic plain object type
+- `ObjectPath = string | (string | number)[]` - Nested path input
+- `PathSegment = string | number` - Single path segment type
+- `CleanObjectOptions` - Options for `cleanObject`
+- `DiffValueChange = { before: unknown; after: unknown }` - Change record type for `diffObjects`
+- `DiffObjectsResult = { added: ObjectRecord; removed: ObjectRecord; changed: Record<string, DiffValueChange> }` - Diff result type
+- `MergeWithResolver = (currentValue, incomingValue, key) => unknown` - Merge conflict resolver signature
+- `pick<T, K>(input: T, keys: K[]): Pick<T, K>` - Return only selected keys
+- `omit<T, K>(input: T, keys: K[]): Omit<T, K>` - Exclude selected keys
+- `pickBy<T>(input: T, predicate: (value, key, input) => boolean): Partial<T>` - Keep entries matching predicate
+- `omitBy<T>(input: T, predicate: (value, key, input) => boolean): Partial<T>` - Remove entries matching predicate
+- `mapValues<T, R>(input: T, mapper: (value, key, input) => R): Record<string, R>` - Map values, preserve keys
+- `mapKeys<T>(input: T, mapper: (key, value, input) => string): ObjectRecord` - Map keys, preserve values
+- `mapEntries<T>(input: T, mapper: (value, key, input) => [string, unknown]): ObjectRecord` - Map entries into new key/value pairs
+- `entries<T>(input: T): [key, value][]` - Return object entries
+- `fromEntries(input: [string, unknown][]): ObjectRecord` - Build object from entries
+- `toPairs<T>(input: T): [key, value][]` - Convert object to key/value pairs
+- `fromPairs(input: [string, unknown][]): ObjectRecord` - Build object from key/value pairs
+- `filterObject<T>(input: T, predicate: (value, key, input) => boolean): Partial<T>` - Filter entries by predicate
+- `reduceObject<T, R>(input: T, reducer: (acc, value, key, input) => R, initialValue: R): R` - Reduce entries into a single value
+- `renameKeys<T>(input: T, mapping: Record<string, string>): ObjectRecord` - Rename keys using mapping
+- `invert(input: ObjectRecord): ObjectRecord` - Swap keys and values
+- `isEmptyObject(input: ObjectRecord): boolean` - Check whether object has no own keys
+- `get(input: object, path: ObjectPath, defaultValue?): unknown` - Safely read nested value
+- `set<T>(input: T, path: ObjectPath, value: unknown): T` - Immutable nested write
+- `hasPath(input: object, path: ObjectPath): boolean` - Check whether path exists
+- `unset<T>(input: T, path: ObjectPath): T` - Immutable nested delete
+- `update<T>(input: T, path: ObjectPath, updater: (currentValue: unknown) => unknown): T` - Update nested value by callback
+- `deepPick<T>(input: T, paths: ObjectPath[]): Partial<T>` - Keep only selected nested paths
+- `deepOmit<T>(input: T, paths: ObjectPath[]): T` - Remove selected nested paths
+- `merge(...inputs: ObjectRecord[]): ObjectRecord` - Shallow merge objects
+- `mergeWith(resolver: MergeWithResolver, ...inputs: ObjectRecord[]): ObjectRecord` - Shallow merge with custom conflict resolver
+- `deepMerge(...inputs: ObjectRecord[]): ObjectRecord` - Deep merge objects recursively
+- `defaults(input: ObjectRecord, ...sources: ObjectRecord[]): ObjectRecord` - Fill undefined keys from defaults
+- `cloneDeep<T>(input: T): T` - Deep clone object/array/date structures
+- `safeJsonClone<T>(input: T): T` - Clone with JSON serialization semantics
+- `deepFreeze<T>(input: T): T` - Deep freeze object/array graph
+- `cleanObject(input: ObjectRecord, options?: CleanObjectOptions): ObjectRecord` - Remove configurable empty values
+- `diffObjects(left: ObjectRecord, right: ObjectRecord): DiffObjectsResult` - Diff added, removed, and changed paths
+- `transformKeysDeep(input: ObjectRecord, mapper: (key, value, path) => string): ObjectRecord` - Recursively transform object keys
+- `transformValuesDeep(input: ObjectRecord, mapper: (value, path) => unknown): ObjectRecord` - Recursively transform leaf values
+- `flattenObject(input: ObjectRecord, options?: FlattenObjectOptions): ObjectRecord` - Flatten nested structure into path keys
+- `unflattenObject(input: ObjectRecord, options?: UnflattenObjectOptions): ObjectRecord` - Expand path keys into nested structure
+
 ### Date/Time Utilities
 
 - `DateInput = Date | string | number` - Accepted date input type
@@ -476,7 +576,7 @@ Copyright (c) 2024 Joao Ley
 - [x] Core data structures (Stack, Queue, List, Tree, Binary Search Tree, Graph, Hash Table)
 - [x] String manipulation utilities
 - [x] Array utilities
-- [ ] Object transformation utilities
+- [x] Object transformation utilities
 - [ ] JSON helpers
 - [ ] Number utilities
 - [x] Date/Time helpers

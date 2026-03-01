@@ -7,6 +7,7 @@ import { assertInteger, requireDate } from './internal';
  * @param date Date input.
  * @param amount Number of months.
  * @returns New adjusted date.
+ * @throws {RangeError} If `date` is invalid or `amount` is not an integer.
  */
 export function addMonths(date: DateInput, amount: number): Date {
   assertInteger(amount, 'amount');
