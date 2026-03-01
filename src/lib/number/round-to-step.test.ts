@@ -1,0 +1,37 @@
+import assert from 'node:assert';
+import { describe, it } from 'node:test';
+import { roundToStep } from './round-to-step';
+
+describe('roundToStep', () => {
+  it('rounds with half-up mode by default', () => {
+    assert.equal(roundToStep(5.24, 0.1), 5.2);
+    assert.equal(roundToStep(5.25, 0.1), 5.300000000000001);
+    assert.equal(roundToStep(-5.25, 0.1), -5.300000000000001);
+  });
+
+  it('supports half-even mode', () => {
+    assert.equal(roundToStep(2.5, 1, 'half-even'), 2);
+    assert.equal(roundToStep(3.5, 1, 'half-even'), 4);
+    assert.equal(roundToStep(2.4, 1, 'half-even'), 2);
+    assert.equal(roundToStep(2.6, 1, 'half-even'), 3);
+  });
+
+  it('supports up/down/toward-zero/away-from-zero modes', () => {
+    assert.equal(roundToStep(2.1, 1, 'up'), 3);
+    assert.equal(roundToStep(2.9, 1, 'down'), 2);
+    assert.equal(roundToStep(-2.9, 1, 'toward-zero'), -2);
+    assert.equal(roundToStep(-2.1, 1, 'away-from-zero'), -3);
+    assert.equal(roundToStep(2.1, 1, 'away-from-zero'), 3);
+  });
+
+  it('throws for invalid inputs', () => {
+    assert.throws(() => roundToStep(Number.NaN, 1), RangeError, 'value must be a finite number.');
+    assert.throws(() => roundToStep(1, 0), RangeError, 'step must be a positive finite number.');
+    assert.throws(() => roundToStep(1, -1), RangeError, 'step must be a positive finite number.');
+    assert.throws(
+      () => roundToStep(1, 1, 'invalid' as never),
+      TypeError,
+      'mode must be a supported rounding mode.',
+    );
+  });
+});

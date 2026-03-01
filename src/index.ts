@@ -6,3 +6,4 @@ export * from './lib/datetime';
 export * from './lib/currency';
 export * from './lib/object';
 export * from './lib/json';
+export * from './lib/number';
