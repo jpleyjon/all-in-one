@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive TypeScript utility library providing data structures, and string, array, object, date/time, currency, and JSON helpers built from scratch with zero runtime dependencies.
+A comprehensive TypeScript utility library providing data structures, and string, array, object, date/time, currency, JSON, and number helpers built from scratch with zero runtime dependencies.
 
 ## 🎯 Philosophy
 
@@ -90,6 +90,18 @@ Exact money conversion and allocation helpers (no exchange-rate features):
 - **Math and comparison** - `sumCents`, `subtractCents`, `multiplyCents`, `averageCents`, `applyRateToCents`, `applyBpsToCents`, `taxAmountCents`, `discountAmountCents`, `totalWithTaxCents`, `percentageOfTotal`, `compareCents`, `absCents`, `negateCents`, `clampCents`, `minCents`, `maxCents`
 - **Flags** - `isZeroCents`, `isPositiveCents`, `isNegativeCents`
 - **Codes and parsing** - `isValidCurrencyCode`, `normalizeCurrencyCode`, `parseCurrencyStringToCents`
+
+### Number Utilities
+
+Common number validation, rounding, percentages, ranges, parsing, statistics, and randomization helpers:
+
+- **Validation and conversion** - `isFiniteNumber`, `isInteger`, `isSafeInteger`, `toFiniteNumber`, `coerceNumber`
+- **Bounds and ranges** - `clamp`, `inRange`, `between`, `mapRange`, `normalize`, `snap`
+- **Rounding and precision** - `roundTo`, `floorTo`, `ceilTo`, `truncateTo`, `roundToStep`, `almostEqual`
+- **Arithmetic and ratios** - `safeAdd`, `safeSubtract`, `safeMultiply`, `safeDivide`, `mod`, `sign`, `zScore`, `percent`, `percentChange`
+- **Collection stats** - `sumNumbers`, `min`, `max`, `mean`, `median`, `mode`, `variance`, `standardDeviation`, `quantile`, `lerp`
+- **Formatting and parsing** - `formatNumber`, `toThousands`, `parseNumber`
+- **Randomization** - `randomInt`, `randomFloat`
 
 ### CI Pipeline
 
@@ -306,6 +318,100 @@ console.log(applyBpsToCents(1000, 250)); // 1025
 console.log(totalWithTaxCents(1000, 0.0825)); // 1083
 console.log(percentageOfTotal(250, 1000)); // 25
 console.log(parseCurrencyStringToCents('1,234.56')); // 123456
+```
+
+### Number Helpers
+
+```typescript
+import {
+  almostEqual,
+  between,
+  ceilTo,
+  clamp,
+  coerceNumber,
+  floorTo,
+  formatNumber,
+  inRange,
+  isEven,
+  isFiniteNumber,
+  isInteger,
+  isOdd,
+  isSafeInteger,
+  lerp,
+  max,
+  mapRange,
+  mean,
+  median,
+  min,
+  mod,
+  mode,
+  normalize,
+  parseNumber,
+  percent,
+  percentChange,
+  quantile,
+  randomFloat,
+  randomInt,
+  roundTo,
+  roundToStep,
+  safeAdd,
+  safeDivide,
+  safeMultiply,
+  safeSubtract,
+  sign,
+  snap,
+  standardDeviation,
+  sumNumbers,
+  toFiniteNumber,
+  toThousands,
+  truncateTo,
+  variance,
+  zScore,
+} from 'all-in-one';
+
+console.log(isFiniteNumber(10)); // true
+console.log(isInteger(10.1)); // false
+console.log(isSafeInteger(Number.MAX_SAFE_INTEGER)); // true
+console.log(toFiniteNumber('12.34')); // 12.34
+console.log(coerceNumber('12.34')); // 12.34
+console.log(clamp(120, 0, 100)); // 100
+console.log(inRange(5, 1, 10)); // true
+console.log(between(5, 10, 1)); // true
+console.log(roundTo(1.235, 2)); // 1.24
+console.log(floorTo(1.239, 2)); // 1.23
+console.log(ceilTo(1.231, 2)); // 1.24
+console.log(truncateTo(-1.239, 2)); // -1.23
+console.log(roundToStep(5.26, 0.1)); // 5.300000000000001
+console.log(almostEqual(1, 1 + Number.EPSILON)); // true
+console.log(safeAdd(2, 3)); // 5
+console.log(safeSubtract(5, 3)); // 2
+console.log(safeMultiply(2, 3)); // 6
+console.log(safeDivide(10, 0, 0)); // 0
+console.log(mod(-7, 5)); // 3
+console.log(sign(-10)); // -1
+console.log(percent(25, 100)); // 25
+console.log(percentChange(100, 120)); // 20
+console.log(mapRange(5, 0, 10, 0, 100)); // 50
+console.log(normalize(5, 0, 10)); // 0.5
+console.log(lerp(0, 10, 0.5)); // 5
+console.log(sumNumbers([1, 2, 3])); // 6
+console.log(min([3, 1, 2])); // 1
+console.log(max([3, 1, 2])); // 3
+console.log(mean([1, 2, 3])); // 2
+console.log(median([1, 2, 3, 4])); // 2.5
+console.log(mode([1, 2, 2, 3])); // [2]
+console.log(variance([1, 2, 3])); // 0.6666666666666666
+console.log(standardDeviation([1, 2, 3])); // 0.816496580927726
+console.log(quantile([1, 2, 3, 4], 0.25)); // 1.75
+console.log(zScore(12, 10, 2)); // 1
+console.log(formatNumber(1234.5, { maximumFractionDigits: 1 }, 'en-US')); // 1,234.5
+console.log(toThousands(1234567)); // 1,234,567
+console.log(parseNumber('1,234.56', 'en-US')); // 1234.56
+console.log(isEven(4)); // true
+console.log(isOdd(5)); // true
+console.log(snap(5.2, [1, 5, 10])); // 5
+console.log(randomInt(1, 6)); // integer from 1 to 6
+console.log(randomFloat(0, 1)); // float from 0 (inclusive) to 1 (exclusive)
 ```
 
 ### JSON Helpers
@@ -611,6 +717,53 @@ If needed, you can still run local Node-based commands via `npm run <task>:local
 - `normalizeCurrencyCode(code: string): string` - Normalize and validate currency code
 - `parseCurrencyStringToCents(input: string): number` - Parse currency-like strings into cents
 
+### Number Utilities
+
+- `RoundToStepMode = 'half-up' | 'half-even' | 'up' | 'down' | 'toward-zero' | 'away-from-zero'` - Step-rounding mode type
+- `isFiniteNumber(value: unknown): value is number` - Check whether value is a finite number
+- `isInteger(value: unknown): value is number` - Check whether value is an integer
+- `isSafeInteger(value: unknown): value is number` - Check whether value is a safe integer
+- `toFiniteNumber(input: unknown, fallback?: number): number` - Convert number-like input to finite number
+- `clamp(value: number, min: number, max: number): number` - Clamp value between bounds
+- `inRange(value: number, min: number, max: number, inclusive?: boolean): boolean` - Check whether value is inside a range
+- `roundTo(value: number, decimals?: number): number` - Round to decimal precision
+- `floorTo(value: number, decimals?: number): number` - Floor to decimal precision
+- `ceilTo(value: number, decimals?: number): number` - Ceil to decimal precision
+- `truncateTo(value: number, decimals?: number): number` - Truncate to decimal precision
+- `roundToStep(value: number, step: number, mode?: RoundToStepMode): number` - Round to nearest increment step
+- `almostEqual(a: number, b: number, epsilon?: number): boolean` - Compare numbers by epsilon tolerance
+- `safeDivide(numerator: number, denominator: number, fallback?: number): number` - Divide with fallback for zero denominator
+- `percent(part: number, total: number, precision?: number): number` - Compute part percentage from total
+- `percentChange(previous: number, current: number, precision?: number): number` - Compute percentage change
+- `mapRange(value: number, inMin: number, inMax: number, outMin: number, outMax: number, clampOutput?: boolean): number` - Map value between ranges
+- `normalize(value: number, min: number, max: number): number` - Normalize to a 0..1 scale
+- `lerp(start: number, end: number, t: number): number` - Linear interpolation
+- `randomInt(min: number, max: number, random?: () => number): number` - Random integer in inclusive range
+- `randomFloat(min: number, max: number, random?: () => number): number` - Random float in half-open range
+- `sumNumbers(values: number[]): number` - Sum finite number arrays
+- `min(values: number[]): number | undefined` - Get smallest number from an array
+- `max(values: number[]): number | undefined` - Get largest number from an array
+- `mean(values: number[]): number` - Compute arithmetic mean
+- `median(values: number[]): number | undefined` - Compute median value
+- `mode(values: number[]): number[]` - Compute sorted mode values
+- `variance(values: number[], sample?: boolean): number` - Compute population or sample variance
+- `standardDeviation(values: number[], sample?: boolean): number` - Compute population or sample standard deviation
+- `quantile(values: number[], q: number): number | undefined` - Compute quantile with linear interpolation
+- `zScore(value: number, meanValue: number, standardDeviationValue: number): number` - Compute standardized z-score
+- `formatNumber(value: number, options?: Intl.NumberFormatOptions, locales?: string | string[]): string` - Format numbers with Intl
+- `toThousands(value: number, separator?: string): string` - Format number with grouped thousands separator
+- `parseNumber(input: string, locales?: string | string[]): number` - Parse localized numeric strings
+- `coerceNumber(input: unknown): number | null` - Best-effort finite number coercion
+- `safeAdd(a: number, b: number): number` - Add finite numbers and validate overflow
+- `safeSubtract(a: number, b: number): number` - Subtract finite numbers and validate overflow
+- `safeMultiply(a: number, b: number): number` - Multiply finite numbers and validate overflow
+- `mod(value: number, divisor: number): number` - Mathematical modulo with non-negative result
+- `sign(value: number): -1 | 0 | 1` - Return normalized sign indicator
+- `isEven(value: number): boolean` - Check whether a finite integer is even
+- `isOdd(value: number): boolean` - Check whether a finite integer is odd
+- `between(value: number, a: number, b: number, inclusive?: boolean): boolean` - Check whether value lies between bounds
+- `snap(value: number, anchors: number[]): number` - Snap a value to nearest anchor
+
 ### JSON Utilities
 
 - `JsonReviver = (key: string, value: unknown) => unknown` - JSON parse reviver signature
@@ -648,7 +801,7 @@ Copyright (c) 2024 Joao Ley
 - [x] Array utilities
 - [x] Object transformation utilities
 - [x] JSON helpers
-- [ ] Number utilities
+- [x] Number utilities
 - [x] Date/Time helpers
 - [ ] Validation utilities
 - [x] Currency helpers
