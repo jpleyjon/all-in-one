@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive TypeScript utility library providing data structures, and string, array, object, date/time, currency, JSON, and number helpers built from scratch with zero runtime dependencies.
+A comprehensive TypeScript utility library providing data structures, and string, array, object, date/time, currency, JSON, number, and validation helpers built from scratch with zero runtime dependencies.
 
 ## 🎯 Philosophy
 
@@ -115,6 +115,15 @@ Safe parsing, formatting, serialization, and redaction helpers:
 - **Formatting** - `prettifyJson`, `minifyJson`
 - **Serialization** - `stringifyJson`, `stringifyJsonWithReplacer`, `stableStringifyJson`
 - **Diagnostics and safety** - `jsonByteSize`, `redactJson`
+
+### Validation Utilities
+
+Composed, schema-oriented, and format validation helpers:
+
+- **Composed predicates** - `isNonEmptyTrimmedString`, `isPositiveSafeInteger`, `isValidDateRange`
+- **Common formats** - `isEmail`, `isUrl`, `isUUID`, `isIPv4`, `isHexColor`, `isLuhnNumber`
+- **Object and schema checks** - `hasRequiredKeys`, `validateShape`
+- **Validator combinators** - `optional`, `nullable`, `arrayOf`, `allOf`, `oneOf`
 
 ## 📖 Usage
 
@@ -459,6 +468,68 @@ console.log(jsonByteSize({ a: 'á' })); // 10
 console.log(redactJson({ user: { token: 'abc' } }, ['user.token'])); // { user: { token: '[REDACTED]' } }
 ```
 
+### Validation Helpers
+
+```typescript
+import {
+  allOf,
+  arrayOf,
+  hasRequiredKeys,
+  isEmail,
+  isHexColor,
+  isIPv4,
+  isLuhnNumber,
+  isNonEmptyTrimmedString,
+  isPositiveSafeInteger,
+  isUrl,
+  isUUID,
+  isValidDateRange,
+  nullable,
+  oneOf,
+  optional,
+  validateShape,
+} from 'all-in-one';
+
+console.log(isNonEmptyTrimmedString(' hello ')); // true
+console.log(isPositiveSafeInteger(42)); // true
+console.log(isValidDateRange('2024-01-01', '2024-12-31')); // true
+console.log(isEmail('user@example.com')); // true
+console.log(isUrl('https://example.com')); // true
+console.log(isUUID('550e8400-e29b-41d4-a716-446655440000', 4)); // true
+console.log(isIPv4('192.168.1.1')); // true
+console.log(isHexColor('#ff00aa')); // true
+console.log(isLuhnNumber('4111111111111111')); // true
+console.log(hasRequiredKeys({ id: 1, name: 'A' }, ['id', 'name'])); // true
+console.log(
+  validateShape<{ id: number; name: string }>(
+    { id: 1, name: 'A' },
+    {
+      id: (value) => typeof value === 'number',
+      name: (value) => typeof value === 'string',
+    },
+  ),
+); // true
+const optionalNumber = optional(
+  (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value),
+);
+console.log(optionalNumber(undefined)); // true
+const nullableString = nullable((value: unknown): value is string => typeof value === 'string');
+console.log(nullableString(null)); // true
+const numberArray = arrayOf((value: unknown): value is number => typeof value === 'number');
+console.log(numberArray([1, 2, 3])); // true
+const strictPositiveInteger = allOf(
+  (value: unknown): value is number => typeof value === 'number',
+  (value: unknown): value is number => Number.isInteger(value),
+  (value: unknown): value is number => value > 0,
+);
+console.log(strictPositiveInteger(5)); // true
+const stringOrNumber = oneOf(
+  (value: unknown): value is string => typeof value === 'string',
+  (value: unknown): value is number => typeof value === 'number',
+);
+console.log(stringOrNumber('abc')); // true
+```
+
 ## 🧪 Testing
 
 The library uses the Node.js test runner with TypeScript compilation and c8 coverage, and runs inside Docker:
@@ -764,6 +835,30 @@ If needed, you can still run local Node-based commands via `npm run <task>:local
 - `between(value: number, a: number, b: number, inclusive?: boolean): boolean` - Check whether value lies between bounds
 - `snap(value: number, anchors: number[]): number` - Snap a value to nearest anchor
 
+### Validation Utilities
+
+- `ValidationPredicate<T = unknown> = (value: unknown) => value is T` - Base type for reusable validation predicates
+- `ShapeValidator = (value: unknown) => boolean` - Shape-field validator signature
+- `ValidationShape = Record<string, ShapeValidator>` - Object-shape validator map
+- `UuidVersion = 1 | 3 | 4 | 5` - Supported UUID versions
+- `UrlValidationOptions` - URL validation options (`protocols`, `allowLocalhost`)
+- `isNonEmptyTrimmedString(value: unknown): value is string` - Check for non-empty strings after trimming
+- `isPositiveSafeInteger(value: unknown): value is number` - Check for positive safe integers
+- `isValidDateRange(start: DateInput, end: DateInput, inclusive?: boolean): boolean` - Validate ordered date ranges
+- `isEmail(value: unknown): value is string` - Check pragmatic email format
+- `isUrl(value: unknown, options?: UrlValidationOptions): value is string` - Check URL format with protocol options
+- `isUUID(value: unknown, version?: UuidVersion): value is string` - Check UUID format with optional version constraint
+- `isIPv4(value: unknown): value is string` - Check IPv4 format
+- `isHexColor(value: unknown): value is string` - Check hex color format (`#RGB`, `#RRGGBB`, with optional alpha)
+- `isLuhnNumber(value: unknown): value is string` - Check Luhn checksum format
+- `hasRequiredKeys(value: unknown, keys: readonly string[]): boolean` - Check required own keys on objects
+- `validateShape<T>(value: unknown, shape: ValidationShape): value is T` - Validate object fields with predicate map
+- `optional<T>(validator: ValidationPredicate<T>): ValidationPredicate<T | undefined>` - Allow `undefined` for a validator
+- `nullable<T>(validator: ValidationPredicate<T>): ValidationPredicate<T | null>` - Allow `null` for a validator
+- `arrayOf<T>(validator: ValidationPredicate<T>): ValidationPredicate<T[]>` - Build array validators from item validators
+- `allOf(...validators: ValidationPredicate[]): ValidationPredicate` - Compose validators with logical AND
+- `oneOf(...validators: ValidationPredicate[]): ValidationPredicate` - Compose validators with logical OR
+
 ### JSON Utilities
 
 - `JsonReviver = (key: string, value: unknown) => unknown` - JSON parse reviver signature
@@ -803,7 +898,7 @@ Copyright (c) 2024 Joao Ley
 - [x] JSON helpers
 - [x] Number utilities
 - [x] Date/Time helpers
-- [ ] Validation utilities
+- [x] Validation utilities
 - [x] Currency helpers
 
 ## 💡 Why all-in-one?

@@ -1,7 +1,7 @@
 {
   "name": "all-in-one",
   "version": "1.0.0",
-  "description": "A comprehensive TypeScript utility library with data structures and string, array, object, datetime, currency, JSON, and number helpers.",
+  "description": "A comprehensive TypeScript utility library with data structures and string, array, object, datetime, currency, JSON, number, and validation helpers.",
   "main": "dist/index.js",
   "exports": {
     ".": "./dist/index.js",
@@ -12,7 +12,8 @@
     "./datetime": "./dist/lib/datetime/index.js",
     "./object": "./dist/lib/object/index.js",
     "./json": "./dist/lib/json/index.js",
-    "./number": "./dist/lib/number/index.js"
+    "./number": "./dist/lib/number/index.js",
+    "./validation": "./dist/lib/validation/index.js"
   },
   "files": [
     "dist",
@@ -52,6 +53,7 @@
     "currency",
     "json",
     "number",
+    "validation",
     "utilities"
   ],
   "author": "Joao Ley",
