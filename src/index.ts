@@ -5,3 +5,4 @@ export * from './lib/array';
 export * from './lib/datetime';
 export * from './lib/currency';
 export * from './lib/object';
+export * from './lib/json';

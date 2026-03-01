@@ -9,7 +9,9 @@
     "./string": "./dist/lib/string/index.js",
     "./array": "./dist/lib/array/index.js",
     "./currency": "./dist/lib/currency/index.js",
-    "./datetime": "./dist/lib/datetime/index.js"
+    "./datetime": "./dist/lib/datetime/index.js",
+    "./object": "./dist/lib/object/index.js",
+    "./json": "./dist/lib/json/index.js"
   },
   "files": [
     "dist",
@@ -44,7 +46,10 @@
     "hash-table",
     "string",
     "array",
+    "object",
+    "datetime",
     "currency",
+    "json",
     "utilities"
   ],
   "author": "Joao Ley",

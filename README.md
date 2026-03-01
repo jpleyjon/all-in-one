@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive TypeScript utility library providing data structures, and string, array, object, date/time, and currency helpers built from scratch with zero runtime dependencies.
+A comprehensive TypeScript utility library providing data structures, and string, array, object, date/time, currency, and JSON helpers built from scratch with zero runtime dependencies.
 
 ## 🎯 Philosophy
 
@@ -95,9 +95,14 @@ Exact money conversion and allocation helpers (no exchange-rate features):
 
 GitHub Actions runs unit tests on every `push`, `pull_request`, and manual dispatch via `.github/workflows/unit-tests.yml`.
 
-### JSON Utilities _(Coming Soon)_
+### JSON Utilities
 
-Safe parsing, stringification, and validation helpers.
+Safe parsing, formatting, serialization, and redaction helpers:
+
+- **Validation and parsing** - `isValidJson`, `parseJson`, `parseJsonWithReviver`, `safeParseJson`, `parseJsonOrDefault`
+- **Formatting** - `prettifyJson`, `minifyJson`
+- **Serialization** - `stringifyJson`, `stringifyJsonWithReplacer`, `stableStringifyJson`
+- **Diagnostics and safety** - `jsonByteSize`, `redactJson`
 
 ## 📖 Usage
 
@@ -301,6 +306,46 @@ console.log(applyBpsToCents(1000, 250)); // 1025
 console.log(totalWithTaxCents(1000, 0.0825)); // 1083
 console.log(percentageOfTotal(250, 1000)); // 25
 console.log(parseCurrencyStringToCents('1,234.56')); // 123456
+```
+
+### JSON Helpers
+
+```typescript
+import {
+  isValidJson,
+  jsonByteSize,
+  minifyJson,
+  parseJson,
+  parseJsonWithReviver,
+  safeParseJson,
+  parseJsonOrDefault,
+  prettifyJson,
+  redactJson,
+  stringifyJson,
+  stringifyJsonWithReplacer,
+  stableStringifyJson,
+} from 'all-in-one';
+
+console.log(isValidJson('{ "a": 1 }')); // true
+console.log(minifyJson('{ "a": 1, "b": [1, 2] }')); // {"a":1,"b":[1,2]}
+console.log(parseJson<{ a: number }>('{ "a": 1 }')); // { a: 1 }
+console.log(
+  parseJsonWithReviver<{ createdAt: Date }>('{ "createdAt": "2026-01-01T00:00:00.000Z" }', (key, value) =>
+    key === 'createdAt' ? new Date(String(value)) : value,
+  ),
+); // { createdAt: 2026-01-01T00:00:00.000Z }
+console.log(safeParseJson('{ invalid }')); // { ok: false, error: SyntaxError(...) }
+console.log(parseJsonOrDefault('{ invalid }', { a: 0 })); // { a: 0 }
+console.log(prettifyJson('{"a":1}')); // {
+//   "a": 1
+// }
+console.log(stringifyJson({ a: 1 }, 2)); // {
+//   "a": 1
+// }
+console.log(stringifyJsonWithReplacer({ keep: 1, secret: 'x' }, (key, value) => (key === 'secret' ? undefined : value))); // {"keep":1}
+console.log(stableStringifyJson({ b: 1, a: 2 })); // {"a":2,"b":1}
+console.log(jsonByteSize({ a: 'á' })); // 10
+console.log(redactJson({ user: { token: 'abc' } }, ['user.token'])); // { user: { token: '[REDACTED]' } }
 ```
 
 ## 🧪 Testing
@@ -561,6 +606,26 @@ If needed, you can still run local Node-based commands via `npm run <task>:local
 - `normalizeCurrencyCode(code: string): string` - Normalize and validate currency code
 - `parseCurrencyStringToCents(input: string): number` - Parse currency-like strings into cents
 
+### JSON Utilities
+
+- `JsonReviver = (key: string, value: unknown) => unknown` - JSON parse reviver signature
+- `JsonReplacer = (key: string, value: unknown) => unknown` - JSON stringify replacer signature
+- `SafeParseJsonSuccess<T> = { ok: true; value: T }` - Successful safe parse result type
+- `SafeParseJsonFailure = { ok: false; error: SyntaxError }` - Failed safe parse result type
+- `SafeParseJsonResult<T> = SafeParseJsonSuccess<T> | SafeParseJsonFailure` - Safe parse result union type
+- `isValidJson(input: string): boolean` - Check whether input is valid JSON text
+- `minifyJson(input: string): string` - Remove unnecessary whitespace from JSON text
+- `parseJson<T = unknown>(input: string): T` - Parse JSON and throw on invalid input
+- `parseJsonWithReviver<T = unknown>(input: string, reviver: JsonReviver): T` - Parse JSON using a custom reviver
+- `safeParseJson<T = unknown>(input: string): SafeParseJsonResult<T>` - Parse JSON without throwing
+- `parseJsonOrDefault<T>(input: string, fallback: T): T` - Parse JSON or return fallback
+- `prettifyJson(input: string, space?: number): string` - Format JSON text with indentation
+- `redactJson(input: unknown, paths: string[], mask?: unknown): unknown` - Redact selected dot-paths from a cloned value
+- `jsonByteSize(input: unknown): number` - Compute UTF-8 byte length of serialized JSON
+- `stringifyJson(input: unknown, space?: number): string` - Serialize JSON-safe values
+- `stringifyJsonWithReplacer(input: unknown, replacer: JsonReplacer, space?: number): string` - Serialize with a custom replacer
+- `stableStringifyJson(input: unknown, space?: number): string` - Serialize with deterministic key ordering
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -577,7 +642,7 @@ Copyright (c) 2024 Joao Ley
 - [x] String manipulation utilities
 - [x] Array utilities
 - [x] Object transformation utilities
-- [ ] JSON helpers
+- [x] JSON helpers
 - [ ] Number utilities
 - [x] Date/Time helpers
 - [ ] Validation utilities
