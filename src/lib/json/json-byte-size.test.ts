@@ -17,4 +17,3 @@ describe('jsonByteSize', () => {
     assert.throws(() => jsonByteSize(undefined), TypeError, 'input must be JSON-serializable.');
   });
 });
-

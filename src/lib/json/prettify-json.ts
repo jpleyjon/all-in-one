@@ -14,4 +14,3 @@ import { stringifyJson } from './stringify-json';
 export function prettifyJson(input: string, space = 2): string {
   return stringifyJson(parseJson(input), space);
 }
-

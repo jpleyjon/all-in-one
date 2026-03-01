@@ -16,4 +16,3 @@ describe('parseJson', () => {
     assert.throws(() => parseJson(123 as never), TypeError, 'input must be a string.');
   });
 });
-

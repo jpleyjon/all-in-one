@@ -26,4 +26,3 @@ export function stringifyJson(input: unknown, space?: number): string {
 
   return serialized;
 }
-

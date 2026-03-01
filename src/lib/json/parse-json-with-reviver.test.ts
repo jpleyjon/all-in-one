@@ -29,10 +29,6 @@ describe('parseJsonWithReviver', () => {
   });
 
   it('throws for invalid JSON strings', () => {
-    assert.throws(
-      () => parseJsonWithReviver('{ invalid }', (_key, value) => value),
-      SyntaxError,
-    );
+    assert.throws(() => parseJsonWithReviver('{ invalid }', (_key, value) => value), SyntaxError);
   });
 });
-

@@ -29,4 +29,3 @@ describe('stringifyJson', () => {
     assert.throws(() => stringifyJson(undefined), TypeError, 'input must be JSON-serializable.');
   });
 });
-

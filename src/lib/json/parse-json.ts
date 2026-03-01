@@ -13,4 +13,3 @@ export function parseJson<T = unknown>(input: string): T {
 
   return JSON.parse(input) as T;
 }
-

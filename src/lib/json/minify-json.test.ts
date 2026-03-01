@@ -19,4 +19,3 @@ describe('minifyJson', () => {
     assert.throws(() => minifyJson('{ invalid }'), SyntaxError);
   });
 });
-

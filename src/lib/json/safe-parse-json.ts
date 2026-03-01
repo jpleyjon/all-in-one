@@ -24,4 +24,3 @@ export function safeParseJson<T = unknown>(input: string): SafeParseJsonResult<T
     };
   }
 }
-

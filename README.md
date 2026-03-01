@@ -330,8 +330,9 @@ console.log(isValidJson('{ "a": 1 }')); // true
 console.log(minifyJson('{ "a": 1, "b": [1, 2] }')); // {"a":1,"b":[1,2]}
 console.log(parseJson<{ a: number }>('{ "a": 1 }')); // { a: 1 }
 console.log(
-  parseJsonWithReviver<{ createdAt: Date }>('{ "createdAt": "2026-01-01T00:00:00.000Z" }', (key, value) =>
-    key === 'createdAt' ? new Date(String(value)) : value,
+  parseJsonWithReviver<{ createdAt: Date }>(
+    '{ "createdAt": "2026-01-01T00:00:00.000Z" }',
+    (key, value) => (key === 'createdAt' ? new Date(String(value)) : value),
   ),
 ); // { createdAt: 2026-01-01T00:00:00.000Z }
 console.log(safeParseJson('{ invalid }')); // { ok: false, error: SyntaxError(...) }
@@ -342,7 +343,11 @@ console.log(prettifyJson('{"a":1}')); // {
 console.log(stringifyJson({ a: 1 }, 2)); // {
 //   "a": 1
 // }
-console.log(stringifyJsonWithReplacer({ keep: 1, secret: 'x' }, (key, value) => (key === 'secret' ? undefined : value))); // {"keep":1}
+console.log(
+  stringifyJsonWithReplacer({ keep: 1, secret: 'x' }, (key, value) =>
+    key === 'secret' ? undefined : value,
+  ),
+); // {"keep":1}
 console.log(stableStringifyJson({ b: 1, a: 2 })); // {"a":2,"b":1}
 console.log(jsonByteSize({ a: 'á' })); // 10
 console.log(redactJson({ user: { token: 'abc' } }, ['user.token'])); // { user: { token: '[REDACTED]' } }

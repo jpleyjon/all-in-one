@@ -11,4 +11,3 @@ export function parseJsonOrDefault<T>(input: string, fallback: T): T {
   const result = safeParseJson<T>(input);
   return result.ok ? result.value : fallback;
 }
-

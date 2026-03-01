@@ -52,7 +52,11 @@ function redactAtPath(target: unknown, segments: readonly PathSegment[], mask: u
  * @returns A redacted cloned value.
  * @throws {TypeError} If `paths` is not an array of strings.
  */
-export function redactJson(input: unknown, paths: readonly string[], mask: unknown = '[REDACTED]'): unknown {
+export function redactJson(
+  input: unknown,
+  paths: readonly string[],
+  mask: unknown = '[REDACTED]',
+): unknown {
   if (!Array.isArray(paths)) {
     throw new TypeError('paths must be an array of path strings.');
   }
@@ -75,4 +79,3 @@ export function redactJson(input: unknown, paths: readonly string[], mask: unkno
 
   return output;
 }
-

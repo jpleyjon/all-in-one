@@ -4,9 +4,8 @@ import { stringifyJsonWithReplacer } from './stringify-json-with-replacer';
 
 describe('stringifyJsonWithReplacer', () => {
   it('stringifies values and applies the replacer', () => {
-    const result = stringifyJsonWithReplacer(
-      { keep: 1, drop: 2 },
-      (key, value) => (key === 'drop' ? undefined : value),
+    const result = stringifyJsonWithReplacer({ keep: 1, drop: 2 }, (key, value) =>
+      key === 'drop' ? undefined : value,
     );
 
     assert.equal(result, '{"keep":1}');
@@ -51,4 +50,3 @@ describe('stringifyJsonWithReplacer', () => {
     );
   });
 });
-

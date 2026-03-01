@@ -13,4 +13,3 @@ const UTF8_ENCODER = new TextEncoder();
 export function jsonByteSize(input: unknown): number {
   return UTF8_ENCODER.encode(stringifyJson(input)).byteLength;
 }
-

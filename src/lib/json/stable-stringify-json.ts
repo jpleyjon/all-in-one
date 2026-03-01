@@ -40,4 +40,3 @@ export function stableStringifyJson(input: unknown, space?: number): string {
 
   return serialized;
 }
-

@@ -12,4 +12,3 @@ import { stringifyJson } from './stringify-json';
 export function minifyJson(input: string): string {
   return stringifyJson(parseJson(input));
 }
-

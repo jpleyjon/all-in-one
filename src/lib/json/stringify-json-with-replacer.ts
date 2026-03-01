@@ -37,4 +37,3 @@ export function stringifyJsonWithReplacer(
 
   return serialized;
 }
-

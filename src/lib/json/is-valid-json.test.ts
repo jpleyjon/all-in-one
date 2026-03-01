@@ -16,4 +16,3 @@ describe('isValidJson', () => {
     assert.equal(isValidJson(1 as never), false);
   });
 });
-

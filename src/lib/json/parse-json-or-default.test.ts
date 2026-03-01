@@ -17,4 +17,3 @@ describe('parseJsonOrDefault', () => {
     assert.deepEqual(parseJsonOrDefault(123 as never, fallback), fallback);
   });
 });
-

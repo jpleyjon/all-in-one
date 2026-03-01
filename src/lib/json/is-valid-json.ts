@@ -14,4 +14,3 @@ export function isValidJson(input: string): boolean {
     return false;
   }
 }
-
