@@ -1,5 +1,5 @@
 import type { DateInput } from './types';
-import { requireDate } from './internal';
+import { requireDate } from './require-date';
 
 /**
  * Converts local date components to a UTC-based date.

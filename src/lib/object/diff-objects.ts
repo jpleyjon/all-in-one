@@ -1,4 +1,6 @@
-import { assertPlainObject, cloneDeepValue, isPlainObject } from './internal';
+import { assertPlainObject } from './assert-plain-object';
+import { cloneDeepValue } from './clone-deep-value';
+import { isPlainObject } from './is-plain-object';
 import type { DiffObjectsResult, ObjectRecord } from './types';
 
 function isEqual(left: unknown, right: unknown): boolean {

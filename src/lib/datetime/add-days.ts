@@ -1,5 +1,6 @@
 import type { DateInput } from './types';
-import { assertInteger, requireDate } from './internal';
+import { assertInteger } from './assert-integer';
+import { requireDate } from './require-date';
 
 /**
  * Adds days to a date.

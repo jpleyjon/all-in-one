@@ -1,4 +1,9 @@
-import { assertFiniteNumber, MS_IN_DAY, MS_IN_HOUR, MS_IN_MINUTE, MS_IN_SECOND } from './internal';
+import { assertFiniteNumber } from './assert-finite-number';
+
+const MS_IN_SECOND = 1000;
+const MS_IN_MINUTE = 60 * MS_IN_SECOND;
+const MS_IN_HOUR = 60 * MS_IN_MINUTE;
+const MS_IN_DAY = 24 * MS_IN_HOUR;
 
 /**
  * Converts a duration in milliseconds to a compact human-readable form.

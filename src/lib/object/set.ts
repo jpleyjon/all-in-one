@@ -1,4 +1,6 @@
-import { assertObjectLike, normalizePath, setAtPath } from './internal';
+import { assertObjectLike } from './assert-object-like';
+import { normalizePath } from './normalize-path';
+import { setAtPath } from './set-at-path';
 import type { ObjectPath } from './types';
 
 /**

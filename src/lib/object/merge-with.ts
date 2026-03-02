@@ -1,4 +1,5 @@
-import { assertPlainObject, cloneDeepValue } from './internal';
+import { assertPlainObject } from './assert-plain-object';
+import { cloneDeepValue } from './clone-deep-value';
 import type { MergeWithResolver, ObjectRecord } from './types';
 
 /**

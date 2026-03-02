@@ -1,4 +1,7 @@
-import { assertObjectLike, cloneDeepValue, normalizePath, unsetAtPath } from './internal';
+import { assertObjectLike } from './assert-object-like';
+import { cloneDeepValue } from './clone-deep-value';
+import { normalizePath } from './normalize-path';
+import { unsetAtPath } from './unset-at-path';
 import type { ObjectPath } from './types';
 
 /**

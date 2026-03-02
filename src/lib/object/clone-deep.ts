@@ -1,4 +1,4 @@
-import { cloneDeepValue } from './internal';
+import { cloneDeepValue } from './clone-deep-value';
 
 /**
  * Deeply clones objects, arrays, dates and primitives.

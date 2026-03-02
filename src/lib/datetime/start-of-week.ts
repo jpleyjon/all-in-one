@@ -1,5 +1,5 @@
 import type { DateInput } from './types';
-import { assertWeekStartsOn } from './internal';
+import { assertWeekStartsOn } from './assert-week-starts-on';
 import { startOfDay } from './start-of-day';
 
 /**

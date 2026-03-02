@@ -105,7 +105,10 @@ Common number validation, rounding, percentages, ranges, parsing, statistics, an
 
 ### CI Pipeline
 
-GitHub Actions runs unit tests on every `push`, `pull_request`, and manual dispatch via `.github/workflows/unit-tests.yml`.
+GitHub Actions validates code quality on every `push`, `pull_request`, and manual dispatch:
+
+- `.github/workflows/lint-and-format.yml` runs lint and format checks
+- `.github/workflows/unit-tests.yml` runs the unit tests and coverage gate
 
 ### JSON Utilities
 

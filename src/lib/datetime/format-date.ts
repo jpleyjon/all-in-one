@@ -1,5 +1,6 @@
 import type { DateInput } from './types';
-import { pad, requireDate } from './internal';
+import { pad } from './pad';
+import { requireDate } from './require-date';
 
 /**
  * Formats a date using simple tokens.

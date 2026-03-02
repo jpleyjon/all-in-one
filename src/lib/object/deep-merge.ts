@@ -1,4 +1,5 @@
-import { assertPlainObject, deepMergeValue } from './internal';
+import { assertPlainObject } from './assert-plain-object';
+import { deepMergeValue } from './deep-merge-value';
 import type { ObjectRecord } from './types';
 
 /**

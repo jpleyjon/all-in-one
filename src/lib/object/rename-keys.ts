@@ -1,4 +1,4 @@
-import { assertPlainObject } from './internal';
+import { assertPlainObject } from './assert-plain-object';
 import type { ObjectRecord } from './types';
 
 /**
