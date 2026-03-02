@@ -1,8 +1,15 @@
-import { assertPlainObject, isPlainObject } from './internal';
+import { assertPlainObject } from './assert-plain-object';
+import { isPlainObject } from './is-plain-object';
 import type { ObjectRecord, PathSegment } from './types';
 
 /**
  * Recursively transforms leaf values in nested objects and arrays.
+ *
+ * @param input Plain object to transform.
+ * @param mapper Mapping function invoked for each non-object leaf value.
+ * @returns A new object with transformed leaf values.
+ * @throws If `input` is not a plain object.
+ * @throws If `mapper` is not a function.
  */
 export function transformValuesDeep(
   input: ObjectRecord,

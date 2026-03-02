@@ -1,5 +1,7 @@
 import type { DateInput } from './types';
-import { differenceInMilliseconds, MS_IN_SECOND } from './internal';
+import { differenceInMilliseconds } from './difference-in-milliseconds';
+
+const MS_IN_SECOND = 1000;
 
 /**
  * Returns signed whole-second difference between two dates.

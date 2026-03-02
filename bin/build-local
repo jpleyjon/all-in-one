@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-exec npx tsc "$@"
+if [[ -d dist ]]; then
+  rm -rf dist/*
+fi
+
+exec npx tsc --project tsconfig.build.json "$@"

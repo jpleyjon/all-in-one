@@ -1,5 +1,5 @@
 import type { DateInput } from './types';
-import { requireDate } from './internal';
+import { requireDate } from './require-date';
 
 /**
  * Converts a date to UNIX timestamp in seconds.

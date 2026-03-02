@@ -1,5 +1,5 @@
 import type { DateInput } from './types';
-import { requireDate } from './internal';
+import { requireDate } from './require-date';
 
 /**
  * Checks whether two dates are in the same local month.

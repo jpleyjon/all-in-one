@@ -3,17 +3,58 @@
   "version": "1.0.0",
   "description": "A comprehensive TypeScript utility library with data structures and string, array, object, datetime, currency, JSON, number, and validation helpers.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./data-structures": "./dist/lib/data-structures/index.js",
-    "./string": "./dist/lib/string/index.js",
-    "./array": "./dist/lib/array/index.js",
-    "./currency": "./dist/lib/currency/index.js",
-    "./datetime": "./dist/lib/datetime/index.js",
-    "./object": "./dist/lib/object/index.js",
-    "./json": "./dist/lib/json/index.js",
-    "./number": "./dist/lib/number/index.js",
-    "./validation": "./dist/lib/validation/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./data-structures": {
+      "types": "./dist/lib/data-structures/index.d.ts",
+      "require": "./dist/lib/data-structures/index.js",
+      "default": "./dist/lib/data-structures/index.js"
+    },
+    "./string": {
+      "types": "./dist/lib/string/index.d.ts",
+      "require": "./dist/lib/string/index.js",
+      "default": "./dist/lib/string/index.js"
+    },
+    "./array": {
+      "types": "./dist/lib/array/index.d.ts",
+      "require": "./dist/lib/array/index.js",
+      "default": "./dist/lib/array/index.js"
+    },
+    "./datetime": {
+      "types": "./dist/lib/datetime/index.d.ts",
+      "require": "./dist/lib/datetime/index.js",
+      "default": "./dist/lib/datetime/index.js"
+    },
+    "./currency": {
+      "types": "./dist/lib/currency/index.d.ts",
+      "require": "./dist/lib/currency/index.js",
+      "default": "./dist/lib/currency/index.js"
+    },
+    "./object": {
+      "types": "./dist/lib/object/index.d.ts",
+      "require": "./dist/lib/object/index.js",
+      "default": "./dist/lib/object/index.js"
+    },
+    "./json": {
+      "types": "./dist/lib/json/index.d.ts",
+      "require": "./dist/lib/json/index.js",
+      "default": "./dist/lib/json/index.js"
+    },
+    "./number": {
+      "types": "./dist/lib/number/index.d.ts",
+      "require": "./dist/lib/number/index.js",
+      "default": "./dist/lib/number/index.js"
+    },
+    "./validation": {
+      "types": "./dist/lib/validation/index.d.ts",
+      "require": "./dist/lib/validation/index.js",
+      "default": "./dist/lib/validation/index.js"
+    }
   },
   "files": [
     "dist",
@@ -33,7 +74,7 @@
     "format:check:local": "./bin/format-check-local",
     "test": "./bin/test",
     "test:local": "./bin/test-local",
-    "prepublishOnly": "npm run build:local && npm run test:local"
+    "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [
     "typescript",

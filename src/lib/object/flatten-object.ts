@@ -1,8 +1,15 @@
-import { assertPlainObject, isPlainObject } from './internal';
+import { assertPlainObject } from './assert-plain-object';
+import { isPlainObject } from './is-plain-object';
 import type { FlattenObjectOptions, ObjectRecord } from './types';
 
 /**
  * Flattens nested objects/arrays into delimiter-separated keys.
+ *
+ * @param input Plain object to flatten.
+ * @param options Flattening options.
+ * @returns A flat object keyed by delimited paths.
+ * @throws If `input` is not a plain object.
+ * @throws If `options.delimiter` is empty.
  */
 export function flattenObject(
   input: ObjectRecord,

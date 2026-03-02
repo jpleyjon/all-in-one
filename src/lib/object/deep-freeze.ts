@@ -1,4 +1,4 @@
-import { isNonNullObject } from './internal';
+import { isNonNullObject } from './is-non-null-object';
 
 /**
  * Deeply freezes an object/array graph.

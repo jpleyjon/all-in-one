@@ -1,4 +1,4 @@
-import { assertFiniteNumber } from './internal';
+import { assertFiniteNumber } from './assert-finite-number';
 
 /**
  * Creates a date from UNIX timestamp in seconds.
