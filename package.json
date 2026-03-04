@@ -1,6 +1,6 @@
 {
   "name": "@jpleyjon/all-in-one",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A comprehensive TypeScript utility library with data structures and string, array, object, datetime, currency, JSON, number, and validation helpers.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
