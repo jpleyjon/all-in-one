@@ -33,6 +33,21 @@ docker_args=(
   --env "NPM_CONFIG_CACHE=${NPM_CACHE_DIR}"
 )
 
+for passthrough_env in NPM_TOKEN NPM_CONFIG_OTP NPM_CONFIG_PROVENANCE; do
+  if [[ -n "${!passthrough_env:-}" ]]; then
+    docker_args+=(--env "${passthrough_env}=${!passthrough_env}")
+  fi
+done
+
+if [[ "${AIO_DOCKER_MOUNT_NPMRC:-0}" == "1" ]]; then
+  if [[ -f "${HOME:-}/.npmrc" ]]; then
+    docker_args+=(--volume "${HOME}/.npmrc:/tmp/.npmrc:ro")
+    docker_args+=(--env "NPM_CONFIG_USERCONFIG=/tmp/.npmrc")
+  else
+    echo "AIO_DOCKER_MOUNT_NPMRC=1 was set but ~/.npmrc was not found." >&2
+  fi
+fi
+
 if [[ -t 0 && -t 1 ]]; then
   docker_args+=(--interactive --tty)
 fi

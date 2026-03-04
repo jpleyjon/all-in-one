@@ -1,5 +1,5 @@
 {
-  "name": "all-in-one",
+  "name": "@jpleyjon/all-in-one",
   "version": "1.0.0",
   "description": "A comprehensive TypeScript utility library with data structures and string, array, object, datetime, currency, JSON, number, and validation helpers.",
   "main": "dist/index.js",
@@ -74,6 +74,8 @@
     "format:check:local": "./bin/format-check-local",
     "test": "./bin/test",
     "test:local": "./bin/test-local",
+    "publish:package": "./bin/publish",
+    "publish:package:local": "./bin/publish-local",
     "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [

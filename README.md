@@ -886,6 +886,33 @@ If needed, you can still run local Node-based commands via `npm run <task>:local
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+### Publishing (Maintainers)
+
+Use Docker-based publish flow:
+
+```bash
+npm run publish:package
+```
+
+Useful options:
+
+```bash
+npm run publish:package -- --dry-run
+npm run publish:package -- --otp <code>
+```
+
+Authentication is read from `NPM_TOKEN` or your `~/.npmrc`.
+When `NPM_TOKEN` is set, it is used as the publish credential source for that run.
+
+If npm returns `E403` with a 2FA message, use one of:
+
+1. A granular npm token with package publish permission and **bypass 2FA** enabled.
+2. Your user auth plus OTP:
+
+```bash
+npm run publish:package -- --otp <fresh-6-digit-code>
+```
+
 ## 📄 License
 
 MIT License - see the [LICENSE](LICENSE) file for details.
