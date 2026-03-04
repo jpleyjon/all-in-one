@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+NPM_USERCONFIG="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
+TEMP_NPMRC_PATH=""
+
+cleanup() {
+  if [[ -n "${TEMP_NPMRC_PATH}" ]] && [[ -f "${TEMP_NPMRC_PATH}" ]]; then
+    rm -f "${TEMP_NPMRC_PATH}"
+  fi
+}
+
+trap cleanup EXIT
+
+if [[ -n "${NPM_TOKEN:-}" ]]; then
+  TEMP_NPMRC_PATH="$(mktemp /tmp/all-in-one-npmrc.XXXXXX)"
+  printf '//registry.npmjs.org/:_authToken=%s\n' "${NPM_TOKEN}" >"${TEMP_NPMRC_PATH}"
+  chmod 0600 "${TEMP_NPMRC_PATH}"
+  export NPM_CONFIG_USERCONFIG="${TEMP_NPMRC_PATH}"
+  NPM_USERCONFIG="${TEMP_NPMRC_PATH}"
+fi
+
+if [[ ! -f "${NPM_USERCONFIG}" ]]; then
+  echo "npm authentication was not found." >&2
+  echo "Set NPM_TOKEN or provide a readable npmrc file." >&2
+  echo "Current expected npmrc path: ${NPM_USERCONFIG}" >&2
+  exit 1
+fi
+
+./bin/test-local
+./bin/build-local
+
+npm pack --dry-run >/dev/null
+
+exec npm publish --access public --ignore-scripts "$@"

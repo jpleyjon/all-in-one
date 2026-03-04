@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+AIO_DOCKER_MOUNT_NPMRC=1 exec "$(dirname "${BASH_SOURCE[0]}")/docker-run" ./bin/publish-local "$@"
