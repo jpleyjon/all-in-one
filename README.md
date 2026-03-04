@@ -16,7 +16,7 @@ Similar to lodash, but with a twist: **all-in-one** is built entirely without ex
 ## 📦 Installation
 
 ```bash
-npm install all-in-one
+npm install @jpleyjon/all-in-one
 ```
 
 ## 🚀 Features
@@ -103,13 +103,6 @@ Common number validation, rounding, percentages, ranges, parsing, statistics, an
 - **Formatting and parsing** - `formatNumber`, `toThousands`, `parseNumber`
 - **Randomization** - `randomInt`, `randomFloat`
 
-### CI Pipeline
-
-GitHub Actions validates code quality on every `push`, `pull_request`, and manual dispatch:
-
-- `.github/workflows/lint-and-format.yml` runs lint and format checks
-- `.github/workflows/unit-tests.yml` runs the unit tests and coverage gate
-
 ### JSON Utilities
 
 Safe parsing, formatting, serialization, and redaction helpers:
@@ -133,7 +126,7 @@ Composed, schema-oriented, and format validation helpers:
 ### Stack
 
 ```typescript
-import { Stack } from 'all-in-one';
+import { Stack } from '@jpleyjon/all-in-one';
 
 const stack = new Stack<number>();
 stack.push(1);
@@ -148,7 +141,7 @@ console.log(stack.isEmpty()); // false
 ### Queue
 
 ```typescript
-import { Queue } from 'all-in-one';
+import { Queue } from '@jpleyjon/all-in-one';
 
 const queue = new Queue<string>();
 queue.push('first');
@@ -162,7 +155,7 @@ console.log(queue.isEmpty()); // false
 ### Binary Search Tree
 
 ```typescript
-import { BinarySearchTree } from 'all-in-one';
+import { BinarySearchTree } from '@jpleyjon/all-in-one';
 
 const tree = new BinarySearchTree<number>(10);
 tree.insert(5);
@@ -178,7 +171,7 @@ console.log(tree.levelOrder()); // [10, 5, 15, 3, 7]
 ### Graph
 
 ```typescript
-import { Graph } from 'all-in-one';
+import { Graph } from '@jpleyjon/all-in-one';
 
 const graph = new Graph<number>();
 graph.addEdge(1, 2);
@@ -192,7 +185,7 @@ console.log(graph.depthFirstSearch(1)); // [1, 2, 4, 3]
 ### Hash Table
 
 ```typescript
-import { HashTable } from 'all-in-one';
+import { HashTable } from '@jpleyjon/all-in-one';
 
 const table = new HashTable<number>();
 table.set('apples', 3);
@@ -207,7 +200,7 @@ console.log(table.size); // 1
 ### List
 
 ```typescript
-import { List } from 'all-in-one';
+import { List } from '@jpleyjon/all-in-one';
 
 const list = new List<number>();
 list.push(10);
@@ -222,7 +215,13 @@ console.log(list.size); // 2
 ### String Helpers
 
 ```typescript
-import { toCamelCase, slugify, normalizeWhitespace, truncateWords, mask } from 'all-in-one';
+import {
+  toCamelCase,
+  slugify,
+  normalizeWhitespace,
+  truncateWords,
+  mask,
+} from '@jpleyjon/all-in-one';
 
 console.log(toCamelCase('hello-world test')); // helloWorldTest
 console.log(slugify('Crème Brûlée Recipe')); // creme-brulee-recipe
@@ -234,7 +233,7 @@ console.log(mask('4111111111111111', 4, 4)); // 4111********1111
 ### Array Helpers
 
 ```typescript
-import { chunk, unique, sortBy, groupBy, move } from 'all-in-one';
+import { chunk, unique, sortBy, groupBy, move } from '@jpleyjon/all-in-one';
 
 console.log(chunk([1, 2, 3, 4, 5], 2)); // [[1, 2], [3, 4], [5]]
 console.log(unique([1, 2, 1, 3])); // [1, 2, 3]
@@ -263,7 +262,7 @@ import {
   transformKeysDeep,
   flattenObject,
   unflattenObject,
-} from 'all-in-one';
+} from '@jpleyjon/all-in-one';
 
 const user = { id: 1, profile: { name: 'Ada', role: 'admin' } };
 
@@ -311,7 +310,7 @@ import {
   totalWithTaxCents,
   percentageOfTotal,
   parseCurrencyStringToCents,
-} from 'all-in-one';
+} from '@jpleyjon/all-in-one';
 
 console.log(dollarsToCents('12.34')); // 1234
 console.log(centsToDollars(1234)); // 12.34
@@ -379,7 +378,7 @@ import {
   truncateTo,
   variance,
   zScore,
-} from 'all-in-one';
+} from '@jpleyjon/all-in-one';
 
 console.log(isFiniteNumber(10)); // true
 console.log(isInteger(10.1)); // false
@@ -442,7 +441,7 @@ import {
   stringifyJson,
   stringifyJsonWithReplacer,
   stableStringifyJson,
-} from 'all-in-one';
+} from '@jpleyjon/all-in-one';
 
 console.log(isValidJson('{ "a": 1 }')); // true
 console.log(minifyJson('{ "a": 1, "b": [1, 2] }')); // {"a":1,"b":[1,2]}
@@ -491,7 +490,7 @@ import {
   oneOf,
   optional,
   validateShape,
-} from 'all-in-one';
+} from '@jpleyjon/all-in-one';
 
 console.log(isNonEmptyTrimmedString(' hello ')); // true
 console.log(isPositiveSafeInteger(42)); // true
