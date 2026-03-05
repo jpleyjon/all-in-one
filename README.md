@@ -1,5 +1,7 @@
 # all-in-one
 
+[![npm version](https://img.shields.io/npm/v/%40jpleyjon%2Fall-in-one)](https://www.npmjs.com/package/@jpleyjon/all-in-one)
+[![npm downloads](https://img.shields.io/npm/dm/%40jpleyjon%2Fall-in-one)](https://www.npmjs.com/package/@jpleyjon/all-in-one)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A comprehensive TypeScript utility library providing data structures, and string, array, object, date/time, currency, JSON, number, and validation helpers built from scratch with zero runtime dependencies.
@@ -18,6 +20,19 @@ Similar to lodash, but with a twist: **all-in-one** is built entirely without ex
 ```bash
 npm install @jpleyjon/all-in-one
 ```
+
+## ⚡ Quick Start
+
+```typescript
+import { toCamelCase, unique } from '@jpleyjon/all-in-one';
+import { formatDate } from '@jpleyjon/all-in-one/datetime';
+
+console.log(toCamelCase('hello world')); // helloWorld
+console.log(unique([1, 2, 1, 3])); // [1, 2, 3]
+console.log(formatDate(new Date(), 'YYYY-MM-DD'));
+```
+
+Use top-level imports for convenience and subpath imports for domain-specific usage.
 
 ## 🚀 Features
 
@@ -929,6 +944,32 @@ Copyright (c) 2024 Joao Ley
 - [x] Date/Time helpers
 - [x] Validation utilities
 - [x] Currency helpers
+
+## 📣 30-Day Growth Plan
+
+### Week 1
+
+- Publish stable versions with complete changelog notes.
+- Pin top examples in README around search-heavy helpers (`debounce`-style use-cases, date formatting, object path access, currency math).
+- Add npm badge links and verify package metadata.
+
+### Week 2
+
+- Publish 3 short dev posts with practical snippets (object transforms, date helpers, JSON safety helpers).
+- Share each post in TypeScript, Node.js, and frontend communities.
+- Open a "good first issue" set to encourage outside contributions.
+
+### Week 3
+
+- Add benchmark and bundle-size section in README for trust and clarity.
+- Collect feedback from first users and prioritize the top 5 requested helpers.
+- Ship at least one release based on real user requests.
+
+### Week 4
+
+- Build a small example repo (API utilities or frontend data utils) that uses this package.
+- Publish a migration guide from common lodash helper usage to this package.
+- Review npm page analytics and refine README keywords/examples from real search terms.
 
 ## 💡 Why all-in-one?
 
