@@ -5,9 +5,9 @@
 This project currently supports security fixes for the latest stable major version only.
 
 | Version | Supported |
-| --- | --- |
-| `1.x` | Yes |
-| `<1.0` | No |
+| ------- | --------- |
+| `1.x`   | Yes       |
+| `<1.0`  | No        |
 
 ## Reporting a Vulnerability
 

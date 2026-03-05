@@ -17,9 +17,9 @@ Closes #
 
 ## What Was Changed
 
-- 
-- 
-- 
+-
+-
+-
 
 ## Breaking Changes
 
