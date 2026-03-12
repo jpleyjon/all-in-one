@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/%40jpleyjon%2Fall-in-one)](https://www.npmjs.com/package/@jpleyjon/all-in-one)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive TypeScript utility library providing data structures, and string, array, object, date/time, currency, JSON, number, and validation helpers built from scratch with zero runtime dependencies.
+A comprehensive TypeScript utility library providing data structures, function, string, array, object, date/time, currency, JSON, number, and validation helpers built from scratch with zero runtime dependencies.
 
 ## 🎯 Philosophy
 
@@ -48,6 +48,14 @@ Robust, type-safe implementations of fundamental computer science data structure
 - **Binary Search Tree** - Binary tree with ordered insertion and traversal methods
 - **Graph** - Adjacency-list graph with directed/undirected edges and BFS/DFS
 - **Hash Table** - Key/value storage with separate chaining collision handling
+
+### Function Utilities
+
+Composable helpers for cleaner control-flow and execution behavior:
+
+- **Core helpers** - `identity`, `noop`, `tap`
+- **Composition** - `compose`, `pipe`
+- **Execution control** - `once`, `memoize`, `debounce`, `throttle`
 
 ### String Utilities
 
@@ -225,6 +233,27 @@ list.push(30);
 console.log(list.find(1)); // 20
 list.remove(1);
 console.log(list.size); // 2
+```
+
+### Function Helpers
+
+```typescript
+import { compose, debounce, memoize, once } from '@jpleyjon/all-in-one';
+
+const addTax = once((value: number) => value * 1.08);
+console.log(addTax(100)); // 108
+console.log(addTax(200)); // 108
+
+const memoized = memoize((value: number) => value * value);
+console.log(memoized(6)); // 36
+console.log(memoized(6)); // 36 (cached)
+
+const logValue = debounce((value: string) => {
+  console.log(value);
+}, 250);
+
+logValue('first call');
+logValue('latest call');
 ```
 
 ### String Helpers

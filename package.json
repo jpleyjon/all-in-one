@@ -1,7 +1,7 @@
 {
   "name": "@jpleyjon/all-in-one",
-  "version": "1.0.3",
-  "description": "A comprehensive TypeScript utility library with data structures and string, array, object, datetime, currency, JSON, number, and validation helpers.",
+  "version": "1.1.0",
+  "description": "A comprehensive TypeScript utility library with data structures, function, string, array, object, datetime, currency, JSON, number, and validation helpers.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -54,6 +54,11 @@
       "types": "./dist/lib/validation/index.d.ts",
       "require": "./dist/lib/validation/index.js",
       "default": "./dist/lib/validation/index.js"
+    },
+    "./functions": {
+      "types": "./dist/lib/functions/index.d.ts",
+      "require": "./dist/lib/functions/index.js",
+      "default": "./dist/lib/functions/index.js"
     }
   },
   "files": [
