@@ -189,4 +189,40 @@ describe('memoize', () => {
     assert.equal(item.value, 2);
     assert.equal(calls, 1);
   });
+
+  it('keeps memoized results isolated per shared receiver context', () => {
+    let calls = 0;
+    const getValue = memoize(function (this: { value: number }) {
+      calls += 1;
+
+      this.value += 1;
+
+      return this.value;
+    });
+
+    const first = { value: 1, getValue };
+    const second = { value: 10, getValue };
+
+    assert.equal(first.getValue(), 2);
+    assert.equal(second.getValue(), 11);
+    assert.equal(first.getValue(), 2);
+    assert.equal(second.getValue(), 11);
+    assert.equal(calls, 2);
+  });
+
+  it('reuses object-argument cache per receiver for single-argument object calls', () => {
+    let calls = 0;
+    const getTotal = memoize(function (this: { offset: number }, value: { amount: number }) {
+      calls += 1;
+
+      return this.offset + value.amount;
+    });
+
+    const receiver = { offset: 10, getTotal };
+    const value = { amount: 5 };
+
+    assert.equal(receiver.getTotal(value), 15);
+    assert.equal(receiver.getTotal(value), 15);
+    assert.equal(calls, 1);
+  });
 });

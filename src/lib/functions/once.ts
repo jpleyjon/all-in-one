@@ -5,7 +5,7 @@
  * @returns A function that invokes `fn` at most once and caches the result.
  * @throws {TypeError} If `fn` is not a function.
  */
-export function once<TThis = unknown, TArgs extends unknown[] = unknown[], TReturn>(
+export function once<TThis = unknown, TArgs extends unknown[] = unknown[], TReturn = unknown>(
   fn: (this: TThis, ...args: TArgs) => TReturn,
 ): (this: TThis, ...args: TArgs) => TReturn {
   if (typeof fn !== 'function') {
