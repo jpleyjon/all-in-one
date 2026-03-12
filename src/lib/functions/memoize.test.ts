@@ -168,4 +168,25 @@ describe('memoize', () => {
 
     assert.equal(calls, 4);
   });
+
+  it('preserves this when memoized function is used as an object method', () => {
+    let calls = 0;
+
+    const item = {
+      value: 1,
+      getLabel(this: { value: number }) {
+        calls += 1;
+        this.value += 1;
+
+        return this.value;
+      },
+    };
+
+    item.getLabel = memoize(item.getLabel);
+
+    assert.equal(item.getLabel(), 2);
+    assert.equal(item.getLabel(), 2);
+    assert.equal(item.value, 2);
+    assert.equal(calls, 1);
+  });
 });

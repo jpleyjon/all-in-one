@@ -8,10 +8,10 @@
  * @throws {TypeError} If `resolver` is provided and is not a function.
  * @throws {TypeError} If resolver returns a non-string key.
  */
-export function memoize<TArgs extends unknown[], TReturn>(
-  fn: (...args: TArgs) => TReturn,
+export function memoize<TThis = unknown, TArgs extends unknown[] = unknown[], TReturn>(
+  fn: (this: TThis, ...args: TArgs) => TReturn,
   resolver?: (...args: TArgs) => string,
-): (...args: TArgs) => TReturn {
+): (this: TThis, ...args: TArgs) => TReturn {
   if (typeof fn !== 'function') {
     throw new TypeError('fn must be a function.');
   }
@@ -62,7 +62,7 @@ export function memoize<TArgs extends unknown[], TReturn>(
 
   const resolve = resolver ?? defaultResolver;
 
-  return (...args: TArgs): TReturn => {
+  return function (this: TThis, ...args: TArgs): TReturn {
     if (resolver === undefined && args.length === 1) {
       const keyCandidate = args[0];
       if (keyCandidate !== null && (typeof keyCandidate === 'object' || typeof keyCandidate === 'function')) {
@@ -70,7 +70,7 @@ export function memoize<TArgs extends unknown[], TReturn>(
           return objectCache.get(keyCandidate) as TReturn;
         }
 
-        const result = fn(...args);
+      const result = fn.apply(this, args);
         objectCache.set(keyCandidate, result);
 
         return result;
@@ -87,7 +87,7 @@ export function memoize<TArgs extends unknown[], TReturn>(
       return cache.get(key) as TReturn;
     }
 
-    const value = fn(...args);
+    const value = fn.apply(this, args);
     cache.set(key, value);
 
     return value;
