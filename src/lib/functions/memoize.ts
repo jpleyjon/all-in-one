@@ -57,7 +57,7 @@ export function memoize<TArgs extends unknown[], TReturn>(
       }
     };
 
-    return args.map(toCacheKey).join('|');
+    return JSON.stringify(args.map(toCacheKey));
   };
 
   const resolve = resolver ?? defaultResolver;

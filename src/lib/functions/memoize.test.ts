@@ -118,6 +118,23 @@ describe('memoize', () => {
     assert.equal(calls, 11);
   });
 
+  it('keeps cache keys distinct when argument payloads include separators', () => {
+    let calls = 0;
+    const getValue = memoize((...args: string[]) => {
+      calls += 1;
+
+      return args.join('-');
+    });
+
+    assert.equal(getValue('a|string:b|string:c'), 'a|string:b|string:c');
+    assert.equal(getValue('a', 'b', 'c'), 'a-b-c');
+    assert.equal(calls, 2);
+
+    assert.equal(getValue('a|string:b|string:c'), 'a|string:b|string:c');
+    assert.equal(getValue('a', 'b', 'c'), 'a-b-c');
+    assert.equal(calls, 2);
+  });
+
   it('throws when resolver is invalid', () => {
     assert.throws(() => memoize((value: number) => value, 1 as never), TypeError, 'resolver must be a function.');
   });
@@ -129,5 +146,26 @@ describe('memoize', () => {
     );
 
     assert.throws(() => getValue(1), TypeError, 'resolver must return a string.');
+  });
+
+  it('keeps cache keys distinct across mixed-type boundary collisions', () => {
+    let calls = 0;
+    const getValue = memoize((...args: unknown[]) => {
+      calls += 1;
+
+      return args.join('|');
+    });
+
+    assert.equal(getValue('a|boolean:true'), 'a|boolean:true');
+    assert.equal(getValue('a', true), 'a|true');
+    assert.equal(getValue('a|number:1'), 'a|number:1');
+    assert.equal(getValue('a', 1), 'a|1');
+
+    assert.equal(getValue('a|boolean:true'), 'a|boolean:true');
+    assert.equal(getValue('a', true), 'a|true');
+    assert.equal(getValue('a|number:1'), 'a|number:1');
+    assert.equal(getValue('a', 1), 'a|1');
+
+    assert.equal(calls, 4);
   });
 });
