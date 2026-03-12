@@ -5,9 +5,9 @@
  * @returns A function that invokes `fn` at most once and caches the result.
  * @throws {TypeError} If `fn` is not a function.
  */
-export function once<TArgs extends unknown[], TReturn>(
-  fn: (...args: TArgs) => TReturn,
-): (...args: TArgs) => TReturn {
+export function once<TThis = unknown, TArgs extends unknown[] = unknown[], TReturn>(
+  fn: (this: TThis, ...args: TArgs) => TReturn,
+): (this: TThis, ...args: TArgs) => TReturn {
   if (typeof fn !== 'function') {
     throw new TypeError('fn must be a function.');
   }
@@ -15,10 +15,10 @@ export function once<TArgs extends unknown[], TReturn>(
   let called = false;
   let result: TReturn;
 
-  return (...args: TArgs): TReturn => {
+  return function (this: TThis, ...args: TArgs): TReturn {
     if (!called) {
       called = true;
-      result = fn(...args);
+      result = fn.apply(this, args);
     }
 
     return result;
