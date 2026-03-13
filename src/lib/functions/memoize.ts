@@ -24,9 +24,24 @@ export function memoize<TThis = unknown, TArgs extends unknown[] = unknown[], TR
   const contextIds = new WeakMap<object, string>();
   const contextObjectCache = new WeakMap<object, WeakMap<object, TReturn>>();
   const primitiveContextObjectCache = new Map<string, WeakMap<object, TReturn>>();
+  const symbolIds = new Map<symbol, string>();
   let contextCounter = 0;
+  let symbolCounter = 0;
 
   const getContextKey = (context: unknown): string => {
+    if (typeof context === 'symbol') {
+      const existing = symbolIds.get(context);
+
+      if (existing !== undefined) {
+        return existing;
+      }
+
+      const nextSymbolId = `__memoize_symbol_${(symbolCounter += 1)}`;
+      symbolIds.set(context, nextSymbolId);
+
+      return nextSymbolId;
+    }
+
     if (context !== null && (typeof context === 'object' || typeof context === 'function')) {
       const objectContext = context as object;
       const existingId = contextIds.get(objectContext);
@@ -92,10 +107,20 @@ export function memoize<TThis = unknown, TArgs extends unknown[] = unknown[], TR
           return `boolean:${value}`;
         case 'bigint':
           return `bigint:${value.toString()}`;
-        case 'symbol':
-          return `symbol:${value.toString()}`;
+        case 'symbol': {
+          const symbolId = symbolIds.get(value);
+
+          if (symbolId !== undefined) {
+            return `symbol:${symbolId}`;
+          }
+
+          const nextSymbolId = `__memoize_symbol_${(symbolCounter += 1)}`;
+          symbolIds.set(value, nextSymbolId);
+
+          return `symbol:${nextSymbolId}`;
+        }
         case 'function':
-          return `function:${value.toString()}`;
+          return `function:${getContextKey(value)}`;
         default:
           try {
             return `object:${JSON.stringify(value)}`;

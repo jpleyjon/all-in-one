@@ -1,6 +1,6 @@
 /**
  * No-operation function.
  */
-export function noop(): void {
+export function noop(..._args: unknown[]): void {
   return;
 }

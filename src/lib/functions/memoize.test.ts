@@ -173,6 +173,61 @@ describe('memoize', () => {
     assert.equal(calls, 4);
   });
 
+  it('distinguishes symbols by runtime identity', () => {
+    let calls = 0;
+    const getLabel = memoize((value: symbol) => {
+      calls += 1;
+
+      return `${value.description}-${calls}`;
+    });
+
+    const symbolOne = Symbol('memoize');
+    const symbolTwo = Symbol('memoize');
+    const globalSymbolOne = Symbol.for('memoize-shared');
+    const globalSymbolTwo = Symbol.for('memoize-shared');
+
+    assert.equal(getLabel(symbolOne), 1);
+    assert.equal(getLabel(symbolOne), 1);
+    assert.equal(getLabel(symbolTwo), 2);
+    assert.equal(getLabel(globalSymbolOne), 3);
+    assert.equal(getLabel(globalSymbolTwo), 3);
+    assert.equal(calls, 3);
+  });
+
+  it('distinguishes symbol receiver contexts by runtime identity', () => {
+    let calls = 0;
+    const getLabel = memoize(function (this: symbol) {
+      calls += 1;
+
+      return this.toString();
+    });
+
+    const first = Symbol('context');
+    const second = Symbol('context');
+
+    assert.equal(getLabel.call(first), 'Symbol(context)');
+    assert.equal(getLabel.call(first), 'Symbol(context)');
+    assert.equal(getLabel.call(second), 'Symbol(context)');
+    assert.equal(calls, 2);
+  });
+
+  it('distinguishes functions by runtime identity', () => {
+    let calls = 0;
+    const getLabel = memoize((value: () => number) => {
+      calls += 1;
+
+      return value();
+    });
+
+    const first = () => 10;
+    const second = () => 20;
+
+    assert.equal(getLabel(first), 10);
+    assert.equal(getLabel(first), 10);
+    assert.equal(getLabel(second), 20);
+    assert.equal(calls, 2);
+  });
+
   it('preserves this when memoized function is used as an object method', () => {
     let calls = 0;
 
