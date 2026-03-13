@@ -17,8 +17,8 @@ export function once<TThis = unknown, TArgs extends unknown[] = unknown[], TRetu
 
   return function (this: TThis, ...args: TArgs): TReturn {
     if (!called) {
-      called = true;
       result = fn.apply(this, args);
+      called = true;
     }
 
     return result;

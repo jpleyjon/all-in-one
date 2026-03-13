@@ -42,4 +42,23 @@ describe('once', () => {
     assert.equal(obj.value, 2);
     assert.equal(calls, 1);
   });
+
+  it('retries when the first invocation throws', () => {
+    let calls = 0;
+
+    const flakey = once(() => {
+      calls += 1;
+
+      if (calls === 1) {
+        throw new Error('transient');
+      }
+
+      return calls;
+    });
+
+    assert.throws(() => flakey(), /transient/);
+    assert.equal(flakey(), 2);
+    assert.equal(flakey(), 2);
+    assert.equal(calls, 2);
+  });
 });
