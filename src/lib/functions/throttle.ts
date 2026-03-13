@@ -21,32 +21,28 @@ export function throttle<TArgs extends unknown[], TReturn>(
 
   let lastExecution = 0;
   let timer: ReturnType<typeof setTimeout> | undefined;
-  let latestArgs: TArgs | undefined;
-  let latestThis: unknown;
+  let latestInvocation: (() => TReturn) | undefined;
   let result: TReturn;
 
-  const invoke = () => {
+  const invoke = (): void => {
     timer = undefined;
     lastExecution = Date.now();
 
-    if (latestArgs === undefined) {
+    if (latestInvocation === undefined) {
       return;
     }
 
-    const args = latestArgs;
-    const context = latestThis;
-    latestArgs = undefined;
-    latestThis = undefined;
+    const invocation = latestInvocation;
+    latestInvocation = undefined;
 
-    result = fn.apply(context, args);
+    result = invocation();
   };
 
   return function throttled(this: unknown, ...args: TArgs): TReturn | undefined {
     const now = Date.now();
     const remaining = wait - (now - lastExecution);
 
-    latestThis = this;
-    latestArgs = args;
+    latestInvocation = () => fn.apply(this, args);
 
     if (remaining <= 0 || remaining > wait) {
       if (timer !== undefined) {
@@ -55,9 +51,9 @@ export function throttle<TArgs extends unknown[], TReturn>(
       }
 
       lastExecution = now;
-      result = fn.apply(latestThis, latestArgs);
-      latestArgs = undefined;
-      latestThis = undefined;
+      const invocation = latestInvocation;
+      result = invocation();
+      latestInvocation = undefined;
       return result;
     }
 

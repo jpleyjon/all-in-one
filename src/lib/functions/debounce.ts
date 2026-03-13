@@ -21,13 +21,11 @@ export function debounce<TArgs extends unknown[], TReturn>(
   }
 
   let timer: ReturnType<typeof setTimeout> | undefined;
-  let latestArgs: TArgs | undefined;
-  let latestThis: unknown;
+  let latestInvocation: (() => TReturn) | undefined;
   let result: TReturn;
 
   return function debounced(this: unknown, ...args: TArgs): TReturn | undefined {
-    latestThis = this;
-    latestArgs = args;
+    latestInvocation = () => fn.apply(this, args);
 
     if (timer !== undefined) {
       clearTimeout(timer);
@@ -36,8 +34,9 @@ export function debounce<TArgs extends unknown[], TReturn>(
     timer = setTimeout(() => {
       timer = undefined;
 
-      if (latestArgs !== undefined) {
-        result = fn.apply(latestThis, latestArgs);
+      if (latestInvocation !== undefined) {
+        result = latestInvocation();
+        latestInvocation = undefined;
       }
     }, wait);
 
