@@ -16,10 +16,6 @@ describe('tap', () => {
   });
 
   it('throws for invalid interceptor', () => {
-    assert.throws(
-      () => tap('x', 1 as never),
-      TypeError,
-      'interceptor must be a function.',
-    );
+    assert.throws(() => tap('x', 1 as never), TypeError, 'interceptor must be a function.');
   });
 });

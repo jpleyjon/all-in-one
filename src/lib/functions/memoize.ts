@@ -35,7 +35,7 @@ export function memoize<TThis = unknown, TArgs extends unknown[] = unknown[], TR
         return existingId;
       }
 
-      const nextId = `__memoize_context_${contextCounter += 1}`;
+      const nextId = `__memoize_context_${(contextCounter += 1)}`;
       contextIds.set(objectContext, nextId);
 
       return nextId;

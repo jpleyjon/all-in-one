@@ -28,7 +28,9 @@ export function compose<A, B, C, D, E, F>(
   fn2: (value: B) => C,
   fn1: (value: A) => B,
 ): (value: A) => F;
-export function compose(...fns: ReadonlyArray<(value: unknown) => unknown>): (value: unknown) => unknown {
+export function compose(
+  ...fns: ReadonlyArray<(value: unknown) => unknown>
+): (value: unknown) => unknown {
   if (fns.some((fn) => typeof fn !== 'function')) {
     throw new TypeError('fns must be functions.');
   }

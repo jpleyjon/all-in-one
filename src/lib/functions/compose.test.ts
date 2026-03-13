@@ -18,6 +18,10 @@ describe('compose', () => {
   });
 
   it('throws for non-function arguments', () => {
-    assert.throws(() => compose((value) => value as number, 1 as never), TypeError, 'fns must be functions.');
+    assert.throws(
+      () => compose((value) => value as number, 1 as never),
+      TypeError,
+      'fns must be functions.',
+    );
   });
 });

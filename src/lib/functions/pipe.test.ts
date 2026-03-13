@@ -18,6 +18,10 @@ describe('pipe', () => {
   });
 
   it('throws for non-function arguments', () => {
-    assert.throws(() => pipe((value) => value as number, {} as never), TypeError, 'fns must be functions.');
+    assert.throws(
+      () => pipe((value) => value as number, {} as never),
+      TypeError,
+      'fns must be functions.',
+    );
   });
 });

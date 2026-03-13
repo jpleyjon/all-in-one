@@ -136,13 +136,17 @@ describe('memoize', () => {
   });
 
   it('throws when resolver is invalid', () => {
-    assert.throws(() => memoize((value: number) => value, 1 as never), TypeError, 'resolver must be a function.');
+    assert.throws(
+      () => memoize((value: number) => value, 1 as never),
+      TypeError,
+      'resolver must be a function.',
+    );
   });
 
   it('throws when resolver returns non-string', () => {
     const getValue = memoize(
       (value: number) => value,
-      (() => 1 as never),
+      () => 1 as never,
     );
 
     assert.throws(() => getValue(1), TypeError, 'resolver must return a string.');

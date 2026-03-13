@@ -10,7 +10,11 @@ import { identity } from './identity';
 export function pipe<T>(): (value: T) => T;
 export function pipe<T, R>(fn: (value: T) => R): (value: T) => R;
 export function pipe<A, B, C>(fn1: (value: A) => B, fn2: (value: B) => C): (value: A) => C;
-export function pipe<A, B, C, D>(fn1: (value: A) => B, fn2: (value: B) => C, fn3: (value: C) => D): (value: A) => D;
+export function pipe<A, B, C, D>(
+  fn1: (value: A) => B,
+  fn2: (value: B) => C,
+  fn3: (value: C) => D,
+): (value: A) => D;
 export function pipe<A, B, C, D, E>(
   fn1: (value: A) => B,
   fn2: (value: B) => C,
@@ -24,7 +28,9 @@ export function pipe<A, B, C, D, E, F>(
   fn4: (value: D) => E,
   fn5: (value: E) => F,
 ): (value: A) => F;
-export function pipe(...fns: ReadonlyArray<(value: unknown) => unknown>): (value: unknown) => unknown {
+export function pipe(
+  ...fns: ReadonlyArray<(value: unknown) => unknown>
+): (value: unknown) => unknown {
   if (fns.some((fn) => typeof fn !== 'function')) {
     throw new TypeError('fns must be functions.');
   }
