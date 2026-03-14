@@ -131,3 +131,4 @@ dist
 
 # MacOS filesystem
 .DS_Store
+.npmrc

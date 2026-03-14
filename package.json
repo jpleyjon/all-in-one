@@ -81,7 +81,8 @@
     "test:local": "./bin/test-local",
     "publish:package": "./bin/publish",
     "publish:package:local": "./bin/publish-local",
-    "prepublishOnly": "npm run test && npm run build"
+    "prepublishOnly": "npm run test && npm run build",
+    "hooks:install": "node -e \"const {execSync}=require('child_process'); const fs=require('fs'); const path=require('path'); const src=path.join(process.cwd(),'.githooks','pre-commit'); const dst=path.join(execSync('git rev-parse --git-path hooks').toString().trim(),'pre-commit'); fs.copyFileSync(src,dst); fs.chmodSync(dst,0o755); console.log('Installed pre-commit hook to '+dst);\""
   },
   "keywords": [
     "typescript",
