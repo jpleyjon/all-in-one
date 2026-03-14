@@ -177,8 +177,8 @@ describe('memoize', () => {
     let calls = 0;
     const getLabel = memoize((value: symbol) => {
       calls += 1;
-
-      return `${value.description}-${calls}`;
+      void value;
+      return calls;
     });
 
     const symbolOne = Symbol('memoize');
