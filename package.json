@@ -81,7 +81,8 @@
     "test:local": "./bin/test-local",
     "publish:package": "./bin/publish",
     "publish:package:local": "./bin/publish-local",
-    "prepublishOnly": "npm run test && npm run build"
+    "prepublishOnly": "npm run test && npm run build",
+    "hooks:install": "node -e \"const fs = require('fs'); const src='.githooks/pre-commit'; const dst='.git/hooks/pre-commit'; if(!fs.existsSync('.git')) process.exit(0); fs.copyFileSync(src, dst); fs.chmodSync(dst, 0o755); console.log('Installed pre-commit hook.');\""
   },
   "keywords": [
     "typescript",
