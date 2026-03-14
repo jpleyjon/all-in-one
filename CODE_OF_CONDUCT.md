@@ -32,6 +32,7 @@ chat, and any official project channel where someone is representing this projec
 
 If you experience or witness harmful behavior, please report it through the
 project’s GitHub channels:
+
 - Open a GitHub issue and mark it as a conduct concern.
 - If your report is sensitive, use the repository’s private reporting option when available.
 

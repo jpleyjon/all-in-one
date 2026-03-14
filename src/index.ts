@@ -7,4 +7,5 @@ export * from './lib/currency';
 export * from './lib/object';
 export * from './lib/json';
 export * from './lib/number';
+export * from './lib/functions';
 export * from './lib/validation';
