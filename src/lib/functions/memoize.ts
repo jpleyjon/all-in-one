@@ -1,3 +1,5 @@
+import { isPlainObject } from '../object/is-plain-object';
+
 /**
  * Memoizes a function using a resolver or a default argument-based cache key.
  *
@@ -122,10 +124,24 @@ export function memoize<TThis = unknown, TArgs extends unknown[] = unknown[], TR
         case 'function':
           return `function:${getContextKey(value)}`;
         default:
+          if (value instanceof Date) {
+            return `date:${value.getTime()}`;
+          }
+
+          if (!Array.isArray(value) && !isPlainObject(value)) {
+            return `object:${getContextKey(value)}`;
+          }
+
           try {
-            return `object:${JSON.stringify(value)}`;
+            const serialized = JSON.stringify(value);
+
+            if (serialized === undefined) {
+              return `object:${getContextKey(value)}`;
+            }
+
+            return `object:${serialized}`;
           } catch {
-            return `object:${Object.prototype.toString.call(value)}`;
+            return `object:${getContextKey(value)}`;
           }
       }
     };
