@@ -24,6 +24,12 @@ describe('unset', () => {
     assert.equal(unset(input, ''), input);
   });
 
+  it('returns original object when a nested path segment is missing', () => {
+    const input = { user: { profile: { name: 'Ada' } } };
+
+    assert.equal(unset(input, 'user.profile.age'), input);
+  });
+
   it('throws for invalid input', () => {
     assert.throws(
       () => unset(undefined as never, 'a.b'),
