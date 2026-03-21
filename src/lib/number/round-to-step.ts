@@ -101,8 +101,7 @@ export function roundToStep(
   const scaled = value / step;
   const rounded = applyRounding(scaled, mode) * step;
   const fractionDigits = countFractionDigits(step);
-  const normalized =
-    fractionDigits <= 100 ? Number(rounded.toFixed(fractionDigits)) : rounded;
+  const normalized = fractionDigits <= 100 ? Number(rounded.toFixed(fractionDigits)) : rounded;
 
   return Object.is(rounded, -0) ? 0 : normalized;
 }
