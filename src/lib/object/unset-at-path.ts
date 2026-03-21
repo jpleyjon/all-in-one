@@ -19,12 +19,12 @@ export function unsetAtPath(input: unknown, segments: readonly PathSegment[]): u
     return input;
   }
 
-  const base = (Array.isArray(input) ? [...input] : { ...(input as ObjectRecord) }) as Record<
-    string | number,
-    unknown
-  >;
-
   if (tail.length === 0) {
+    const base = (Array.isArray(input) ? [...input] : { ...(input as ObjectRecord) }) as Record<
+      string | number,
+      unknown
+    >;
+
     if (Array.isArray(base) && typeof head === 'number') {
       (base as unknown[]).splice(head, 1);
     } else {
@@ -34,6 +34,18 @@ export function unsetAtPath(input: unknown, segments: readonly PathSegment[]): u
     return base;
   }
 
-  base[head] = unsetAtPath(base[head], tail);
+  const current = (input as Record<string | number, unknown>)[head];
+  const next = unsetAtPath(current, tail);
+
+  if (next === current) {
+    return input;
+  }
+
+  const base = (Array.isArray(input) ? [...input] : { ...(input as ObjectRecord) }) as Record<
+    string | number,
+    unknown
+  >;
+
+  base[head] = next;
   return base;
 }

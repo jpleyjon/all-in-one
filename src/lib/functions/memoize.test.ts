@@ -284,4 +284,82 @@ describe('memoize', () => {
     assert.equal(receiver.getTotal(value), 15);
     assert.equal(calls, 1);
   });
+
+  it('does not collide distinct object arguments in multi-argument calls', () => {
+    let calls = 0;
+    const getTotal = memoize((value: Map<string, number>, offset: number) => {
+      calls += 1;
+
+      return (value.get('amount') ?? 0) + offset;
+    });
+
+    const first = new Map([['amount', 1]]);
+    const second = new Map([['amount', 2]]);
+
+    assert.equal(getTotal(first, 10), 11);
+    assert.equal(getTotal(second, 10), 12);
+    assert.equal(calls, 2);
+  });
+
+  it('does not collide distinct circular object arguments in multi-argument calls', () => {
+    let calls = 0;
+    const getLabel = memoize((value: { id: string; self: unknown }, suffix: string) => {
+      calls += 1;
+
+      return `${value.id}-${suffix}`;
+    });
+
+    const first: { id: string; self?: unknown } = { id: 'first' };
+    first.self = first;
+
+    const second: { id: string; self?: unknown } = { id: 'second' };
+    second.self = second;
+
+    assert.equal(getLabel(first as { id: string; self: unknown }, 'value'), 'first-value');
+    assert.equal(getLabel(second as { id: string; self: unknown }, 'value'), 'second-value');
+    assert.equal(calls, 2);
+  });
+
+  it('uses date timestamps in default cache keys', () => {
+    let calls = 0;
+    const getLabel = memoize((value: Date, suffix: string) => {
+      calls += 1;
+
+      return `${value.getTime()}-${suffix}`;
+    });
+
+    const first = new Date('2024-01-10T12:30:45.123Z');
+    const second = new Date('2024-01-10T12:30:45.123Z');
+
+    assert.equal(getLabel(first, 'value'), '1704889845123-value');
+    assert.equal(getLabel(second, 'value'), '1704889845123-value');
+    assert.equal(calls, 1);
+  });
+
+  it('falls back to identity when object serialization returns undefined', () => {
+    let calls = 0;
+    const getLabel = memoize((value: { id: string; toJSON(): undefined }, suffix: string) => {
+      calls += 1;
+
+      return `${value.id}-${suffix}`;
+    });
+
+    const first = {
+      id: 'first',
+      toJSON() {
+        return undefined;
+      },
+    };
+
+    const second = {
+      id: 'second',
+      toJSON() {
+        return undefined;
+      },
+    };
+
+    assert.equal(getLabel(first, 'value'), 'first-value');
+    assert.equal(getLabel(second, 'value'), 'second-value');
+    assert.equal(calls, 2);
+  });
 });

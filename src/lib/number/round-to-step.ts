@@ -32,6 +32,21 @@ function roundHalfEven(value: number): number {
   return truncated % 2 === 0 ? truncated : truncated + Math.sign(value);
 }
 
+function countFractionDigits(value: number): number {
+  const text = value.toString().toLowerCase();
+  const exponentIndex = text.indexOf('e');
+
+  if (exponentIndex === -1) {
+    return text.split('.')[1]?.length ?? 0;
+  }
+
+  const coefficient = text.slice(0, exponentIndex);
+  const exponent = Number(text.slice(exponentIndex + 1));
+  const coefficientFractionDigits = coefficient.split('.')[1]?.length ?? 0;
+
+  return Math.max(0, coefficientFractionDigits - exponent);
+}
+
 function applyRounding(value: number, mode: RoundToStepMode): number {
   if (mode === 'half-up') {
     return value >= 0 ? Math.floor(value + 0.5) : Math.ceil(value - 0.5);
@@ -84,5 +99,9 @@ export function roundToStep(
   }
 
   const scaled = value / step;
-  return applyRounding(scaled, mode) * step;
+  const rounded = applyRounding(scaled, mode) * step;
+  const fractionDigits = countFractionDigits(step);
+  const normalized = fractionDigits <= 100 ? Number(rounded.toFixed(fractionDigits)) : rounded;
+
+  return Object.is(rounded, -0) ? 0 : normalized;
 }
