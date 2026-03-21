@@ -18,6 +18,30 @@ describe('unset', () => {
     assert.deepEqual(output, { tags: ['math', 'poetry'] });
   });
 
+  it('removes nested keys inside array items immutably', () => {
+    const input = {
+      users: [
+        { profile: { name: 'Ada', age: 36 } },
+        { profile: { name: 'Grace', age: 40 } },
+      ],
+    };
+
+    const output = unset(input, ['users', 1, 'profile', 'age']);
+
+    assert.deepEqual(output, {
+      users: [
+        { profile: { name: 'Ada', age: 36 } },
+        { profile: { name: 'Grace' } },
+      ],
+    });
+    assert.deepEqual(input, {
+      users: [
+        { profile: { name: 'Ada', age: 36 } },
+        { profile: { name: 'Grace', age: 40 } },
+      ],
+    });
+  });
+
   it('returns original object when path is missing or empty', () => {
     const input = { a: 1 };
     assert.equal(unset(input, 'b.c'), input);
