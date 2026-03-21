@@ -35,6 +35,11 @@ describe('roundToStep', () => {
     assert.equal(roundToStep(2.6e-7, 1.5e-7), 3e-7);
   });
 
+  it('does not throw for tiny step values beyond toFixed precision limits', () => {
+    assert.equal(roundToStep(2.6e-101, 1e-101), 3e-101);
+    assert.equal(roundToStep(5e-324, 5e-324), 5e-324);
+  });
+
   it('normalizes negative zero to zero', () => {
     assert.equal(roundToStep(-0.004, 0.01, 'toward-zero'), 0);
   });
