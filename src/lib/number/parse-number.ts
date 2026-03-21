@@ -44,11 +44,9 @@ export function parseNumber(input: string, locales?: string | string[]): number 
 
   const { group, decimal, numerals } = resolveSeparators(locales);
 
-  const withoutSpaces = trimmed.replace(/[\s\u00A0\u202F]/g, '');
-
   let normalized = '';
 
-  for (const character of withoutSpaces) {
+  for (const character of trimmed) {
     normalized += numerals.get(character) ?? character;
   }
 
@@ -60,6 +58,10 @@ export function parseNumber(input: string, locales?: string | string[]): number 
   if (decimal !== '.') {
     const decimalRegex = new RegExp(escapeRegexCharacter(decimal), 'g');
     normalized = normalized.replace(decimalRegex, '.');
+  }
+
+  if (/[\s\u00A0\u202F]/u.test(normalized)) {
+    throw new TypeError('input must be a valid numeric string.');
   }
 
   if (!/^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(normalized)) {

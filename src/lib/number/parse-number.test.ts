@@ -6,7 +6,6 @@ describe('parseNumber', () => {
   it('parses common numeric strings', () => {
     assert.equal(parseNumber('1,234.56', 'en-US'), 1234.56);
     assert.equal(parseNumber(' -1,234.56 ', 'en-US'), -1234.56);
-    assert.equal(parseNumber('1 234.56', 'en-US'), 1234.56);
     assert.equal(parseNumber('1e3', 'en-US'), 1000);
   });
 
@@ -77,6 +76,16 @@ describe('parseNumber', () => {
     assert.throws(() => parseNumber(1 as never), TypeError, 'input must be a string.');
     assert.throws(() => parseNumber('   '), TypeError, 'input must be a non-empty numeric string.');
     assert.throws(() => parseNumber('abc'), TypeError, 'input must be a valid numeric string.');
+    assert.throws(
+      () => parseNumber('1 2 3', 'en-US'),
+      TypeError,
+      'input must be a valid numeric string.',
+    );
+    assert.throws(
+      () => parseNumber('1e 2', 'en-US'),
+      TypeError,
+      'input must be a valid numeric string.',
+    );
     assert.throws(
       () => parseNumber('1..2', 'en-US'),
       TypeError,
