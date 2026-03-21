@@ -24,6 +24,11 @@ describe('roundToStep', () => {
     assert.equal(roundToStep(2.1, 1, 'away-from-zero'), 3);
   });
 
+  it('does not leak floating point noise in rounded step values', () => {
+    assert.equal(roundToStep(5.25, 0.1), 5.3);
+    assert.equal(roundToStep(-5.25, 0.1), -5.3);
+  });
+
   it('throws for invalid inputs', () => {
     assert.throws(() => roundToStep(Number.NaN, 1), RangeError, 'value must be a finite number.');
     assert.throws(() => roundToStep(1, 0), RangeError, 'step must be a positive finite number.');
