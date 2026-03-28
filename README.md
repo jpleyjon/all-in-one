@@ -64,7 +64,7 @@ Production-ready functional string helpers:
 - **Case conversion** - `toCamelCase`, `toPascalCase`, `toSnakeCase`, `toKebabCase`, `toTitleCase`
 - **Formatting** - `capitalize`, `capitalizeWords`, `normalizeWhitespace`
 - **Matching** - `equalsIgnoreCase`, `includesIgnoreCase`
-- **Transformations** - `slugify`, `stripAccents`
+- **Transformations** - `slugify`, `stripAccents`, `toWords`
 - **Text shaping** - `truncate`, `truncateWords`, `initials`, `mask`
 
 ### Array Utilities
@@ -97,7 +97,7 @@ Date parsing, formatting, comparison, and calendar boundary helpers:
 - **Formatting and ISO conversion** - `formatDate`, `toISODate`, `toISODateTime`
 - **Date arithmetic** - `addDays`, `addMonths`, `addYears`, `subtractDays`, `subtractMonths`, `subtractYears`
 - **Calendar boundaries** - `startOfDay`, `endOfDay`, `startOfWeek`, `endOfWeek`, `startOfMonth`, `endOfMonth`, `startOfYear`, `endOfYear`
-- **Differences and comparison** - `differenceInDays`, `differenceInHours`, `differenceInMinutes`, `differenceInSeconds`, `isBefore`, `isAfter`, `isSameDay`, `isSameMonth`
+- **Differences and comparison** - `differenceInDays`, `differenceInHours`, `differenceInMilliseconds`, `differenceInMinutes`, `differenceInSeconds`, `isBefore`, `isAfter`, `isSameDay`, `isSameMonth`
 - **Relative-day checks** - `isToday`, `isYesterday`, `isTomorrow`
 - **Range and selection** - `minDate`, `maxDate`, `clampDate`
 - **Calendar and timestamp helpers** - `getDaysInMonth`, `getWeekday`, `fromUnixTimestamp`, `toUnixTimestamp`
@@ -262,6 +262,7 @@ logValue('latest call');
 import {
   toCamelCase,
   slugify,
+  toWords,
   normalizeWhitespace,
   truncateWords,
   mask,
@@ -269,6 +270,7 @@ import {
 
 console.log(toCamelCase('hello-world test')); // helloWorldTest
 console.log(slugify('Crème Brûlée Recipe')); // creme-brulee-recipe
+console.log(toWords('userProfileValue')); // ['user', 'profile', 'value']
 console.log(normalizeWhitespace('  too   many\nspaces\t')); // too many spaces
 console.log(truncateWords('one two three four', 2)); // one two...
 console.log(mask('4111111111111111', 4, 4)); // 4111********1111
@@ -780,6 +782,7 @@ If needed, you can still run local Node-based commands via `npm run <task>:local
 - `endOfYear(date: DateInput): Date` - End of local year
 - `differenceInDays(a: DateInput, b: DateInput): number` - Signed whole-day difference
 - `differenceInHours(a: DateInput, b: DateInput): number` - Signed whole-hour difference
+- `differenceInMilliseconds(a: DateInput, b: DateInput): number` - Signed millisecond difference
 - `differenceInMinutes(a: DateInput, b: DateInput): number` - Signed whole-minute difference
 - `differenceInSeconds(a: DateInput, b: DateInput): number` - Signed whole-second difference
 - `isBefore(a: DateInput, b: DateInput): boolean` - Check if `a` is before `b`
