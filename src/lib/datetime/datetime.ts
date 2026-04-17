@@ -7,6 +7,7 @@ export { addYears } from './add-years';
 export { clampDate } from './clamp-date';
 export { differenceInDays } from './difference-in-days';
 export { differenceInHours } from './difference-in-hours';
+export { differenceInMilliseconds } from './difference-in-milliseconds';
 export { differenceInMinutes } from './difference-in-minutes';
 export { differenceInSeconds } from './difference-in-seconds';
 export { endOfDay } from './end-of-day';

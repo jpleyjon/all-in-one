@@ -14,4 +14,5 @@ export { toKebabCase } from './to-kebab-case';
 export { toPascalCase } from './to-pascal-case';
 export { toSnakeCase } from './to-snake-case';
 export { toTitleCase } from './to-title-case';
+export { toWords } from './to-words';
 export { stripAccents } from './strip-accents';
