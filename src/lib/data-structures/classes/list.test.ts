@@ -1,7 +1,8 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import List from './list';
+import { describe, it } from 'node:test';
+
 import MockClass from '../fixtures/mock-class';
+import List from './list';
 
 describe('List', () => {
   describe('Constructor', () => {

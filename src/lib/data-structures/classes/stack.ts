@@ -1,5 +1,5 @@
-import { IStack } from '../interfaces/stack';
-import ILinearStructure from '../interfaces/linear-structure';
+import type { IStack } from '../interfaces/stack';
+import type ILinearStructure from '../interfaces/linear-structure';
 import SingleNode from './single-node';
 
 /**

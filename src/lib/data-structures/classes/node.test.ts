@@ -1,7 +1,8 @@
+import assert from 'node:assert';
 import { describe, it } from 'node:test';
-import assert from 'assert';
+
 import MockNode from '../fixtures/mock-node';
-import Comparable from '../interfaces/comparable';
+import type Comparable from '../interfaces/comparable';
 
 // Create a test class that implements Comparable for testing
 class TestComparable implements Comparable {

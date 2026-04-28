@@ -1,5 +1,6 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
+import { describe, it } from 'node:test';
+
 import DoubleNode from './double-node';
 
 describe('Double Node', () => {

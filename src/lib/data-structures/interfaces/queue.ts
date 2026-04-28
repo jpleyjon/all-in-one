@@ -1,5 +1,5 @@
 // c8 ignore file
-import ILinearStructure from './linear-structure';
+import type ILinearStructure from './linear-structure';
 
 /**
  * Interface for a queue data structure.

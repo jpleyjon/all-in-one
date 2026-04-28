@@ -1,5 +1,5 @@
-import IComparable from '../interfaces/comparable';
-import { TComparable } from '../types';
+import type IComparable from '../interfaces/comparable';
+import type { TComparable } from '../types';
 
 type TAdjacencyNode<T> = {
   vertex: T;

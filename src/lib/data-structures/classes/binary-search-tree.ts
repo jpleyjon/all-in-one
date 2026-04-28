@@ -1,6 +1,6 @@
-import IComparable from '../interfaces/comparable';
-import ITree from '../interfaces/tree';
-import { TComparable } from '../types';
+import type IComparable from '../interfaces/comparable';
+import type ITree from '../interfaces/tree';
+import type { TComparable } from '../types';
 
 /**
  * Binary Search Tree implementation for primitive and comparable object values.

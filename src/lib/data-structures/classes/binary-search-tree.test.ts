@@ -1,8 +1,10 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import BinarySearchTree from './binary-search-tree';
+import { describe, it } from 'node:test';
+
 import MockClass from '../fixtures/mock-class';
-import { TComparable } from '../types';
+import type { TComparable } from '../types';
+
+import BinarySearchTree from './binary-search-tree';
 
 function createNumberTree(): BinarySearchTree<number> {
   const tree = new BinarySearchTree<number>(5);

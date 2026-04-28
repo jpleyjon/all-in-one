@@ -1,7 +1,8 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import Stack, { StackUnderflowError } from './stack';
+import { describe, it } from 'node:test';
+
 import MockClass from '../fixtures/mock-class';
+import Stack, { StackUnderflowError } from './stack';
 
 describe('Stack', () => {
   describe('Constructor', () => {

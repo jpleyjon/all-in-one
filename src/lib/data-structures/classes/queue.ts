@@ -1,4 +1,4 @@
-import { IQueue } from '../interfaces/queue';
+import type { IQueue } from '../interfaces/queue';
 import ALinearStructure from './linear-structure';
 import SingleNode from './single-node';
 

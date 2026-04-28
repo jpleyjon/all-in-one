@@ -1,5 +1,6 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
+import { describe, it } from 'node:test';
+
 import MockLinearStructure from '../fixtures/mock-linear-structure';
 import SingleNode from './single-node';
 
