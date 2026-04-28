@@ -1,4 +1,4 @@
-import ILinearStructure from '../interfaces/linear-structure';
+import type ILinearStructure from '../interfaces/linear-structure';
 import SingleNode from './single-node';
 
 /**
@@ -36,9 +36,9 @@ export default abstract class ALinearStructure<T> implements ILinearStructure {
    */
   get size(): number {
     let size = 0;
-    let header = this._head;
-    while (null !== header) {
-      header = header.next;
+    let current = this._head;
+    while (current !== null) {
+      current = current.next;
       size++;
     }
     return size;
@@ -49,7 +49,7 @@ export default abstract class ALinearStructure<T> implements ILinearStructure {
    * @returns {boolean} `true` if the structure is empty, `false` otherwise.
    */
   isEmpty(): boolean {
-    return null === this._head;
+    return this._head === null;
   }
 
   /**
@@ -58,14 +58,14 @@ export default abstract class ALinearStructure<T> implements ILinearStructure {
    */
   push(data: T): void {
     const newElement = new SingleNode(data);
-    if (null === this._head) {
+    if (this._head === null) {
       this._head = newElement;
       return;
     }
-    let header = this._head;
-    while (header.next) {
-      header = header.next;
+    let current = this._head;
+    while (current.next) {
+      current = current.next;
     }
-    header.next = newElement;
+    current.next = newElement;
   }
 }

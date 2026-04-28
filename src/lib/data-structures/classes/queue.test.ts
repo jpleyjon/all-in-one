@@ -1,7 +1,8 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import Queue, { QueueUnderflowError } from './queue';
+import { describe, it } from 'node:test';
+
 import MockClass from '../fixtures/mock-class';
+import Queue, { QueueUnderflowError } from './queue';
 
 describe('Queue', () => {
   describe('Constructor', () => {

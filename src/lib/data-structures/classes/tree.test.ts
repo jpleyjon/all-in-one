@@ -1,7 +1,8 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import Tree from './tree';
+import { describe, it } from 'node:test';
+
 import MockClass from '../fixtures/mock-class';
+import Tree from './tree';
 
 function createNumberTree(): Tree<number> {
   const tree = new Tree<number>(1);

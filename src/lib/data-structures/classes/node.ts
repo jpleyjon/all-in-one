@@ -1,4 +1,4 @@
-import Comparable from '../interfaces/comparable';
+import type Comparable from '../interfaces/comparable';
 
 /**
  * Abstract class for a Node in a data structure.

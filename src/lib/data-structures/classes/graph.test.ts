@@ -1,8 +1,10 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import Graph from './graph';
+import { describe, it } from 'node:test';
+
 import MockClass from '../fixtures/mock-class';
-import { TComparable } from '../types';
+import type { TComparable } from '../types';
+
+import Graph from './graph';
 
 function createUndirectedGraph(): Graph<number> {
   const graph = new Graph<number>();

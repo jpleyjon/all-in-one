@@ -1,5 +1,5 @@
 // c8 ignore file
-import IComparable from '../interfaces/comparable';
+import type IComparable from '../interfaces/comparable';
 
 export default class MockClass implements IComparable {
   private _mockProperty: number;

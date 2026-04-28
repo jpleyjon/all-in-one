@@ -1,7 +1,8 @@
-import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert';
-import SingleNode from './single-node';
+import { beforeEach, describe, it } from 'node:test';
+
 import MockClass from '../fixtures/mock-class';
+import SingleNode from './single-node';
 
 describe('Simple Node', () => {
   let _mockObject: MockClass;
