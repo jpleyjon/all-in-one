@@ -40,4 +40,16 @@ describe('getTicTacToeStatus', () => {
 
     assert.equal(getTicTacToeStatus(state), 'draw');
   });
+
+  it('returns in_progress for short invalid boards without a real winner', () => {
+    const state: TicTacToeState = {
+      board: [],
+      currentPlayer: 'X',
+      winner: null,
+      status: 'in_progress',
+      movesPlayed: 0,
+    };
+
+    assert.equal(getTicTacToeStatus(state), 'in_progress');
+  });
 });

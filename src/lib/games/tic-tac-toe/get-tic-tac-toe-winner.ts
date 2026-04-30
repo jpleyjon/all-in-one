@@ -21,7 +21,11 @@ export function getTicTacToeWinner(state: TicTacToeState): TicTacToePlayer | nul
   for (const [left, middle, right] of WINNING_LINES) {
     const mark = state.board[left];
 
-    if (mark !== null && mark === state.board[middle] && mark === state.board[right]) {
+    if (
+      (mark === 'X' || mark === 'O') &&
+      mark === state.board[middle] &&
+      mark === state.board[right]
+    ) {
       return mark;
     }
   }

@@ -44,4 +44,13 @@ describe('getTicTacToeWinner', () => {
 
     assert.equal(winner, null);
   });
+
+  it('returns null for empty or short invalid boards', () => {
+    assert.equal(getTicTacToeWinner(createState([])), null);
+    assert.equal(getTicTacToeWinner(createState(['X'])), null);
+  });
+
+  it('returns null for missing anti-diagonal cells on a short board', () => {
+    assert.equal(getTicTacToeWinner(createState([null, null])), null);
+  });
 });
