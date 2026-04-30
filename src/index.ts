@@ -9,3 +9,4 @@ export * from './lib/json';
 export * from './lib/number';
 export * from './lib/functions';
 export * from './lib/validation';
+export * from './lib/games';

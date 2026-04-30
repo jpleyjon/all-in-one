@@ -26,10 +26,14 @@ npm install @jpleyjon/all-in-one
 ```typescript
 import { toCamelCase, unique } from '@jpleyjon/all-in-one';
 import { formatDate } from '@jpleyjon/all-in-one/datetime';
+import { createTicTacToeState, playTicTacToeMove } from '@jpleyjon/all-in-one/games';
 
 console.log(toCamelCase('hello world')); // helloWorld
 console.log(unique([1, 2, 1, 3])); // [1, 2, 3]
 console.log(formatDate(new Date(), 'YYYY-MM-DD'));
+
+let game = createTicTacToeState();
+game = playTicTacToeMove(game, { row: 0, column: 0 });
 ```
 
 Use top-level imports for convenience and subpath imports for domain-specific usage.
@@ -144,6 +148,12 @@ Composed, schema-oriented, and format validation helpers:
 - **Object and schema checks** - `hasRequiredKeys`, `validateShape`
 - **Validator combinators** - `optional`, `nullable`, `arrayOf`, `allOf`, `oneOf`
 
+### Game Mechanics
+
+Mechanics-only engines for simple games with immutable state transitions:
+
+- **Tic-tac-toe** - create state, apply moves, list legal moves, and detect wins or draws
+
 ## 📖 Usage
 
 ### Stack
@@ -159,6 +169,22 @@ stack.push(3);
 console.log(stack.pop()); // 3
 console.log(stack.peek()); // 2
 console.log(stack.isEmpty()); // false
+```
+
+### Tic-Tac-Toe
+
+```typescript
+import {
+  createTicTacToeState,
+  getTicTacToeStatus,
+  playTicTacToeMove,
+} from '@jpleyjon/all-in-one/games';
+
+let state = createTicTacToeState();
+state = playTicTacToeMove(state, { row: 0, column: 0 });
+state = playTicTacToeMove(state, { row: 1, column: 1 });
+
+console.log(getTicTacToeStatus(state)); // in_progress
 ```
 
 ### Queue

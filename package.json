@@ -1,6 +1,6 @@
 {
   "name": "@jpleyjon/all-in-one",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "description": "A comprehensive TypeScript utility library with data structures, function, string, array, object, datetime, currency, JSON, number, and validation helpers.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -59,6 +59,11 @@
       "types": "./dist/lib/functions/index.d.ts",
       "require": "./dist/lib/functions/index.js",
       "default": "./dist/lib/functions/index.js"
+    },
+    "./games": {
+      "types": "./dist/lib/games/index.d.ts",
+      "require": "./dist/lib/games/index.js",
+      "default": "./dist/lib/games/index.js"
     }
   },
   "files": [
@@ -114,6 +119,9 @@
     "number",
     "number-utils",
     "validation",
+    "games",
+    "game-engine",
+    "tic-tac-toe",
     "date-utils",
     "datetime-utils",
     "object-utils",
