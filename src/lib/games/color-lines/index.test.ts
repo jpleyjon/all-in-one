@@ -1,8 +1,8 @@
 import assert from 'node:assert';
 import { describe, it } from 'node:test';
-import * as games from '.';
+import * as colorLines from '.';
 
-describe('games index', () => {
+describe('color-lines index', () => {
   it('re-exports all public helpers', () => {
     const exported = [
       'canMoveColorLinesBall',
@@ -12,16 +12,10 @@ describe('games index', () => {
       'listColorLinesMoves',
       'moveColorLinesBall',
       'spawnColorLinesBalls',
-      'createTicTacToeState',
-      'getTicTacToeStatus',
-      'getTicTacToeWinner',
-      'isTicTacToeGameOver',
-      'listTicTacToeMoves',
-      'playTicTacToeMove',
     ] as const;
 
     exported.forEach((name) => {
-      assert.equal(typeof (games as Record<string, unknown>)[name], 'function');
+      assert.equal(typeof (colorLines as Record<string, unknown>)[name], 'function');
     });
   });
 });
