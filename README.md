@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/%40jpleyjon%2Fall-in-one)](https://www.npmjs.com/package/@jpleyjon/all-in-one)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive TypeScript utility library providing data structures, function, string, array, object, date/time, currency, JSON, number, and validation helpers built from scratch with zero runtime dependencies.
+A comprehensive TypeScript utility library providing data structures, game mechanics, function, string, array, object, date/time, currency, JSON, number, and validation helpers built from scratch with zero runtime dependencies.
 
 ## 🎯 Philosophy
 
@@ -36,7 +36,7 @@ let game = createTicTacToeState();
 game = playTicTacToeMove(game, { row: 0, column: 0 });
 ```
 
-Use top-level imports for convenience and subpath imports for domain-specific usage.
+Use top-level imports for convenience and subpath imports for domain-specific usage, including mechanics-only game engines under `@jpleyjon/all-in-one/games`.
 
 ## 🚀 Features
 
@@ -153,6 +153,7 @@ Composed, schema-oriented, and format validation helpers:
 Mechanics-only engines for simple games with immutable state transitions:
 
 - **Tic-tac-toe** - create state, apply moves, list legal moves, and detect wins or draws
+- **Color Lines** - configurable board, path-based movement, preview spawns, line clearing, and score tracking
 
 ## 📖 Usage
 
@@ -185,6 +186,25 @@ state = playTicTacToeMove(state, { row: 0, column: 0 });
 state = playTicTacToeMove(state, { row: 1, column: 1 });
 
 console.log(getTicTacToeStatus(state)); // in_progress
+```
+
+### Color Lines
+
+```typescript
+import {
+  createColorLinesState,
+  listColorLinesMoves,
+  moveColorLinesBall,
+} from '@jpleyjon/all-in-one/games';
+
+let state = createColorLinesState();
+const moves = listColorLinesMoves(state, { row: 0, column: 0 });
+
+if (moves.length > 0) {
+  state = moveColorLinesBall(state, { row: 0, column: 0 }, moves[0]);
+}
+
+console.log(state.score);
 ```
 
 ### Queue
