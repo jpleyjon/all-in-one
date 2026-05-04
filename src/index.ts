@@ -10,3 +10,4 @@ export * from './lib/number';
 export * from './lib/functions';
 export * from './lib/validation';
 export * from './lib/games';
+export * from './lib/generators';
