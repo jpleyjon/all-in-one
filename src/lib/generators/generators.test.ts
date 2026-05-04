@@ -125,10 +125,31 @@ describe('generators domain', () => {
     assert.throws(() => generators.generateBankAccountNumber({ length: 0 }), RangeError);
   });
 
+  it('fails fast for degenerate SSN random sources', () => {
+    assert.throws(
+      () => generators.generateSSN({ random: () => 0 }),
+      /unable to generate a valid SSN area within maxAttempts\./,
+    );
+    assert.throws(
+      () => generators.generatePerson({ random: () => 0 }),
+      /unable to generate a valid SSN area within maxAttempts\./,
+    );
+  });
+
   it('supports the generator context from the public barrel', () => {
     const context = createGeneratorContext('barrel-context');
 
     assert.equal(typeof context.username(), 'string');
     assert.equal(typeof context.companyName(), 'string');
+  });
+
+  it('fails fast through the generator context for degenerate SSN random sources', () => {
+    const context = createGeneratorContext({ random: () => 0 });
+
+    assert.throws(() => context.ssn(), /unable to generate a valid SSN area within maxAttempts\./);
+    assert.throws(
+      () => context.person(),
+      /unable to generate a valid SSN area within maxAttempts\./,
+    );
   });
 });
