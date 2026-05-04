@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/%40jpleyjon%2Fall-in-one)](https://www.npmjs.com/package/@jpleyjon/all-in-one)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive TypeScript utility library providing data structures, game mechanics, function, string, array, object, date/time, currency, JSON, number, and validation helpers built from scratch with zero runtime dependencies.
+A comprehensive TypeScript utility library providing data structures, game mechanics, generators, function, string, array, object, date/time, currency, JSON, number, and validation helpers built from scratch with zero runtime dependencies.
 
 ## 🎯 Philosophy
 
@@ -36,7 +36,7 @@ let game = createTicTacToeState();
 game = playTicTacToeMove(game, { row: 0, column: 0 });
 ```
 
-Use top-level imports for convenience and subpath imports for domain-specific usage, including mechanics-only game engines under `@jpleyjon/all-in-one/games`.
+Use top-level imports for convenience and subpath imports for domain-specific usage, including mechanics-only game engines under `@jpleyjon/all-in-one/games` and deterministic test data under `@jpleyjon/all-in-one/generators`.
 
 ## 🚀 Features
 
@@ -155,6 +155,15 @@ Mechanics-only engines for simple games with immutable state transitions:
 - **Tic-tac-toe** - create state, apply moves, list legal moves, and detect wins or draws
 - **Color Lines** - configurable board, path-based movement, preview spawns, line clearing, and score tracking
 
+### Generators
+
+Deterministic-friendly generators for realistic test data and fixtures:
+
+- **Random primitives** - seeded random sources, picks, booleans, and string generators
+- **Person and contact data** - names, emails, phone numbers, and SSNs
+- **Addresses** - street addresses, cities, state codes, postal codes, and address objects
+- **Business and identifiers** - company names, brand names, routing numbers, bank account numbers, and UUIDs
+
 ## 📖 Usage
 
 ### Stack
@@ -205,6 +214,28 @@ if (moves.length > 0) {
 }
 
 console.log(state.score);
+```
+
+### Generators
+
+```typescript
+import {
+  createGeneratorContext,
+  createSeededRandom,
+  generateAddress,
+  generateEmail,
+  generateFullName,
+  generatePerson,
+} from '@jpleyjon/all-in-one/generators';
+
+const random = createSeededRandom('test-user');
+const context = createGeneratorContext('test-suite');
+
+console.log(generateFullName({ random }));
+console.log(generateEmail({ random }));
+console.log(generateAddress({ random }));
+console.log(generatePerson({ random }));
+console.log(context.company());
 ```
 
 ### Queue
